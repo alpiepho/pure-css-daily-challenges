@@ -1,0 +1,142 @@
+
+$crust-color:    #754F44;
+$filling-color:  #F3D8C7;
+$topping-color:  #CE2E1C;
+$cherry-color:   #A32A1D;
+$leaf-color:     #008000;
+
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$background:     #FBFFB9;
+$footer-link:    $crust-color;
+
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  position:      relative;
+  left:          25%;
+  top:           -8%;
+  display:       block;
+  margin:        auto;
+  font-size:     2em;
+  color:         $black;
+}
+
+.box {
+  position:      relative;
+  width:         600px;
+  height:        600px;
+  display:       block;
+  margin:        auto;
+  margin-top:    0%;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+
+.crust-left {
+  position:      absolute;
+  top:           40%;
+  left:          20%;
+  height:        30%;
+  width:         5%;
+  border-radius: 1rem 0 0 1rem;
+  background:    $crust-color;
+  overflow:      hidden;
+}
+
+.crust-bottom {
+  position:      absolute;
+  top:           65%;
+  left:          20%;
+  height:        5%;
+  width:         70%;
+  border-radius: 0 0 1rem 1rem;
+  background:    $crust-color;
+  overflow:      hidden;
+}
+
+.filling {
+  position:      absolute;
+  top:           40%;
+  left:          25%;
+  height:        25%;
+  width:         65%;
+  border-radius: 0 1rem 0 0;
+  overflow:      hidden;
+  background: -webkit-linear-gradient(left, #2F2727, $filling-color);
+}
+
+.topping {
+  position:      absolute;
+  top:           40%;
+  left:          25%;
+  height:        3%;
+  width:         65%;
+  border-radius: 0 1rem 0 0;
+  overflow:      hidden;
+  background: $topping-color;
+}
+
+.cherry {
+  position:      absolute;
+  top:           31%;
+  left:          35%;
+  height:        10%;
+  width:         10%;
+  border-radius: 50%;
+  overflow:      hidden;
+  background: radial-gradient(farthest-side at 100% 100%, $cherry-color rgba(161,36,22, 0.7));
+}
+
+.leaf1 {
+  position:      absolute;
+  top:           26%;
+  left:          38%;
+  height:        6%;
+  width:         2%;
+  border-radius: 100%;
+  //overflow:      hidden;
+  background:    $leaf-color;
+  transform-origin: bottom center;
+  transform:     rotate(-35deg);
+}
+
+.leaf2 {
+  position:      absolute;
+  top:           26%;
+  left:          38%;
+  height:        6%;
+  width:         2%;
+  border-radius: 100%;
+  //overflow:      hidden;
+  background:    $leaf-color;
+  transform-origin: bottom center;
+  transform:     rotate(20deg);
+}
+
+.footer  {
+  color: $black;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+  {
+    color: $footer-link;
+  }
+}
+
+@keyframes show-part {
+  100% {
+    transform: translate(0px, 0px);
+  }
+}

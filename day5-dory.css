@@ -1,0 +1,468 @@
+$blue1:         #3155A5;
+//$blue2:         #125BF8;
+$blue3:         #125BF8;
+$blue4:         #0D498F;
+$blue5:         #007DFE;
+$blue6:         #004FFF;
+$yellow:        #FFFF00;
+$red:           #E15728;
+$pink:          #FECDFE;
+$white:         #FFFFFF;
+$black:         #000000;
+
+
+$background:    $blue4;
+$fin-outter:    $yellow;
+$fin-inner:     $blue1;
+
+$showBubbles:   5s;
+$delayBubble1:  4s;
+$delayBubble2:  3s;
+$delayBubble3:  2s;
+$delayBubble4:  1s;
+$delayBubble5:  0s;
+
+$showTail:      4s;
+$delayTail:     1s;
+
+$showFins:      1s;
+$delayFins:     0s;
+
+
+body {
+  background:  $background;
+  font-family: sans-serif;
+}
+
+.title {
+  position:   relative;
+  left:       20%;
+  top:        -8%;
+  display:    block;
+  margin:     auto;
+  font-size:  2em;
+}
+
+.box {
+  position:   relative;
+  width:      600px;
+  height:     420px;
+  display:    block;
+  margin:     auto;
+  margin-top: 8%;
+  background: none;
+  //border:     solid 1px;
+
+}
+
+
+// started with example from
+// https://css-tricks.com/examples/ShapesOfCSS/
+// then manually tweeked values to fit in 20% x 20% box
+// plan is to use rotate and scale to adjust
+.fin-outter {
+  position:         absolute;
+  top:              0%;
+  left:             -10%;
+  width:            0;
+  height:           0;
+  border-left:      72px solid transparent;
+  border-right:     72px solid transparent;
+  border-top:       83px solid $fin-outter;
+  border-radius:    50%;
+
+}
+
+.fin-inner {
+  position:         absolute;
+  top:              5%;
+  left:             -10%;
+  width:            0;
+  height:           0;
+  border-left:      72px solid transparent;
+  border-right:     72px solid transparent;
+  border-top:       78px solid $fin-inner;
+  border-radius:    50%;
+
+}
+
+.tail {
+  position:         absolute;
+  top:              25%;
+  left:             55%;
+  width:            20%;
+  height:           20%;
+  //border:           solid 2px;
+  transform:        scale(0.9, 1.5) rotate(70deg);
+  transform-origin: center center;
+  animation-name:            show-tail;
+  animation-delay:           $delayTail;
+  animation-duration:        $showTail;
+  //animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.fin-left {
+  position:         absolute;
+  top:              55%;
+  left:             25%;
+  width:            20%;
+  height:           20%;
+  //border:           solid 2px;
+  transform:         rotate(-98deg) scale(0.5, 1);
+  transform-origin: center center;
+  animation-name:            show-fin-left;
+  animation-delay:           $delayFins;
+  animation-duration:        $showFins;
+  //animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+}
+
+.fin-right {
+  position:         absolute;
+  top:              55%;
+  left:             53%;
+  width:            20%;
+  height:           20%;
+  //border:           solid 2px;
+  transform:         rotate(98deg) scale(0.5, 1);
+  transform-origin: center center;
+  animation-name:            show-fin-right;
+  animation-delay:           $delayFins;
+  animation-duration:        $showFins;
+  //animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+}
+
+.hair {
+  position:         absolute;
+  top:              18%;
+  left:             41%;
+  width:            8%;
+  height:           12%;
+  border-radius:    50% 0 0 0;
+  //border:           solid 2px;
+  background:       $blue3;
+  //overflow:         hidden;
+  transform:        rotate(-35deg);
+  transform-origin: top center;
+}
+
+.body-back {
+  position:         absolute;
+  top:              20%;
+  left:             35%;
+  width:            30%;
+  height:           60%;
+  border-radius:    50%;
+  //border:           solid 2px;
+  background:       $blue1;
+  //overflow:         hidden;
+  //transform:        rotate(45deg);
+  //transform-origin: top center;
+}
+
+.body-front {
+  position:         absolute;
+  top:              20%;
+  left:             33%;
+  width:            30%;
+  height:           60%;
+  border-radius:    50%;
+  //border:           solid 2px;
+  background:       $blue5;
+  //overflow:         hidden;
+  //transform:        rotate(45deg);
+  //transform-origin: top center;
+}
+
+.eye-outter {
+  position:         absolute;
+  top:              0%;
+  left:             0%;
+  width:            100%;
+  height:           100%;
+  border-radius:    50%;
+  background:       $blue1;
+}
+
+.eye-inner1 {
+  position:         absolute;
+  top:              0%;
+  left:             -14%;
+  width:            100%;
+  height:           100%;
+  border-radius:    50%;
+  background:       $white;
+}
+
+.eye-inner2 {
+  position:         absolute;
+  top:              10%;
+  left:             5%;
+  width:            80%;
+  height:           80%;
+  border-radius:    50%;
+  background:       $pink;
+}
+
+.eye-pupil {
+  position:         absolute;
+  top:              15%;
+  left:             15%;
+  width:            70%;
+  height:           70%;
+  border-radius:    50%;
+  background:       $black;
+}
+
+.eye-shine-left {
+  position:         absolute;
+  top:              15%;
+  left:             15%;
+  width:            20%;
+  height:           20%;
+  border-radius:    50%;
+  background:       $white;
+}
+
+.eye-shine-right {
+  position:         absolute;
+  top:              65%;
+  left:             15%;
+  width:            20%;
+  height:           20%;
+  border-radius:    50%;
+  background:       $white;
+}
+
+
+.eye-left {
+  position:         absolute;
+  top:              35%;
+  left:             30%;
+  width:            15%;
+  height:           20%;
+  //border:           solid 2px;
+  transform-origin: center center;
+}
+
+.eye-right {
+  position:         absolute;
+  top:              35%;
+  left:             50%;
+  width:            15%;
+  height:           20%;
+  //border:           solid 2px;
+  transform:         scale(-1);
+  transform-origin: center center;
+}
+
+.mouth {
+  position:         absolute;
+  top:              65%;
+  left:             41%;
+  width:            12%;
+  height:           8%;
+  border-radius:    0 0 50% 50%;
+  //border:           solid 2px;
+  background:       $black;
+  //overflow:         hidden;
+  //transform:        rotate(-35deg);
+  transform-origin: top center;
+}
+
+.mouth-teeth {
+  position:         absolute;
+  top:              00%;
+  left:             25%;
+  width:            50%;
+  height:           20%;
+  border-radius:    0 0 50% 50%;
+  //border:           solid 2px;
+  background:       $white;
+  //overflow:         hidden;
+  //transform:        rotate(-35deg);
+  transform-origin: top center;
+}
+
+.mouth-tongue {
+  position:         absolute;
+  top:              70%;
+  left:             25%;
+  width:            50%;
+  height:           20%;
+  border-radius:    50%;
+  //border:           solid 2px;
+  background:       $red;
+  //overflow:         hidden;
+  //transform:        rotate(-35deg);
+  transform-origin: top center;
+}
+
+.bubble {
+  position:         absolute;
+  top:              0%;
+  left:             0%;
+  width:            100%;
+  height:           100%;
+  border-radius:    50%;
+  background:       $white;
+}
+
+.bubble1 {
+  position:         absolute;
+  top:              25%;
+  left:             18%;
+  width:            12%;
+  height:           15%;
+  background:       none;
+  transform:        scale(0.5);
+  transform-origin: top center;
+  animation-name:            show-bubbles;
+  animation-delay:           $delayBubble1;
+  animation-duration:        $showBubbles;
+  //animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+}
+
+.bubble2 {
+  position:         absolute;
+  top:              35%;
+  left:             15%;
+  width:            12%;
+  height:           15%;
+  background:       none;
+  transform:        scale(0.35);
+  transform-origin: top center;
+  animation-name:            show-bubbles;
+  animation-delay:           $delayBubble2;
+  animation-duration:        $showBubbles;
+  //animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+}
+
+.bubble3 {
+  position:         absolute;
+  top:              43%;
+  left:             17%;
+  width:            12%;
+  height:           15%;
+  background:       none;
+  transform:        scale(0.25);
+  transform-origin: top center;
+  animation-name:            show-bubbles;
+  animation-delay:           $delayBubble3;
+  animation-duration:        $showBubbles;
+  //animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+}
+
+.bubble4 {
+  position:         absolute;
+  top:              52%;
+  left:             16%;
+  width:            12%;
+  height:           15%;
+  background:       none;
+  transform:        scale(0.15);
+  transform-origin: top center;
+  animation-name:            show-bubbles;
+  animation-delay:           $delayBubble4;
+  animation-duration:        $showBubbles;
+  //animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+}
+
+.bubble5 {
+  position:         absolute;
+  top:              57%;
+  left:             17%;
+  width:            12%;
+  height:           15%;
+  background:       none;
+  transform:        scale(0.08);
+  transform-origin: top center;
+  animation-name:            show-bubbles;
+  animation-delay:           $delayBubble5;
+  animation-duration:        $showBubbles;
+  //animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+}
+
+
+// TEMPLATES for CSS classes
+.template1 {
+  position:         absolute;
+  top:              65%;
+  left:             41%;
+  width:            12%;
+  height:           8%;
+  border-radius:    0 0 50% 50%;
+  //border:           solid 2px;
+  background:       $black;
+  //overflow:         hidden;
+  //transform:        rotate(-35deg);
+  transform-origin: top center;
+}
+
+.template2 {
+  position:         absolute;
+  top:              0%;
+  left:             0%;
+  width:            100%;
+  height:           100%;
+  border-radius:    50%;
+  background:       $white;
+}
+
+
+// ANIMATIONS
+@keyframes show-bubbles {
+  50% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
+
+@keyframes show-tail {
+  25% {
+    transform: scale(0.9, 1.5) rotate(60deg);
+  }
+  50% {
+    transform: scale(0.9, 1.5) rotate(70deg);
+  }
+  75% {
+    transform: scale(0.9, 1.5) rotate(60deg);
+  }
+  100% {
+    transform: scale(0.9, 1.5) rotate(70deg);
+  }
+}
+
+@keyframes show-fin-left {
+  25% {
+    transform: rotate(-93deg) scale(0.5, 1);
+  }
+  50% {
+    transform: rotate(-100deg) scale(0.5, 1);
+  }
+  100% {
+    transform: rotate(-98deg) scale(0.5, 1);
+  }
+}
+
+@keyframes show-fin-right {
+  25% {
+    transform: rotate(93deg) scale(0.5, 1);
+  }
+  50% {
+    transform: rotate(100deg) scale(0.5, 1);
+  }
+  100% {
+    transform: rotate(98deg) scale(0.5, 1);
+  }
+}

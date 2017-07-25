@@ -1,0 +1,5 @@
+Daily CSS Day17 - Zombie
+
+A pure CSS challenge.  This uses HTML,  CSS (with SCSS).  No Javascript.
+
+Focus on use of ::before, ::after for building more complex shapes, and focus on using box shadow, again for more complex shapes like the brain.

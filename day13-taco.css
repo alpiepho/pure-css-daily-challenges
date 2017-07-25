@@ -1,0 +1,286 @@
+
+$shell-color:    #D19A4D;
+$shell-speck-color: #998450;
+$meat-color:     #9D4845;
+$cheese-color:   #FFB400;
+$lettuce-color:  #6DA000;
+$tomato-color:   #E83330;
+
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$background:     #DDD8B8;
+$footer-link:    $meat-color;
+
+$move-part-time:    4s;
+$olive-delay-delay: 7s;
+$tomato-delay:      5s;
+$lettuce-delay:     6s;
+$cheese-delay:      2s;
+$meat-delay:        1s;
+$shell-delay:       0s;
+
+$move-start-translate: -500px;
+
+// SCSS mixin to fill region with random repeated shapes
+@mixin fill-region(
+  $name,
+  $rows,
+  $columns,
+  $partH,
+  $partW,
+  $percent
+  ) {
+    $rowDelta: 100/$rows;
+    $colDelta: 100/$columns;
+    @for $row from 1 through $rows {
+      @for $col from 1 through $columns {
+        $per: random(100);
+        @if $per < $percent {
+          $i:          (($row * $rows) + $col);
+          $top:    random(100);
+          $left:   random(100);
+          @if $columns > 1 {
+            $top:    (($row - 1) * $rowDelta) + $rowDelta/2 - $partH/2;
+            $left:   (($col - 1) * $colDelta) + $colDelta/2 - $partW/2;
+          }
+          $deg:    random(360);
+          //$scaleX: random(200);
+          //$scaleY: random(200);
+          $scaleX: 100;
+          $scaleY: 100;
+          .#{$name}-part:nth-of-type(#{$i}) {
+            position:         absolute;
+            top:              percentage(0.01 * $top);
+            left:             percentage(0.01 * $left);
+            transform-origin: center center;
+            transform:
+              rotate($deg+deg)
+              scale(0.01*$scaleX, 0.01*$scaleY);
+            opacity:          1.0;
+          }
+
+        } // $percent
+    } // col
+  } // row
+} // @mixin thing
+
+
+
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  position:      relative;
+  left:          25%;
+  top:           -8%;
+  display:       block;
+  margin:        auto;
+  font-size:     2em;
+  color:         $black;
+}
+
+.box {
+  position:      relative;
+  width:         600px;
+  height:        600px;
+  display:       block;
+  margin:        auto;
+  margin-top:    0%;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+
+.shell-back {
+  position:      absolute;
+  top:           30%;
+  left:          20%;
+  height:        30%;
+  width:         60%;
+  border:        solid #000000;
+  border-radius: 50rem 50rem 0 0;
+  background:    $shell-color;
+  overflow:      hidden;
+}
+
+.lettuce {
+  position:      absolute;
+  top:           45%;
+  left:          25%;
+  height:        8%;
+  width:         60%;
+  //border:        solid $black;
+  border-radius: 50rem 50rem 0 0;
+  background:    none;
+  //overflow:      hidden;
+}
+
+$lettuce-partH: 20;
+$lettuce-partW: 30;
+
+.lettuce-part {
+  //border-radius: 4rem;
+  height:        percentage(0.01 * $lettuce-partH);
+  width:         percentage(0.01 * $lettuce-partW);
+  background:    $lettuce-color;
+  border:        solid $black;
+  opacity:       0.0;
+}
+
+@include fill-region(
+  "lettuce",       // name
+  5,             // sub divide into rows
+  5,             // and columns for better distribution
+  $lettuce-partH,  // part H
+  $lettuce-partW,  // part W
+  100           // percent fill
+);
+
+.cheese {
+  position:      absolute;
+  top:           50%;
+  left:          20%;
+  height:        8%;
+  width:         60%;
+  border:        solid $black;
+  border-radius: 50rem 50rem 0 0;
+  background:    $cheese-color;
+  overflow:      hidden;
+}
+
+.meat {
+  position:      absolute;
+  top:           52%;
+  left:          20%;
+  height:        8%;
+  width:         60%;
+  border:        solid $black;
+  border-radius: 50rem 50rem 0 0;
+  background:    $meat-color;
+  overflow:      hidden;
+}
+
+$meat-partH: 20;
+$meat-partW: 20;
+
+.meat-part {
+  border-radius: 4rem;
+  height:        percentage(0.01 * $meat-partH);
+  width:         percentage(0.01 * $meat-partW);
+  background:    $meat-color;
+  border:        solid $black;
+  opacity:       0.0;
+}
+
+@include fill-region(
+  "meat",       // name
+  8,             // sub divide into rows
+  8,             // and columns for better distribution
+  $meat-partH,  // part H
+  $meat-partW,  // part W
+  100           // percent fill
+);
+
+
+.tomato {
+  position:      absolute;
+  top:           40%;
+  left:          25%;
+  height:        8%;
+  width:         60%;
+  border:        none;
+  border-radius: 50rem 50rem 0 0;
+  background:    none;
+  //overflow:      hidden;
+}
+
+$tomato-partH: 50;
+$tomato-partW: 10;
+
+.tomato-part {
+  //border-radius: 4rem;
+  height:        percentage(0.01 * $tomato-partH);
+  width:         percentage(0.01 * $tomato-partW);
+  background:    $tomato-color;
+  border:        solid $black;
+  opacity:       0.0;
+}
+
+@include fill-region(
+  "tomato",       // name
+  8,             // sub divide into rows
+  8,             // and columns for better distribution
+  $tomato-partH,  // part H
+  $tomato-partW,  // part W
+  20           // percent fill
+);
+
+.shell-front {
+  position:      absolute;
+  top:           30%;
+  left:          30%;
+  height:        30%;
+  width:         60%;
+  border:        solid $black;
+  border-radius: 50rem 50rem 0 0;
+  background:    $shell-color;
+  overflow:      hidden;
+}
+
+$shell-front-partH: 2;
+$shell-front-partW: 2;
+
+.shell-front-part {
+  border-radius: 4rem;
+  height:        percentage(0.01 * $shell-front-partH);
+  width:         percentage(0.01 * $shell-front-partW);
+  background:    $shell-speck-color;
+  border:        solid $black;
+  opacity:       0.0;
+}
+
+@include fill-region(
+  "shell-front",       // name
+  8,             // sub divide into rows
+  8,             // and columns for better distribution
+  $shell-front-partH,  // part H
+  $shell-front-partW,  // part W
+  10            // percent fill
+);
+
+.shell-cover {
+  position:      absolute;
+  top:           61%;
+  left:          0%;
+  height:        100%;
+  width:         100%;
+  //border:        solid $black;
+  //border-radius: 50rem 50rem 0 0;
+  background:    $background;
+  overflow:      hidden;
+}
+
+.footer  {
+  color: $black;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+  {
+    color: $footer-link;
+  }
+}
+
+@keyframes show-part {
+  100% {
+    transform: translate(0px, 0px);
+  }
+}

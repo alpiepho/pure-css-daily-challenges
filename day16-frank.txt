@@ -1,0 +1,4 @@
+Daily CSS Day16 - Frank
+
+A pure CSS challenge.  This uses HTML,  CSS (with SCSS).  No Javascript.
+Focus on poly fills for lightning and frank.

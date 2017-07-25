@@ -1,0 +1,235 @@
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$background:     #000000;
+$footer-link:    $white;
+
+$bolt-delay:     1s;
+$bolt-duration:  10s;
+$glow-delay:     1.2s;
+$glow-duration:  10s;
+$frank-delay:    1s;
+$frank-duration: 10s;
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  position:      relative;
+  left:          35%;
+  top:           -8%;
+  display:       block;
+  margin:        auto;
+  font-size:     2em;
+  color:         $white;
+}
+
+.box {
+  position:      relative;
+  width:         600px;
+  height:        600px;
+  display:       block;
+  margin:        auto;
+  margin-top:    0%;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.lightning-glow {
+  position:      absolute;
+  top:           0%;
+  left:          0%;
+  height:        100%;
+  width:         100%;
+  background: radial-gradient(farthest-side at 50% 50%, $white $black);
+  opacity:                   0.0;
+  animation-name:            show-glow;
+  animation-delay:           $glow-delay;
+  animation-duration:        $glow-duration;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+}
+
+.lightning-bolt1 {
+  position:      absolute;
+  top:           0%;
+  left:          0%;
+  height:        100%;
+  width:         100%;
+  background:    $white;
+  clip-path: polygon(57% 1%, 63% 20%, 56% 37%, 61% 55%, 69% 64%, 82% 87%, 77% 100%, 72% 99%, 77% 87%, 66% 68%, 56% 56%, 51% 36%, 58% 18%);
+  opacity:                   0.0;
+  animation-name:            show-bolt;
+  animation-delay:           $bolt-delay;
+  animation-duration:        $bolt-duration;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+}
+
+.lightning-bolt2 {
+  position:      absolute;
+  top:           0%;
+  left:          0%;
+  height:        100%;
+  width:         100%;
+  background:    $white;
+  clip-path: polygon(57% 30%, 44% 40%, 29% 46%, 29% 59%, 31% 73%, 26% 82%, 32% 100%, 35% 100%, 29% 82%, 35% 73%, 33% 59%, 34% 48%, 46% 45%, 56% 38%);
+  opacity:                   0.0;
+  animation-name:            show-bolt;
+  animation-delay:           $bolt-delay;
+  animation-duration:        $bolt-duration;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+}
+
+.lightning-bolt3 {
+  position:      absolute;
+  top:           0%;
+  left:          0%;
+  height:        100%;
+  width:         100%;
+  background:    $white;
+  clip-path: polygon(32% 65%, 42% 68%, 49% 75%, 50% 89%, 59% 99%, 55% 100%, 46% 90%, 44% 76%, 38% 72%, 32% 66%);
+  opacity:                   0.0;
+  animation-name:            show-bolt;
+  animation-delay:           $bolt-delay;
+  animation-duration:        $bolt-duration;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+}
+
+.frank {
+  position:      absolute;
+  top:           0%;
+  left:          10%;
+  height:        100%;
+  width:         100%;
+  background:    $black;
+  clip-path: polygon(
+    40% 64%, // top left
+    57% 64%,
+    57% 75%, // right bolt - top/left
+    60% 75%,
+    60% 77%,
+    57% 77%,
+    57% 84%, // right bottom face
+    51% 88%,
+    56% 91%,
+    63% 93%,
+    63% 93%,
+    68% 99%,
+    68% 100%,
+    31% 100%,
+    31% 100%,
+    33% 94%,
+    40% 91%,
+    45% 87%,
+    45% 87%,
+    40% 82%,
+    40% 84%,
+    40% 77%, // left bolt - bottom/left
+    37% 77%,
+    37% 75%,
+    40% 75%);
+  opacity:                   0.0;
+  animation-name:            show-frank;
+  animation-delay:           $frank-delay;
+  animation-duration:        $frank-duration;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+
+}
+
+.footer  {
+  color: $grey;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+  {
+    color: $footer-link;
+  }
+}
+
+@keyframes show-frank {
+  10% {
+    opacity: 1.0;
+  }
+  12% {
+    opacity: 0.0;
+  }
+  30% {
+    opacity: 1.0;
+  }
+  35% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 0.0;
+  }
+}
+
+@keyframes show-bolt {
+  10% {
+    opacity: 1.0;
+  }
+  12% {
+    opacity: 0.0;
+  }
+  30% {
+    opacity: 1.0;
+  }
+  35% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 0.0;
+  }
+}
+
+@keyframes show-glow {
+  10% {
+    opacity: 1.0;
+  }
+  14% {
+    opacity: 0.0;
+  }
+  30% {
+    opacity: 1.0;
+  }
+  37% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 0.0;
+  }
+}
+
+@keyframes show-frank {
+  10% {
+    opacity: 1.0;
+  }
+  12% {
+    opacity: 0.0;
+  }
+  30% {
+    opacity: 1.0;
+  }
+  35% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 0.0;
+  }
+}

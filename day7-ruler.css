@@ -1,0 +1,135 @@
+$blue1:         #153649;
+$yellow:        #FFCC00; //#DDBD63;
+$purple:        #673AB7;
+$cardinal:      #990000;
+$grey:          #303130;
+$white:         #FFFFFF;
+$black:         #000000;
+
+
+$background:    $grey;
+
+body {
+  background:  $background;
+  color:      $white;
+  font-family: sans-serif;
+}
+
+.title {
+  position:   relative;
+  left:       25%;
+  top:        -8%;
+  display:    block;
+  margin:     auto;
+  font-size:  2em;
+}
+
+.message {
+  position:   relative;
+  left:       20%;
+  top:        20%;
+  display:    block;
+  margin:     auto;
+  font-size:  6em;
+  font-weight: bold;
+  color:      $cardinal;
+  opacity:    0.0;
+  animation-name:            show-message;
+  animation-delay:           10s;
+  animation-duration:        1s;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+
+.box {
+  position:   relative;
+  width:      600px;
+  height:     600px;
+  display:    block;
+  margin:     auto;
+  margin-top: 0%;
+  background: none;
+  //border:     solid 1px;
+  overflow:   hidden;
+
+}
+
+.outline {
+  position:         absolute;
+  top:              0%;
+  left:             0%;
+  width:            100%;
+  height:           100%;
+  border-radius:    5px;
+  border:           solid 2px $black;
+  background:       $yellow;
+}
+
+// generate css for ticks
+@for $i from 1 through 100  {
+  .tick#{$i} {
+    position:         absolute;
+    top:              0%;
+    left:             percentage($i * 0.033);
+    width:            0.5%;
+  @if ($i % 5) == 0 {
+    height:           20%;
+  }
+  @else {
+    height:           5%;
+  }
+    background:       $black;
+  }
+}
+
+// generate css for random rulers
+@for $i from 0 through 101  {
+  $randTop:    random(100);
+  $randLeft:   random(100);
+  $randDeg:    random(360);
+  $randScaleX: random(100);
+  $randScaley: random(100);
+  .ruler:nth-of-type(#{$i}) {
+    position:         absolute;
+    top:              percentage(0.01 * $randTop);
+    left:             percentage(0.01 * $randLeft);
+    width:            100%;
+    height:           20%;
+    background:       none;
+    transform-origin: left center;
+    transform:
+      rotate($randDeg+deg)
+      scale(0.01*$randScaleX, 0.01*$randScaley);
+    opacity:          0.0;
+    animation-name:            show-ruler;
+    animation-delay:           0.1*$i+s;
+    animation-duration:        0s;
+    animation-fill-mode:       forwards;
+    animation-iteration-count: 1;
+  }
+}
+
+// ANIMATIONS
+@keyframes show-message {
+  100% {
+  opacity: 1.0;
+  }
+}
+
+@keyframes show-ruler {
+  100% {
+  opacity: 1.0;
+  }
+}
+
+.footer  {
+  color: $white;
+  a:active,
+  a:focus,
+  a:hover,
+  a:visited
+  {
+    color: $yellow;
+  }
+}

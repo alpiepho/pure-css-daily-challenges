@@ -1,0 +1,367 @@
+$green:      #14BC7C;
+$orange:     #FF6600;
+$white:      #BBBBBB;
+$black:      #000000;
+$pink:       #FECDFE;
+$background: $white;
+
+body {
+  background:  $background;
+  font-family: sans-serif;
+}
+
+.title {
+  position:   relative;
+  left:       20%;
+  top:        -8%;
+  display:    block;
+  margin:     auto;
+  font-size:  2em;
+}
+
+.box {
+  position:   relative;
+  width:      600px;
+  height:     420px;
+  display:    block;
+  margin:     auto;
+  margin-top: 8%;
+  background: none;
+  //border:     solid 1px;
+
+}
+
+.tiger-head {
+  position:   absolute;
+  top:        20%;
+  left:       15%;
+  width:      70%;
+  height:     90%;
+  background: none;
+}
+
+.tiger-ear {
+  position:         absolute;
+  top:              0%;
+  left:             0%;
+  width:            100%;
+  height:           100%;
+  border-radius:    50%;
+  border-top:       solid 2px;
+  border-left:      solid 2px;
+  border-right:     solid 2px;
+  background:       $orange;
+}
+
+.tiger-ear-cover {
+  position:         absolute;
+  top:              55%;
+  left:             0%;
+  width:            100%;
+  height:           100%;
+  border-radius:    50%;
+  background:       $orange;
+}
+.tiger-ear-inner {
+  position:         absolute;
+  top:              25%;
+  left:             30%;
+  width:            50%;
+  height:           50%;
+  background:       $black;
+  clip-path: polygon(20% 13%, 51% 34%, 78% 13%, 88% 20%, 57% 46%, 58% 84%, 46% 84%, 46% 46%, 13% 21%);
+}
+
+
+.tiger-ear-left {
+  position:         absolute;
+  top:              3%;
+  left:             12%;
+  width:            15%;
+  height:           15%;
+  transform:        rotate(-45deg);
+  transform-origin: center center;
+  z-index:          2;
+}
+
+.tiger-ear-right {
+  position:         absolute;
+  top:              3%;
+  left:             64%;
+  width:            15%;
+  height:           15%;
+  transform:        rotate(45deg);
+  transform-origin: center center;
+  z-index:          2;
+}
+
+.tiger-stripe {
+  position:         absolute;
+  top:              0%;
+  left:             0%;
+  width:            100%;
+  height:           100%;
+  border-radius:    50%;
+  border:           solid 2px;
+  background:       black;
+  clip-path: polygon(
+    50% 100%,
+    25% 0%,
+    75% 0%);
+}
+
+.tiger-stripe-left1 {
+  position:         absolute;
+  top:              60%;
+  left:             0%;
+  width:            30%;
+  height:           40%;
+  //border:           solid 2px;
+  transform:        rotate(-120deg);
+  //transform-origin: top center;
+}
+
+.tiger-stripe-left2 {
+  position:         absolute;
+  top:              0%;
+  left:             -5%;
+  width:            30%;
+  height:           40%;
+  transform:        rotate(290deg);
+}
+
+.tiger-stripe-left3 {
+  position:         absolute;
+  top:              -10%;
+  left:             -5%;
+  width:            30%;
+  height:           40%;
+  transform:        rotate(290deg);
+}
+
+.tiger-head-top-left {
+  position:         absolute;
+  top:              10%;
+  left:             30%;
+  width:            30%;
+  height:           40%;
+  border-radius:    50%;
+  border:           solid 2px;
+  background:       $orange;
+  overflow:         hidden;
+  transform:        rotate(45deg);
+  transform-origin: top center;
+}
+
+.tiger-stripe-right1 {
+  position:         absolute;
+  top:              60%;
+  left:             70%;
+  width:            30%;
+  height:           40%;
+  transform:        rotate(120deg);
+}
+
+.tiger-stripe-right2 {
+  position:         absolute;
+  top:              0%;
+  left:             70%;
+  width:            30%;
+  height:           40%;
+  transform:        rotate(-290deg);
+}
+
+.tiger-stripe-right3 {
+  position:         absolute;
+  top:              -10%;
+  left:             70%;
+  width:            30%;
+  height:           40%;
+  transform:        rotate(-290deg);
+}
+
+
+.tiger-head-top-right {
+  position:         absolute;
+  top:              10%;
+  left:             30%;
+  width:            30%;
+  height:           40%;
+  border-radius:    50%;
+  border:           solid 2px;
+  background:       $orange;
+  overflow:         hidden;
+  transform:        rotate(-45deg);
+  transform-origin: top center;
+}
+
+.tiger-head-center {
+  position:         absolute;
+  top:              10%;
+  left:             35%;
+  width:            20%;
+  height:           40%;
+  border-radius:    50%;
+  background:       $orange;
+}
+
+
+.tiger-head-bottom {
+  position:         absolute;
+  top:              35%;
+  left:             25%;
+  width:            40%;
+  height:           20%;
+  border-radius:    50%;
+  border-bottom:    solid 2px;
+  background:       white;
+}
+
+.tiger-head-bottom-left {
+  position:         absolute;
+  top:              27%;
+  left:             17%;
+  width:            35%;
+  height:           20%;
+  border-radius:    50%;
+  background:       white;
+  z-index: 2;
+}
+
+.tiger-head-bottom-right {
+  position:         absolute;
+  top:              27%;
+  left:             38%;
+  width:            35%;
+  height:           20%;
+  border-radius:    50%;
+  background:       white;
+}
+
+.tiger-whiskers-inside {
+  position:         absolute;
+  top:              5%;
+  left:             15%;
+  width:            90%;
+  height:           90%;
+  background:       white;
+  clip-path: polygon(
+    100% 0%,
+    48% 7%,
+    1% 17%,
+    27% 24%,
+    54% 33%,
+    27% 43%,
+    0% 52%,
+    26% 63%,
+    56% 78%,
+    26% 82%,
+    1% 99%,
+    45% 99%,
+    98% 100%);
+}
+
+.tiger-whiskers-outside {
+  position:         absolute;
+  top:              0%;
+  left:             0%;
+  width:            100%;
+  height:           100%;
+  background:       black;
+  clip-path: polygon(
+    100% 0%,
+    48% 7%,
+    1% 17%,
+    27% 24%,
+    54% 33%,
+    27% 43%,
+    0% 52%,
+    26% 63%,
+    56% 78%,
+    26% 82%,
+    1% 99%,
+    45% 99%,
+    98% 100%);
+}
+
+.tiger-whiskers-left {
+  position:         absolute;
+  top:              30%;
+  left:             9%;
+  width:            15%;
+  height:           15%;
+  background:       none;
+}
+
+.tiger-whiskers-right {
+  position:         absolute;
+  top:              30%;
+  left:             67%;
+  width:            15%;
+  height:           15%;
+  background:       none;
+  transform: scaleX(-1);
+}
+
+.tiger-eye {
+  position:         absolute;
+  top:              0%;
+  left:             0%;
+  width:            100%;
+  height:           100%;
+  border-radius:    50%;
+  border:           solid 2px;
+  background:       white;
+}
+
+.tiger-eye-inner {
+  position:         absolute;
+  top:              30%;
+  left:             30%;
+  width:            50%;
+  height:           50%;
+  border-radius:    50%;
+  border:           solid 2px;
+  background:       black;
+}
+
+.tiger-eye-left {
+  position:         absolute;
+  top:              17%;
+  left:             38%;
+  width:            5%;
+  height:           7%;
+}
+
+.tiger-eye-right {
+  position:         absolute;
+  top:              17%;
+  left:             48%;
+  width:            5%;
+  height:           7%;
+  transform: scaleX(-1);
+}
+
+.tiger-nose {
+  position:         absolute;
+  top:              30%;
+  left:             40%;
+  width:            10%;
+  height:           5%;
+  border-radius:    50%;
+  border:           solid 2px;
+  background:       $pink;
+  z-index:          2;
+}
+
+.tiger-mouth {
+  position:         absolute;
+  top:              40%;
+  left:             30%;
+  width:            30%;
+  height:           5%;
+  border-radius:    50%;
+  border:           solid 2px;
+  background:       black;
+  z-index:          2;
+}

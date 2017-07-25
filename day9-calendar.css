@@ -1,0 +1,542 @@
+
+$purple1:       #BE0975;
+$purple2:       #272545;
+
+$black:         #000000;
+$white:         #FFFFFF;
+$grey:          #606060;
+
+$background:    $purple2;
+$footer-link:   $purple1;
+
+$months-time:   600;
+$month-time:    $months-time/12;
+
+body {
+  background:  $background;
+  color:      $white;
+  font-family: sans-serif;
+}
+
+.title {
+  position:   relative;
+  left:       25%;
+  top:        -8%;
+  display:    block;
+  margin:     auto;
+  font-size:  2em;
+}
+
+.box {
+  position:   relative;
+  width:      600px;
+  height:     600px;
+  display:    block;
+  margin:     auto;
+  margin-top: 0%;
+  background: none;
+  border:     solid 1px;
+  overflow:   hidden;
+}
+
+
+.months {
+  position:   absolute;
+  top:        20%;
+  left:       14%;
+  width:      35%;
+  height:     12%;
+  background: $white;
+  color:      $black;
+  overflow:   hidden;
+}
+
+.months-wheel {
+  position:   absolute;
+  top:           -125%;
+  left:          -130%;
+  width:         200%;
+  height:        350%;
+  background:    none;
+  transform-origin:          center center;
+  transform:                 rotate(0deg);
+  animation-name:            show-months;
+  animation-duration:        $months-time + s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+
+@for $i from 0 through 11  {
+  .month#{$i} {
+    position:   absolute;
+    top:        42%;
+    left:       50%;
+    width:      50%;
+    height:     13%;
+    background: none;
+    color:      $black;
+    text-align: right;
+    font-size:  3em;
+    transform-origin: left center;
+    transform: rotate(($i * 30) + deg);
+  }
+}
+
+// window-* is kind of a hack,
+// "should" be able to adjust sizes of wheel etc.
+.window-top {
+  position:   absolute;
+  top:        0%;
+  left:       0%;
+  width:      100%;
+  height:     12%;
+  background: $background;
+}
+
+.window-left {
+  position:   absolute;
+  top:        0%;
+  left:       0%;
+  width:      15%;
+  height:     100%;
+  background: $background;
+}
+
+.window-right {
+  position:   absolute;
+  top:        0%;
+  left:       80%;
+  width:      30%;
+  height:     100%;
+  background: $background;
+}
+
+.days {
+  position:   absolute;
+  top:        21.6%;
+  left:       51%;
+  width:      10%;
+  height:     10.5%;
+  background: $white;
+  color:      $black;
+  font-size:  3em;
+  text-align: right;
+}
+
+.days31-window {
+  position:   absolute;
+  top:        0%;
+  left:       0%;
+  width:      100%;
+  height:     100%;
+  background: none;
+  color:      none;
+  animation-name:            show-days31-window;
+  animation-duration:        $months-time + s;
+  animation-timing-function: step-end;
+  animation-iteration-count: infinite;
+}
+
+.days31::before {
+  content: "00";
+  animation-name:            show-days31;
+  animation-duration:        $month-time + s;
+  animation-timing-function: step-start;
+  animation-iteration-count: infinite;
+}
+
+.days30-window {
+  position:   absolute;
+  top:        0%;
+  left:       0%;
+  width:      100%;
+  height:     100%;
+  background: none;
+  color:      none;
+  animation-name:            show-days30-window;
+  animation-duration:        $months-time + s;
+  animation-timing-function: step-end;
+  animation-iteration-count: infinite;
+}
+
+.days30::before {
+  content: "00";
+  animation-name:            show-days30;
+  animation-duration:        $month-time + s;
+  animation-timing-function: step-start;
+  animation-iteration-count: infinite;
+}
+
+
+.days28-window {
+  position:   absolute;
+  top:        0%;
+  left:       0%;
+  width:      100%;
+  height:     100%;
+  background: none;
+  color:      none;
+  animation-name:            show-days28-window;
+  animation-duration:        $months-time + s;
+  animation-timing-function: step-end;
+  animation-iteration-count: infinite;
+}
+
+.days28::before {
+  content: "00";
+  animation-name:            show-days28;
+  animation-duration:        $month-time + s;
+  animation-timing-function: step-start;
+  animation-iteration-count: infinite;
+}
+
+.footer  {
+  color: $white;
+  a:active,
+  a:focus,
+  a:hover,
+  a:visited
+  {
+    color: $footer-link;
+  }
+}
+
+@keyframes show-months {
+  0%     { transform: rotate(0deg);    }
+  8.33%  { transform: rotate(-30deg);  }
+  16.67% { transform: rotate(-60deg);  }
+  25%    { transform: rotate(-90deg);  }
+  33.33% { transform: rotate(-120deg); }
+  41.67% { transform: rotate(-150deg); }
+  50%    { transform: rotate(-180deg); }
+  58.33% { transform: rotate(-210deg); }
+  66.67% { transform: rotate(-240deg); }
+  75%    { transform: rotate(-270deg); }
+  88.33% { transform: rotate(-300deg); }
+  91.67% { transform: rotate(-330deg); }
+  100%   { transform: rotate(-360deg); }
+}
+
+@keyframes show-days28-window {
+  0%     { color: transparent; }
+  8.33%  { color: $black;      }
+  16.67% { color: transparent; }
+  25%    { color: transparent; }
+  33.33% { color: transparent; }
+  41.67% { color: transparent; }
+  50%    { color: transparent; }
+  58.33% { color: transparent; }
+  66.67% { color: transparent; }
+  75%    { color: transparent; }
+  88.33% { color: transparent; }
+  91.67% { color: transparent; }
+  100%   { color: transparent; }
+}
+
+@keyframes show-days30-window {
+  0%     { color: transparent; }
+  8.33%  { color: transparent; }
+  16.67% { color: transparent; }
+  25%    { color: $black;      }
+  33.33% { color: transparent; }
+  41.67% { color: $black;      }
+  50%    { color: transparent; }
+  58.33% { color: transparent; }
+  66.67% { color: $black;      }
+  75%    { color: transparent; }
+  88.33% { color: $black;      }
+  91.67% { color: transparent; }
+  100%   { color: transparent; }
+}
+
+@keyframes show-days31-window {
+  0%     { color: $black;      }
+  8.33%  { color: transparent; }
+  16.67% { color: $black;      }
+  25%    { color: transparent; }
+  33.33% { color: $black;      }
+  41.67% { color: transparent; }
+  50%    { color: $black;      }
+  58.33% { color: $black;      }
+  66.67% { color: transparent; }
+  75%    { color: $black;      }
+  88.33% { color: transparent; }
+  91.67% { color: $black;      }
+  100%   { color: transparent; }
+}
+
+@keyframes show-days28 {
+  0.00% {
+    content: "1";
+  }
+  3.57% {
+    content: "2";
+  }
+  7.14% {
+    content: "3";
+  }
+  10.71% {
+    content: "4";
+  }
+  14.29% {
+    content: "5";
+  }
+  17.86% {
+    content: "6";
+  }
+  21.43% {
+    content: "7";
+  }
+  25.00% {
+    content: "8";
+  }
+  28.57% {
+    content: "9";
+  }
+  32.14% {
+    content: "10";
+  }
+  35.71% {
+    content: "11";
+  }
+  39.29% {
+    content: "12";
+  }
+  42.86% {
+    content: "13";
+  }
+  46.43% {
+    content: "14";
+  }
+  50.00% {
+    content: "15";
+  }
+  53.57% {
+    content: "16";
+  }
+  57.14% {
+    content: "17";
+  }
+  60.71% {
+    content: "18";
+  }
+  64.29% {
+    content: "19";
+  }
+  67.86% {
+    content: "20";
+  }
+  71.43% {
+    content: "21";
+  }
+  75.00% {
+    content: "22";
+  }
+  78.57% {
+    content: "23";
+  }
+  82.14% {
+    content: "24";
+  }
+  85.71% {
+    content: "25";
+  }
+  89.29% {
+    content: "26";
+  }
+  92.86% {
+    content: "27";
+  }
+  96.43% {
+    content: "28";
+  }
+}
+
+@keyframes show-days30 {
+  0.00% {
+    content: "1";
+  }
+  3.33% {
+    content: "2";
+  }
+  6.67% {
+    content: "3";
+  }
+  10.00% {
+    content: "4";
+  }
+  13.33% {
+    content: "5";
+  }
+  16.67% {
+    content: "6";
+  }
+  20.00% {
+    content: "7";
+  }
+  23.33% {
+    content: "8";
+  }
+  26.67% {
+    content: "9";
+  }
+  30.00% {
+    content: "10";
+  }
+  33.33% {
+    content: "11";
+  }
+  36.67% {
+    content: "12";
+  }
+  40.00% {
+    content: "13";
+  }
+  43.33% {
+    content: "14";
+  }
+  46.67% {
+    content: "15";
+  }
+  50.00% {
+    content: "16";
+  }
+  53.33% {
+    content: "17";
+  }
+  56.67% {
+    content: "18";
+  }
+  60.00% {
+    content: "19";
+  }
+  63.33% {
+    content: "20";
+  }
+  66.67% {
+    content: "21";
+  }
+  70.00% {
+    content: "22";
+  }
+  73.33% {
+    content: "23";
+  }
+  76.67% {
+    content: "24";
+  }
+  80.00% {
+    content: "25";
+  }
+  83.33% {
+    content: "26";
+  }
+  86.67% {
+    content: "27";
+  }
+  90.00% {
+    content: "28";
+  }
+  93.33% {
+    content: "29";
+  }
+  96.67% {
+    content: "30";
+  }
+}
+
+@keyframes show-days31 {
+  0.00% {
+    content: "1";
+  }
+  3.23% {
+    content: "2";
+  }
+  6.45% {
+    content: "3";
+  }
+  9.68% {
+    content: "4";
+  }
+  12.90% {
+    content: "5";
+  }
+  16.13% {
+    content: "6";
+  }
+  19.35% {
+    content: "7";
+  }
+  22.58% {
+    content: "8";
+  }
+  25.81% {
+    content: "9";
+  }
+  29.03% {
+    content: "10";
+  }
+  32.26% {
+    content: "11";
+  }
+  35.48% {
+    content: "12";
+  }
+  38.71% {
+    content: "13";
+  }
+  41.94% {
+    content: "14";
+  }
+  45.16% {
+    content: "15";
+  }
+  48.39% {
+    content: "16";
+  }
+  51.61% {
+    content: "17";
+  }
+  54.84% {
+    content: "18";
+  }
+  58.06% {
+    content: "19";
+  }
+  61.29% {
+    content: "20";
+  }
+  64.52% {
+    content: "21";
+  }
+  67.74% {
+    content: "22";
+  }
+  70.97% {
+    content: "23";
+  }
+  74.19% {
+    content: "24";
+  }
+  77.42% {
+    content: "25";
+  }
+  80.65% {
+    content: "26";
+  }
+  83.87% {
+    content: "27";
+  }
+  87.10% {
+    content: "28";
+  }
+  90.32% {
+    content: "29";
+  }
+  93.55% {
+    content: "30";
+  }
+  96.77% {
+    content: "31";
+  }
+}

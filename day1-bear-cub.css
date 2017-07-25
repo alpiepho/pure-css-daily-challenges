@@ -1,0 +1,206 @@
+/*
+
+lighter brown
+#C7AA74 - LIGHT FRENCH BEIGE - brown 0
+
+browns
+#8A625B - ROSE TAUPE  - brown 1
+#7F534B - TUSCAN RED  - brown 2
+#744C45 - TUSCAN RED  - brown 3
+#5D3D37 - DARK LIVER (HORSES)  - brown 4
+
+#DB2B39 - RUSTY RED
+
+dark green for background
+#2D936C - ILLUMINATING EMERALD
+*/
+
+body {
+  background: #2D936C;
+  font-family: sans-serif;
+}
+
+.title {
+  position: relative;
+  margin: auto;
+  display: block;
+  font-size: 2em;
+  left: 15%;
+  top: -8%;
+}
+
+.box {
+  position: relative;
+  margin: auto;
+  display: block;
+  margin-top: 8%;
+  width: 600px;
+  height: 420px;
+  background: none;
+  /*optional background or border*/
+  /*
+  background: white;
+  border: solid 4px brown;
+  */
+}
+
+.cub {
+  position: absolute;
+  top: 16.5%;
+  left: 25%;
+  width: 50%;
+  height: 67%;
+  background: #7F534B; /* brown 2 */
+  border-radius: 50%;
+}
+
+.cub-copy {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #7F534B; /* brown 2 */
+  border-radius: 50%;
+  z-index: 3;
+}
+
+
+.ear {
+  background: #7F534B; /* brown 2 */
+  border-radius: 50%;
+  width: 40%;
+  height: 40%;
+  z-index: 2;
+}
+
+.left-ear {
+  position: absolute;
+  top: -10%;
+  left: 0%;
+}
+
+.right-ear {
+  position: absolute;
+  top: -10%;
+  left: 60%;
+}
+
+.inner-ear {
+  background: #8A625B; /* brown 2 */
+  border-radius: 50%;
+  width: 80%;
+  height: 80%;
+
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  z-index: 2;
+}
+
+.mouth-lower {
+  background: #FFFFFF; /* white */
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
+}
+
+.mouth-upper {
+  background: #7F534B; /* brown 2 */
+  position: absolute;
+  top: -20%;
+  left: -5%;
+  border-radius: 50%;
+  width: 110%;
+  height: 100%;
+  z-index: 6;
+}
+
+.mouth {
+  background: none;
+  position: absolute;
+  width: 50%;
+  height: 25%;
+  top: 60%;
+  left: 25%;
+  z-index: 6;
+}
+
+.snout-inner {
+  background: #8A625B; /* brown 1 */
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  border-radius: 50%;
+  width: 80%;
+  height: 80%;
+  z-index: 6;
+}
+
+.snout-nose {
+  background: #DB2B39; /* red */
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  border-radius: 50%;
+  width: 40%;
+  height: 50%;
+  z-index: 6;
+}
+.snout {
+  background: #5D3D37; /* brown 4 */
+  border-radius: 50%;
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  top: 45%;
+  left: 35%;
+  z-index: 6;
+}
+
+.eye {
+  background: #FFFFFF; /* white */
+  border-radius: 50%;
+  width: 20%;
+  height: 25%;
+  z-index: 4;
+}
+
+.left-eye {
+  position: absolute;
+  top: 20%;
+  left: 25%;
+}
+
+.right-eye {
+  position: absolute;
+  top: 20%;
+  left: 55%;
+}
+
+.inner-eye {
+  background: #000000; /* black */
+  border-radius: 50%;
+  width: 50%;
+  height: 50%;
+  z-index: 4;
+}
+
+.left-inner-eye {
+  position: absolute;
+  top: 40%;
+  left: 45%;
+}
+
+.right-inner-eye {
+  position: absolute;
+  top: 40%;
+  left: 5%;
+}
+
+
+.footer {
+  margin-top: 100px;
+}

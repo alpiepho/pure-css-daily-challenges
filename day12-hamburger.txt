@@ -1,0 +1,4 @@
+Daily CSS Day12 - Hamburger
+
+A pure CSS challenge.  This uses HTML,  CSS (with SCSS).  No Javascript.
+Focus on clean CSS and proper use of variables, and simple style.

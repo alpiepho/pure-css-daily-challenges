@@ -1,0 +1,3 @@
+Daily CSS Day11 - Pizza
+
+A pure CSS challenge.  This uses HTML,  CSS (with SCSS).  No Javascript.   Created a single slice of pizza with cone shape an triangular clip to build a 1/10 slice of pizza and duplicated/rotated it to finish the whole thing.

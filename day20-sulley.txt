@@ -1,0 +1,5 @@
+Daily CSS Day20 - Sulley
+
+A pure CSS challenge.  This uses HTML,  CSS (with SCSS).  No Javascript.
+
+Continued focus on a clean style with mixins, and focus on multi-stage animations.

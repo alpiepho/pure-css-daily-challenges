@@ -1,0 +1,109 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin wings {
+  position:               relative;
+  @include                wh(50px, 50px);
+  border-top-left-radius: 90%;
+  border-top:             solid 10px $wing-color;
+  background:             none;
+   &:before {
+    @include                pseudo;
+    top:                    -50px;
+    left:                   40px;
+    @include                wh(50px, 50px);
+    border-top-left-radius: 90%;
+    border-left:            solid 10px $wing-color;
+  }
+}
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$wing-color:     $black;
+$moon-color:     #FAEDCA;
+$wolf-color:     #49306B;
+
+$background:     #636481;
+$footer-link:    $moon-color;
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $moon-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(600px, 500px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.moon {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(40px, 40px);
+  background:    $moon-color;
+  border-radius: 50%;
+  box-shadow:    0px 0px 30px 30px darken($background, 20%);
+  overflow:      hidden;
+  z-index:       -1;
+}
+
+.bat {
+  position:      absolute;
+  @include       wh(50px, 50px);
+  @include       tl(50px, 100px);
+  @include       wings;
+  transform:
+    rotate(45deg)
+    scale(1, 1)
+    skew(10deg);
+}
+
+.wolf {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(100px, 200px);
+  background:    none;
+  z-index:   1;
+}
+
+.footer  {
+  color: $wolf-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}

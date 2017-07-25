@@ -1,0 +1,244 @@
+
+$purple1:        #BE0975;
+$purple2:        #272545;
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$glass-color:    lightblue; //#a1e0da;
+
+$background:     $grey;
+$footer-link:    $black;
+
+$crayon-color1:          red;
+$crayon-wrapper-color1:  darkred;
+$crayon-color2:          green;
+$crayon-wrapper-color2:  darkgreen;
+$crayon-color3:          blue;
+$crayon-wrapper-color3:  darkblue;
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  position:      relative;
+  left:          25%;
+  top:           -8%;
+  display:       block;
+  margin:        auto;
+  font-size:     2em;
+  color:         $black;
+}
+
+.box {
+  position:      relative;
+  width:         600px;
+  height:        600px;
+  display:       block;
+  margin:        auto;
+  margin-top:    0%;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.box-inner {
+  position:      absolute;
+  top:           0;
+  bottom:        0;
+  left:          0;
+  right:         0;
+  margin:        auto;
+  width:         80%;
+  height:        90%;
+}
+
+.glass-left {
+  position:      absolute;
+  bottom:        0.5%;
+  left:          10%;
+  height:        60%;
+  width:         20%;
+  background:    $glass-color;
+  border-radius: 0 1rem 0 0;
+  opacity:       0.5;
+  clip-path:     polygon(0% 100%, 0 0, 100% 0);
+  transform:     scale(-1, 1);
+  z-index: 3;
+}
+
+.glass-glossy-upper {
+  position:      absolute;
+  bottom:        50%;
+  left:          35%;
+  width:         19%;
+  height:        20%;
+  border-radius: 2rem;
+  background:    #ddfbff;
+  transform-origin: center center;
+  transform:        rotate(15deg);
+}
+
+.glass-glossy-lower {
+  position:      absolute;
+  bottom:        35%;
+  left:          15%;
+  width:         19%;
+  height:        10%;
+  border-radius: 2rem;
+  background:    #ddfbff;
+  transform-origin: center center;
+  transform:        rotate(15deg);
+}
+
+.glass-middle {
+  position:      absolute;
+  bottom:        0.5%;
+  left:          30%;
+  height:        60%;
+  width:         40%;
+  background:    $glass-color;
+  //border-radius: 1rem;
+  opacity:       0.5;
+  z-index: 3;
+}
+
+.glass-right {
+  position:      absolute;
+  bottom:        0.5%;
+  left:          70%;
+  height:        60%;
+  width:         20%;
+  background:    $glass-color;
+  border-radius: 0 1rem 0 0;
+  opacity:       0.5;
+  clip-path:     polygon(0% 100%, 0 0, 100% 0);
+  z-index: 3;
+}
+
+.crayon1 {
+  position:      absolute;
+  bottom:        1%;
+  left:          32%;
+  width:         10%;
+  height:        80%;
+  background:    $crayon-color1;
+  transform:     rotate(-10deg);
+  transition:    1s;
+  z-index:       2;
+}
+
+.crayon1:hover {
+  bottom:        20%;
+  transform:     rotate(1deg);
+  cursor:        pointer;
+}
+
+.crayon-end1 {
+  clip-path:     polygon(50% 0%, 0% 100%, 100% 100%);
+  width:         110%;
+  height:        13%;
+  background:    $crayon-color1;
+  position:      absolute;
+  top:           -13%;
+  left:          -5%;
+}
+
+.crayon-wrapper1 {
+  position:      absolute;
+  bottom:        2.5%;
+  left:          -2.5%;
+  width:         110%;
+  height:        98%;
+  background:    $crayon-wrapper-color1;
+}
+
+.crayon2 {
+  position:      absolute;
+  bottom:        -2%;
+  left:          55%;
+  width:         10%;
+  height:        80%;
+  background:    $crayon-color2;
+  transform:     rotate(35deg);
+  transition:    1s;
+  z-index:       2;
+}
+
+.crayon2:hover {
+  bottom:        20%;
+  transform:     rotate(1deg);
+  cursor:        pointer;
+}
+
+.crayon-end2 {
+  clip-path:     polygon(50% 0%, 0% 100%, 100% 100%);
+  width:         110%;
+  height:        13%;
+  background:    $crayon-color2;
+  position:      absolute;
+  top:           -13%;
+  left:          -5%;
+  //overflow:      hidden;
+}
+
+.crayon-wrapper2 {
+  position:      absolute;
+  bottom:        2.5%;
+  left:          -2.5%;
+  width:         110%;
+  height:        98%;
+  background:    $crayon-wrapper-color2;
+}
+
+.crayon3 {
+  position:      absolute;
+  bottom:        -4%;
+  left:          35%;
+  width:         10%;
+  height:        80%;
+  background:    $crayon-color3;
+  transform:     rotate(-35deg);
+  transition:    1s;
+  z-index:       2;
+}
+
+.crayon3:hover {
+  bottom:        20%;
+  transform:     rotate(1deg);
+  cursor:        pointer;
+}
+
+.crayon-end3 {
+  clip-path:     polygon(50% 0%, 0% 100%, 100% 100%);
+  width:         110%;
+  height:        13%;
+  background:    $crayon-color3;
+  position:      absolute;
+  top:           -13%;
+  left:          -5%;
+}
+
+.crayon-wrapper3 {
+  position:      absolute;
+  bottom:        2.5%;
+  left:          -2.5%;
+  width:         110%;
+  height:        98%;
+  background:    $crayon-wrapper-color3;
+}
+
+.footer  {
+  color: $white;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+  {
+    color: $footer-link;
+  }
+}

@@ -1,0 +1,342 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin wings {
+  position:               relative;
+  @include                wh(50px, 50px);
+  border-top-left-radius: 90%;
+  border-top:             solid 10px $wing-color;
+  background:             none;
+   &:before {
+    @include                pseudo;
+    top:                    -50px;
+    left:                   40px;
+    @include                wh(50px, 50px);
+    border-top-left-radius: 90%;
+    border-left:            solid 10px $wing-color;
+  }
+}
+
+@mixin eye-l($b, $p) {
+  left:           25%;
+  box-shadow:     -4px -2px 0 8px $b;
+  &:before {
+    @include       pseudo;
+    top:           50%;
+    left:          60%;
+    @include       wh(30%, 30%);
+    background:    $p;
+    border-radius: 50%;
+  }
+}
+
+@mixin eye-r($b, $p) {
+  right:           25%;
+  box-shadow:      4px -2px 0 8px $b;
+  &:before {
+    @include       pseudo;
+    top:           50%;
+    right:         60%;
+    @include       wh(30%, 30%);
+    background:    $p;
+    border-radius: 50%;
+  }
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$zcolor:         #4C9F70;
+$zbrain:         #EA468A;
+$zteeth:         #B5A530;
+
+$wing-color:     $black;
+$face-color:     #FAF0E6;
+$eyes-color:     #BB0000;
+
+$eyes-delay:     0s;
+$eyes-time:      10s;
+
+$background:     #444444;
+$footer-link:    $eyes-color;
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $eyes-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(600px, 500px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.bat:nth-child(1) {
+  position:      absolute;
+  @include       wh(50px, 50px);
+  @include       tl(50px, 50px);
+  @include       wings;
+  transform:
+    rotate(45deg)
+    scale(1, 1)
+    skew(10deg);
+}
+
+.bat:nth-child(2) {
+  position:      absolute;
+  @include       wh(50px, 50px);
+  @include       tl(100px, 0px);
+  @include       wings;
+  transform:
+    rotate(70deg)
+    scale(0.5, 0.5)
+    skew(10deg);
+}
+
+.bat:nth-child(3) {
+  position:      absolute;
+  @include       wh(50px, 50px);
+  @include       tl(-60px, 400px);
+  @include       wings;
+  transform:
+    rotate(45deg)
+    scale(1.5, 1.5)
+    skew(-20deg);
+}
+
+.ears {
+  position:      absolute;
+  @include       wh(30px, 30px);
+  background:    $black;
+}
+
+.ear-l {
+  @include       tl(230px, 190px);
+  @include       triangle;
+  transform:
+    rotate(-30deg)
+    scale(8, 2)
+    //skew(10deg)
+    ;
+}
+
+.ear-r {
+  @include       tr(230px, 190px);
+  @include       triangle;
+  transform:
+    rotate(30deg)
+    scale(8, 2)
+    //skew(10deg)
+    ;
+}
+
+.face {
+  position:      absolute;
+  @include       wh(200px, 250px);
+  @include       tl(150px, 200px);
+  background:    $black;
+  border-radius: 50%;
+  overflow:      hidden;
+}
+
+.face-left {
+  position:      absolute;
+  @include       wh(100px, 170px);
+  @include       tl(30px, -10px);
+  background:    $face-color;
+  border-radius: 50%;
+  transform:     rotate(35deg);
+}
+
+.face-right {
+  position:      absolute;
+  @include       wh(100px, 170px);
+  @include       tl(30px, 110px);
+  background:    $face-color;
+  border-radius: 50%;
+  transform:     rotate(-35deg);
+}
+
+.face-bottom {
+  position:      absolute;
+  @include       wh(200px, 200px);
+  @include       tl(70px, 0px);
+  background:    $face-color;
+  border-radius: 50%;
+}
+
+.brows {
+  position:      absolute;
+  @include       wh(30px, 30px);
+  background:    $black;
+}
+
+.brow-l {
+  @include       tl(70px, 40px);
+  @include       triangle;
+  transform:
+    rotate(-60deg)
+    scale(1, 1.5)
+    //skew(30deg)
+    ;
+}
+
+.brow-r {
+  @include       tr(70px, 40px);
+  @include       triangle;
+  transform:
+    rotate(60deg)
+    scale(1, 1.5)
+    //skew(30deg)
+    ;
+}
+
+.eyes {
+  position:       absolute;
+  top:            110px;
+  @include        wh(30px, 30px);
+  border-radius:  50%;
+  background:     $eyes-color;
+  animation-name:              show-eyes;
+  animation-delay:             $eyes-delay;
+  animation-duration:          $eyes-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  //animation-timing-function: step-end;
+}
+
+.eye-l {
+  @include        eye-l(lighten($black, 20%), $black);
+}
+
+.eye-r {
+  @include        eye-r(lighten($black, 20%), $black);
+}
+
+.nose {
+  position:      absolute;
+  @include       wh(20px, 30px);
+  @include       tl(120px, 85px);
+  background:    none;
+  transform:
+    rotate(0deg)
+    //scale(2, 1)
+    skew(30deg)
+    ;
+  border-right:  solid 4px $black;
+  border-bottom: solid 4px $black;
+}
+
+.mouth {
+  position:      absolute;
+  @include       wh(100px, 30px);
+  @include       tl(190px, 50px);
+  background:    $black;
+  transform:
+    rotate(0deg)
+    //scale(2, 1)
+    //skew(30deg)
+    ;
+  border-bottom-left-radius: 2em;
+  border-bottom-right-radius: 2em;
+  overflow:      hidden;
+}
+
+.teeth {
+  position:      absolute;
+  @include       wh(30px, 30px);
+  background:    $white;
+}
+
+.tooth-l {
+  @include       tl(0px, 20px);
+  @include       triangle;
+  transform:
+    rotate(180deg)
+    scale(2, 1)
+    skew(2deg)
+    ;
+}
+
+.tooth-r {
+  @include       tr(0px, 20px);
+  @include       triangle;
+  transform:
+    rotate(180deg)
+    scale(2, 1)
+    skew(-2deg)
+    ;
+}
+
+.footer  {
+  color: $grey;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}
+
+// ANIMATIONS
+@keyframes show-eyes {
+   0% {
+   opacity:  (1.0);
+   }
+   5% {
+   opacity:  (0.5);
+   }
+   10% {
+   opacity:  (1.0);
+   }
+   15% {
+   opacity:  (0.5);
+   }
+   20% {
+   opacity:  (1.0);
+   }
+   100% {
+   opacity:  (1.0);
+   }
+}

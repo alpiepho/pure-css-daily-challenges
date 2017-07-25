@@ -1,0 +1,245 @@
+
+$black:         #000000;
+$white:         #FFFFFF;
+$grey:          #606060;
+
+$background:    $grey;
+$footer-link:   $black;
+
+$holeX:         0.05;
+$holeY:         0.05;
+$ring-endX:     0.03;
+$ring-endY:     0.03;
+
+body {
+  background:  $background;
+  color:      $white;
+  font-family: sans-serif;
+}
+
+.title {
+  position:   relative;
+  left:       25%;
+  top:        -8%;
+  display:    block;
+  margin:     auto;
+  font-size:  2em;
+}
+
+.box {
+  position:   relative;
+  width:      600px;
+  height:     600px;
+  display:    block;
+  margin:     auto;
+  margin-top: 0%;
+  background: none;
+  //border:     solid 1px;
+  overflow:   hidden;
+}
+
+.left-page {
+  position:   absolute;
+  top:        20%;
+  left:       14%;
+  width:      35%;
+  height:     60%;
+  background: $white;
+}
+
+.right-page {
+  position:   absolute;
+  top:        20%;
+  left:       51%;
+  width:      35%;
+  height:     60%;
+  background: $white;
+}
+
+.hole-left-1 {
+  position:   absolute;
+  top:        30%;
+  left:       43%;
+  width:      percentage($holeX);
+  height:     percentage($holeY);
+  background: $background;
+}
+
+.hole-left-2 {
+  position:   absolute;
+  top:        50%;
+  left:       43%;
+  width:      percentage($holeX);
+  height:     percentage($holeY);
+  background: $background;
+}
+
+.hole-left-3 {
+  position:   absolute;
+  top:        70%;
+  left:       43%;
+  width:      percentage($holeX);
+  height:     percentage($holeY);
+  background: $background;
+}
+
+.hole-right-1 {
+  position:   absolute;
+  top:        30%;
+  left:       54%;
+  width:      percentage($holeX);
+  height:     percentage($holeY);
+  background: $background;
+}
+
+.hole-right-2 {
+  position:   absolute;
+  top:        50%;
+  left:       54%;
+  width:      percentage($holeX);
+  height:     percentage($holeY);
+  background: $background;
+}
+
+.hole-right-3 {
+  position:   absolute;
+  top:        70%;
+  left:       54%;
+  width:      percentage($holeX);
+  height:     percentage($holeY);
+  background: $background;
+}
+
+.ring-left-1 {
+  position:   absolute;
+  top:        31%;
+  left:       44%;
+  width:      percentage($ring-endX);
+  height:     percentage($ring-endY);
+  border-radius: 50%;
+  background: $black;
+}
+
+.ring-across-1 {
+  position:   absolute;
+  top:        31%;
+  left:       45%;
+  width:      12%;
+  height:     percentage($ring-endY);
+  background: $black;
+}
+
+.ring-right-1 {
+  position:   absolute;
+  top:        31%;
+  left:       55%;
+  width:      percentage($ring-endX);
+  height:     percentage($ring-endY);
+  border-radius: 50%;
+  background: $black;
+}
+
+.ring-left-2 {
+  position:   absolute;
+  top:        51%;
+  left:       44%;
+  width:      percentage($ring-endX);
+  height:     percentage($ring-endY);
+  border-radius: 50%;
+  background: $black;
+}
+
+.ring-across-2 {
+  position:   absolute;
+  top:        51%;
+  left:       45%;
+  width:      12%;
+  height:     percentage($ring-endY);
+  background: $black;
+}
+
+.ring-right-2 {
+  position:   absolute;
+  top:        51%;
+  left:       55%;
+  width:      percentage($ring-endX);
+  height:     percentage($ring-endY);
+  border-radius: 50%;
+  background: $black;
+}
+
+.ring-left-3 {
+  position:   absolute;
+  top:        71%;
+  left:       44%;
+  width:      percentage($ring-endX);
+  height:     percentage($ring-endY);
+  border-radius: 50%;
+  background: $black;
+}
+
+.ring-across-3 {
+  position:   absolute;
+  top:        71%;
+  left:       45%;
+  width:      12%;
+  height:     percentage($ring-endY);
+  background: $black;
+}
+
+.ring-right-3 {
+  position:   absolute;
+  top:        71%;
+  left:       55%;
+  width:      percentage($ring-endX);
+  height:     percentage($ring-endY);
+  border-radius: 50%;
+  background: $black;
+}
+
+.text-right {
+  position:   absolute;
+  top:        31%;
+  left:       62%;
+  width:      20%;
+  height:     5%;
+  color:      $black;
+  font-family: cursive;
+  font-size:   1em;
+  background: none;
+}
+
+.text-right::before {
+  content:   "Once upon a ...";
+}
+
+.text-left {
+  position:   absolute;
+  top:        41%;
+  left:       18%;
+  width:      25%;
+  height:     5%;
+  color:      $black;
+  font-family: cursive;
+  font-size:   2em;
+  font-weight: bold;
+  font-decoration: underline;
+  background:  none;
+  transform:   scale(-1, 1);
+}
+
+.text-left::before {
+  content:   "My Story";
+  opacity:  0.3;
+}
+
+.footer  {
+  color: $white;
+  a:active,
+  a:focus,
+  a:hover,
+  a:visited
+  {
+    color: $footer-link;
+  }
+}

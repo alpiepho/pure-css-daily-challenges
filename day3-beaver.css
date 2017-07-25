@@ -1,0 +1,549 @@
+$green:  #14bc7c;
+$tan1:   #FBE3A7; // cutting
+$tan2:   #B1784D;
+$brown1: #985123;
+$brown2: #753D19;
+$brown3: #412014;
+$brown4: #63423c; // tree
+
+// Story line:
+// - delay
+// - wag tail
+// - chew, move head and arm
+// - show cutting
+// - show fall
+// -show bubble
+$delayWag:       2s;
+$showWag:        1s;
+
+$delayChew:      2s;
+$showChew:       3s;
+
+$delayCutting:   5s;
+$showCutting:    2s;
+
+$delayFalling:   10s;
+$showFalling:    4s;
+
+$delayBubbles:   12s;
+$showBubbles:    2s;
+
+body {
+  background: $green;
+  font-family: sans-serif;
+}
+
+.title {
+  position: relative;
+  margin: auto;
+  display: block;
+  font-size: 2em;
+  left: 15%;
+  top: -8%;
+}
+
+.box {
+  position: relative;
+  margin: auto;
+  display: block;
+  margin-top: 8%;
+  width: 600px;
+  height: 420px;
+  background: none;
+  /*optional background or border*/
+  /*
+  background: white;
+  border: solid 4px brown;
+  */
+}
+
+.bubbles {
+  position: absolute;
+  top: -5%;
+  left: 0%;
+  width: 45%;
+  height: 60%;
+  background: none;
+  opacity: 0.0;
+  animation-name:            show-bubbles;
+  animation-delay:           $delayBubbles;
+  animation-duration:        $showBubbles;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+.bubble1 {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 80%;
+  height: 60%;
+  background: white;
+  border-radius: 50%;
+}
+
+.bubble2 {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  width: 16%;
+  height: 10%;
+  background: white;
+  border-radius: 50%;
+}
+
+.bubble3 {
+  position: absolute;
+  top: 71%;
+  left: 62%;
+  width: 12%;
+  height: 8%;
+  background: white;
+  border-radius: 50%;
+}
+.bubble4 {
+  position: absolute;
+  top: 80%;
+  left: 70%;
+  width: 10%;
+  height: 5%;
+  background: white;
+  border-radius: 50%;
+}
+
+.message {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  width: 80%;
+  height: 60%;
+  color: black;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.tree {
+  position: absolute;
+  top: 0%;
+  left: 75%;
+  width: 15%;
+  height: 120%;
+  background: none;
+}
+
+.tree-upper {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 50%;
+  background: none;
+  animation-name:            rotate-falling;
+  animation-delay:           $delayFalling;
+  animation-duration:        $showFalling;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+.tree-upper-box1 {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 80%;
+  background: $brown4;
+}
+
+.tree-upper-box2 {
+  position: absolute;
+  top: 80%;
+  left: 0%;
+  width: 100%;
+  height: 20%;
+  background: $brown4;
+  animation-name:            fade-out-cutting;
+  animation-delay:           $delayCutting;
+  animation-duration:        $showCutting;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+.tree-upper-tri {
+  position: absolute;
+  top: 80%;
+  left: 0%;
+  width: 100%;
+  height: 20%;
+  background: none;
+  clip-path: polygon(50% 100%, 0% 0, 100% 0);
+  animation-name:            fade-in-cutting;
+  animation-delay:           $delayCutting;
+  animation-duration:        $showCutting;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+.tree-lower {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 100%;
+  height: 50%;
+  background: none;
+}
+
+.tree-lower-box1 {
+  position: absolute;
+  top: 20%;
+  left: 0%;
+  width: 100%;
+  height: 80%;
+  background: $brown4;
+}
+
+.tree-lower-box2 {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 20%;
+  background: $brown4;
+  animation-name:            fade-out-cutting;
+  animation-delay:           $delayCutting;
+  animation-duration:        $showCutting;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+.tree-lower-tri {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 20%;
+  background: none;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  animation-name:            fade-in-cutting;
+  animation-delay:           $delayCutting;
+  animation-duration:        $showCutting;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+.beaver {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 75%;
+  height: 60%;
+  background: none;
+}
+
+.beaver-body {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  width: 75%;
+  height: 70%;
+  border: solid 4px;
+  border-radius: 50%;
+  background: $tan2;
+  transform: rotate(-40deg);
+  transform-origin: left bottom;
+}
+
+.beaver-foot {
+  position: absolute;
+  top: 90%;
+  left: 45%;
+  width: 20%;
+  height: 15%;
+  border: solid 4px;
+  border-radius: 30% 40% 10% 10%;
+  background: $tan2;
+  //transform: rotate(-40deg);
+  //transform-origin: left bottom;
+}
+
+.beaver-tail {
+  position: absolute;
+  top: 20%;
+  left: 25%;
+  width: 18%;
+  height: 70%;
+  border: solid 4px;
+  border-radius: 40%;
+  background: $tan2;
+  transform: rotate(-40deg);
+  transform-origin: left bottom;
+  z-index: -1;
+  animation-name:            wag-tail;
+  animation-delay:           $delayWag;
+  animation-duration:        $showWag;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+.beaver-arm {
+  position: absolute;
+  top: 30%;
+  left: 60%;
+  width: 40%;
+  height: 40%;
+  background: none;
+  transform: rotate(-20deg);
+  transform-origin: left top;
+  animation-name:            wiggle-arm;
+  animation-delay:           $delayChew;
+  animation-duration:        $showChew;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+.beaver-arm-upper {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 10%;
+  height: 100%;
+  border: solid 4px;
+  border-radius: 20%;
+  background: $tan2;
+  transform-origin: center top;
+}
+
+.beaver-arm-lower {
+  position: absolute;
+  top: 85%;
+  left: 0%;
+  width: 50%;
+  height: 20%;
+  border: solid 4px;
+  border-radius: 20%;
+  background: $tan2;
+}
+
+.beaver-arm-hand {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  width: 20%;
+  height: 40%;
+  border: solid 4px;
+  border-radius: 50%;
+  background: $tan2;
+}
+
+.beaver-head {
+  position: absolute;
+  top: -25%;
+  left: 65%;
+  width: 30%;
+  height: 50%;
+  background: none;
+  animation-name:            wiggle-head;
+  animation-delay:           $delayChew;
+  animation-duration:        $showChew;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+}
+
+.beaver-head-cover {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  border: solid 4px;
+  border-radius: 50%;
+  background: $tan2;
+  //transform: rotate(-40deg);
+  //transform-origin: left bottom;
+  z-index: 2;
+}
+
+.beaver-head-ear-inner {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  width: 30%;
+  height: 50%;
+  border: solid 4px;
+  border-radius: 50%;
+  background: $tan1;
+  z-index: 2;
+}
+
+.beaver-head-ear-left {
+  position: absolute;
+  top: -25%;
+  left: 25%;
+  width: 30%;
+  height: 50%;
+  border: solid 4px;
+  border-radius: 50%;
+  background: $tan2;
+  transform: rotate(-20deg);
+  transform-origin: left bottom;
+  z-index: 2;
+}
+
+.beaver-head-ear-right {
+  position: absolute;
+  top: -25%;
+  left: 45%;
+  width: 30%;
+  height: 50%;
+  border: solid 4px;
+  border-radius: 50%;
+  background: $tan2;
+  transform: rotate(-10deg);
+  transform-origin: left bottom;
+  z-index: 0;
+}
+
+.beaver-head-eye {
+  position: absolute;
+  top: 30%;
+  left: 60%;
+  width: 15%;
+  height: 20%;
+  border: solid 4px;
+  border-radius: 50%;
+  background: white;
+  z-index: 2;
+}
+
+.beaver-head-eye-inner {
+  position: absolute;
+  top: 30%;
+  left: 60%;
+  width: 15%;
+  height: 20%;
+  border: solid 4px;
+  border-radius: 50%;
+  background: black;
+  z-index: 2;
+}
+
+.beaver-head-snout {
+  position: absolute;
+  top: 55%;
+  left: 80%;
+  width: 30%;
+  height: 25%;
+  border: solid 4px;
+  border-radius: 30% 40% 40% 30%;
+  background: $tan2;
+  z-index: 2;
+}
+
+.beaver-head-tooth-right {
+  position: absolute;
+  top: 55%;
+  left: 60%;
+  width: 30%;
+  height: 60%;
+  border: solid 4px;
+  border-radius: 30%;
+  background: white;
+  z-index: 2;
+}
+
+.beaver-head-tooth-left {
+  position: absolute;
+  top: 55%;
+  left: 30%;
+  width: 30%;
+  height: 60%;
+  border: solid 4px;
+  border-radius: 30%;
+  background: white;
+  z-index: 2;
+}
+
+.footer {
+  margin-top: 100px;
+}
+
+// REFERENCE FOR ANIMATION:
+// https://www.w3.org/TR/css3-animations/
+// https://www.w3.org/TR/css-transforms-1/
+@keyframes fade-out-cutting {
+  100% {
+    background: none;
+  }
+}
+
+@keyframes fade-in-cutting {
+  100% {
+    background: $tan1;
+  }
+}
+
+@keyframes rotate-falling {
+  100% {
+    transform: rotate(-30deg);
+    transform-origin: center bottom;
+  }
+}
+
+@keyframes show-bubbles {
+  100% {
+    opacity: 1.0;
+  }
+}
+
+@keyframes wag-tail {
+  20% {
+   transform: rotate(-42deg);
+  }
+  40% {
+   transform: rotate(-38deg);
+  }
+  60% {
+   transform: rotate(-42deg);
+  }
+  80% {
+   transform: rotate(-38deg);
+  }
+  100% {
+   transform: rotate(-40deg);
+  }
+}
+
+@keyframes wiggle-arm {
+  20% {
+   transform: rotate(-22deg);
+  }
+  40% {
+   transform: rotate(-18deg);
+  }
+  60% {
+   transform: rotate(-22deg);
+  }
+  80% {
+   transform: rotate(-18deg);
+  }
+  100% {
+   transform: rotate(-20deg);
+  }
+}
+
+@keyframes wiggle-head {
+  20% {
+   transform: rotate(-1deg);
+  }
+  40% {
+   transform: rotate(1deg);
+  }
+  60% {
+   transform: rotate(-1deg);
+  }
+  80% {
+   transform: rotate(1deg);
+  }
+  100% {
+   transform: rotate(-1deg);
+  }
+}

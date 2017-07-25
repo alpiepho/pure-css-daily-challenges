@@ -1,0 +1,65 @@
+Daily CSS Day19 - Werewolf
+
+A pure CSS challenge.  This uses HTML,  CSS (with SCSS).  No Javascript.
+
+Focus on SVG path element for shapes with smooth curves.
+
+How:
+- found image
+- draw grid lines
+- edit externally, so lines scroll horizontally
+- add comment above path tag to identify points
+- use M and L commands for basic outline, refining with more details
+- use Q for smooth arcs
+- use C for any S curves
+
+
+
+
+
+Workspace for SVG path
+
+<!--               lower left  nose       ear          bottom right  close loop -->
+<path id="wolf" d="M100,1000   L150,180   L590,580     L640,1000     z"/>
+
+<!--               lower left  mouth1   mouth2   nose       ear          bottom right  close loop -->
+<path id="wolf" d="M100,1000   L50,300  L100,325  L150,180   L590,580     L640,1000     z"/>
+
+<!--               lower left  mouth1   mouth2   nose       eye        brow      earL      eartip    earR       bottom right  close loop -->
+<path id="wolf" d="M100,1000   L50,300  L100,325  L150,180  L310,380   L350,390  L460,500  L590,580  L490,620   L640,1000     z"/>
+
+<!--               lower left  mouth1   tooth1    tooth2            mouth2   nose       eye        brow      earL      eartip    earR       bottom right  close loop -->
+<path id="wolf" d="M100,1000   L50,300  L70,300   Q85,280  80,310  L100,325  L150,180  L310,380   L350,390  L460,500   L590,580  L490,620   L640,1000     z"/>
+
+<!--               lower left  mouth1   tooth1    tooth2            mouth2    nose       eye      brow      earL      eartip    earR       bottom right  close loop -->
+<path id="wolf" d="M100,1000   L50,300  L75,310   Q95,280  95,315  L120,325  L150,180  L310,380   L350,390  L460,500  L590,580  L490,620   L640,1000     z"/>
+
+// adding chin
+<!--               lower left  chin1    chin2          tooth1    tooth2            mouth2    nose       eye      brow      earL      eartip    earR       bottom right  close loop -->
+<path id="wolf" d="M100,1000   L40,400  Q0,350 50,300  L75,310   Q95,280  95,315  L120,325  L150,180  L310,380   L350,390  L460,500  L590,580  L490,620   L640,1000     z"/>
+
+// adding throat
+<!--               lower left  throat1   throat2          chin2          tooth1    tooth2            mouth2    nose       eye      brow      earL      eartip    earR       bottom right  close loop -->
+<path id="wolf" d="M100,1000   L100,750  Q140,650 40,400  Q0,350 50,300  L75,310   Q95,280  95,315  L120,325  L150,180  L310,380   L350,390  L460,500  L590,580  L490,620   L640,1000     z"/>
+
+// adding chest
+<!--               lower left  chest                    throat2          chin2          tooth1    tooth2            mouth2    nose       eye      brow      earL      eartip    earR       bottom right  close loop -->
+<path id="wolf" d="M100,1000   C130,940 70,800 100,750  Q140,650 40,400  Q0,350 50,300  L75,310   Q95,280  95,315  L120,325  L150,180  L310,380   L350,390  L460,500  L590,580  L490,620   L640,1000     z"/>
+
+// adding nose
+<!--               lower left  chest                    throat2          chin2          tooth1    tooth2            mouth2    nose1             nose2            eye        brow      earL      eartip    earR       bottom right  close loop -->
+<path id="wolf" d="M100,1000   C130,940 70,800 100,750  Q140,650 40,400  Q0,350 50,300  L75,310   Q95,280  95,315  L120,325   Q90,250 120,220   Q140,150 200,250 L310,380   L350,390  L460,500  L590,580  L490,620   L640,1000     z"/>
+
+// adding eartip
+<!--               lower left  chest                    throat2          chin2          tooth1    tooth2            mouth2    nose1             nose2            eye        brow      earL      eartip                      earR       bottom right  close loop -->
+<path id="wolf" d="M100,1000   C130,940 70,800 100,750  Q140,650 40,400  Q0,350 50,300  L75,310   Q95,280  95,315  L120,325   Q90,250 120,220   Q140,150 200,250 L310,380   L350,390  L460,500  Q650,570 590,580  L590,580  L490,620   L640,1000     z"/>
+
+
+
+// adding back
+<!--               lower left  chest                    throat2          chin2          tooth1    tooth2            mouth2    nose1             nose2            eye        brow      earL      eartip                       earR      back                       bottom right  close loop -->
+<path id="wolf" d="M100,1000   C130,940 70,800 100,750  Q140,650 40,400  Q0,350 50,300  L75,310   Q95,280  95,315  L120,325   Q90,250 120,220   Q140,150 200,250 L310,380   L350,390  L460,500  Q650,570 590,580  L590,580   L490,620  C400,720 650,890 640,1000  L640,1000     z"/>
+
+
+
+// end

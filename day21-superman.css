@@ -1,0 +1,140 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$outline-color:  $black;
+$letter-color:   #C80000;
+$back-color:     #FFEB00;
+
+$background:     #074EF4;
+$footer-color:   $back-color;
+$footer-link:    $black;
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $back-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(600px, 500px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.sheild1 {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(40px, 80px);
+  background:    $black;
+  clip-path:     polygon( 80% 0,
+                          100% 21%,
+                          50% 80%,
+                          0 20%,
+                          20% 0);
+}
+
+.sheild2 {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(40px, 80px);
+  background:    $letter-color;
+  clip-path:     polygon( 80% 0,
+                          100% 21%,
+                          50% 80%,
+                          0 20%,
+                          20% 0);
+  transform:     scale(0.92, 0.92) translateY(-8px);
+}
+
+.sheild3 {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(40px, 80px);
+  background:    $black;
+  clip-path:     polygon( 80% 0,
+                          100% 21%,
+                          50% 80%,
+                          0 20%,
+                          20% 0);
+  transform:     scale(0.8, 0.8) translateY(-20px);
+}
+
+.sheild4 {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(40px, 80px);
+  background:    $back-color;
+  clip-path:     polygon( 80% 0,
+                          100% 21%,
+                          50% 80%,
+                          0 20%,
+                          20% 0);
+  transform:     scale(0.72, 0.72) translateY(-34px);
+}
+
+.letter-clip {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(40px, 80px);
+  background:    none;
+  clip-path:     polygon( 80% 0,
+                          100% 21%,
+                          50% 80%,
+                          0 20%,
+                          20% 0);
+  transform:     scale(0.8, 0.8) translateY(-20px);
+}
+
+.letter p {
+  position:      absolute;
+  @include       wh(300px, 300px);
+  @include       tl(-522px, 20px);
+  color:         $letter-color;
+  font-family:   'Cherry Cream Soda', cursive;
+  font-size:     25em;
+  transform:     scale(1.0, 0.9);
+  -webkit-text-stroke: 12px black; color: $letter-color;
+}
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}

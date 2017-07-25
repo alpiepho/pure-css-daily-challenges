@@ -1,0 +1,274 @@
+
+$bun-color:      #DF7B30;
+$lettuce-color:  #6DA000;
+$tomato-color:   #E83330;
+$pickle-color:   #70A900;
+$onion-color:    #9E3D6D;
+$cheese-color:   #FFB400;
+$patty-color:    #9D4845;
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$background:     #EBD09B;
+$footer-link:    $bun-color;
+
+$move-part-time:  4s;
+$bun-upper-delay: 7s;
+$lettuce-delay:   6s;
+$tomato-delay:    5s;
+$pickle-delay:    4s;
+$onion-delay:     3s;
+$cheese-delay:    2s;
+$patty-delay:     1s;
+$bun-lower-delay: 0s;
+
+$move-start-translate: -500px;
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  position:      relative;
+  left:          25%;
+  top:           -8%;
+  display:       block;
+  margin:        auto;
+  font-size:     2em;
+  color:         $black;
+}
+
+.box {
+  position:      relative;
+  width:         600px;
+  height:        600px;
+  display:       block;
+  margin:        auto;
+  margin-top:    0%;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.bun-upper {
+  position:      absolute;
+  top:           40%;
+  left:          30%;
+  height:        10%;
+  width:         40%;
+  background:    $bun-color;
+  border-radius: 4rem 4rem 0 0;
+  animation-name:            show-part;
+  animation-delay:           $bun-upper-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.lettuce {
+  position:      absolute;
+  top:           51%;
+  left:          30%;
+  height:        2%;
+  width:         40%;
+  background:    $lettuce-color;
+  border-radius: 1rem 0 1rem 0;
+  animation-name:            show-part;
+  animation-delay:           $lettuce-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.tomato {
+  position:      absolute;
+  top:           55%;
+  left:          30%;
+  height:        2%;
+  width:         40%;
+  background:    $tomato-color;
+  animation-name:            show-part;
+  animation-delay:           $tomato-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.pickle1 {
+  position:      absolute;
+  top:           58%;
+  left:          32%;
+  height:        1%;
+  width:         8%;
+  background:    $pickle-color;
+  animation-name:            show-part;
+  animation-delay:           $pickle-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.pickle2 {
+  position:      absolute;
+  top:           58%;
+  left:          46%;
+  height:        1%;
+  width:         8%;
+  background:    $pickle-color;
+  animation-name:            show-part;
+  animation-delay:           $pickle-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.pickle3 {
+  position:      absolute;
+  top:           58%;
+  left:          60%;
+  height:        1%;
+  width:         8%;
+  background:    $pickle-color;
+  animation-name:            show-part;
+  animation-delay:           $pickle-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.onion {
+  position:      absolute;
+  top:           60%;
+  left:          30%;
+  height:        1%;
+  width:         40%;
+  background:    $onion-color;
+  animation-name:            show-part;
+  animation-delay:           $onion-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.cheese {
+  position:      absolute;
+  top:           62%;
+  left:          30%;
+  height:        2%;
+  width:         40%;
+  background:    $cheese-color;
+  border-radius: 4rem 4rem 0 0;
+  z-index:       3;
+  animation-name:            show-part;
+  animation-delay:           $cheese-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.cheese-drip1 {
+  position:      absolute;
+  top:           62%;
+  left:          65%;
+  height:        10%;
+  width:         2%;
+  background:    $cheese-color;
+  border-radius: 4rem;
+  z-index:       3;
+  animation-name:            show-part;
+  animation-delay:           $cheese-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.cheese-drip2 {
+  position:      absolute;
+  top:           62%;
+  left:          60%;
+  height:        7%;
+  width:         2%;
+  background:    $cheese-color;
+  border-radius: 4rem;
+  z-index:       3;
+  animation-name:            show-part;
+  animation-delay:           $cheese-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.patty {
+  position:      absolute;
+  top:           64%;
+  left:          30%;
+  height:        4%;
+  width:         40%;
+  background:    $patty-color;
+  border-radius: 0.5rem;
+  animation-name:            show-part;
+  animation-delay:           $patty-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.bun-lower {
+  position:      absolute;
+  top:           70%;
+  left:          30%;
+  height:        6%;
+  width:         40%;
+  background:    $bun-color;
+  border-radius: 0 0 4rem 4rem;
+  animation-name:            show-part;
+  animation-delay:           $bun-lower-delay;
+  animation-duration:        $move-part-time;
+  animation-fill-mode:       forwards;
+  animation-iteration-count: 1;
+  //animation-timing-function: step-end;
+  transform: translate(0px, $move-start-translate);
+}
+
+.footer  {
+  color: $black;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+  {
+    color: $footer-link;
+  }
+}
+
+@keyframes show-part {
+  100% {
+    transform: translate(0px, 0px);
+  }
+}

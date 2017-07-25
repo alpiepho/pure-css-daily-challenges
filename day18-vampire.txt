@@ -1,0 +1,5 @@
+Daily CSS Day18 - Vampire
+
+A pure CSS challenge.  This uses HTML,  CSS (with SCSS).  No Javascript.
+
+Focus on really clean HTML/Pug, CSS/SCSS, and building reusable mix-ins, like wings, eyes, triangles.

@@ -1,0 +1,594 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin lt($l, $t) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin rt($r, $t) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+@mixin eye-l($b, $i, $p) {
+  left:           5%;
+  box-shadow:     0px 2px 0 8px $b;
+  &:before {
+    @include       pseudo;
+    top:           30%;
+    left:          30%;
+    @include       wh(70%, 70%);
+    background:    $i;
+    border-radius: 50%;
+  }
+  &:after {
+    @include       pseudo;
+    top:           50%;
+    left:          50%;
+    @include       wh(30%, 30%);
+    background:    $p;
+    border-radius: 50%;
+  }
+}
+
+@mixin eye-r($b, $i, $p) {
+  right:           5%;
+  box-shadow:      0px 2px 0 8px $b;
+  &:before {
+    @include       pseudo;
+    top:           30%;
+    right:         30%;
+    @include       wh(70%, 70%);
+    background:    $i;
+    border-radius: 50%;
+  }
+  &:after {
+    @include       pseudo;
+    top:           50%;
+    right:         50%;
+    @include       wh(30%, 30%);
+    background:    $p;
+    border-radius: 50%;
+  }
+}
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$bulb-color:     #FAEDCA;
+$fur-color:      #60F2EA;
+$spot-color:     #A982E0;
+$nose-color:     #43A9A4;
+$eyes-color:     $white;
+$iris-color:     #5B9EEB;
+
+$background:     #98B9F2;
+$background1:    #98B9F2;
+$background2:    #90708C;
+$footer-color:   $black;
+$footer-link:    $bulb-color;
+
+$night-delay:    0s;
+$night-time:     15s;
+
+body {
+  background:    $background;
+  background:    radial-gradient(
+                  circle at top right,
+                  $background1 40%,
+                  shade($background2, 10%) 80%,
+                  shade($background2, 10%) 90%);
+  color:         $white;
+  font-family:   sans-serif;
+  animation-name:              show-night-body;
+  animation-delay:             $night-delay;
+  animation-duration:          $night-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  animation-timing-function:   step-end;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $black;
+  animation-name:              show-night-text;
+  animation-delay:             $night-delay;
+  animation-duration:          $night-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  animation-timing-function:   step-end;
+}
+
+.box {
+  position:      relative;
+  @include       wh(600px, 500px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.box-cover {
+  @include       wh(100%, 100%);
+  @include       lt(0, 0);
+  background:    $black;
+  opacity:       0.0;
+  animation-name:              show-night-cover;
+  animation-delay:             $night-delay;
+  animation-duration:          $night-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  animation-timing-function:   step-end;
+}
+
+.bulb {
+  position:      absolute;
+  @include       wh(35px, 35px);
+  @include       lt(396px, 80px);
+  background:    $bulb-color;
+  border-radius: 50%;
+  box-shadow:    0px 0px 30px 30px darken($background, 20%);
+  overflow:      hidden;
+  animation-name:              show-night-bulb;
+  animation-delay:             $night-delay;
+  animation-duration:          $night-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  animation-timing-function:   step-end;
+}
+
+.cord {
+  position:      absolute;
+  @include       wh(5px, 80px);
+  @include       lt(412px, 0px);
+  background:    darken($grey, 20%);
+}
+
+.holder {
+  position:      absolute;
+  @include       wh(20px, 20px);
+  @include       lt(404px, 60px);
+  background:    darken($grey, 20%);
+}
+
+.pull {
+  position:      absolute;
+  @include       wh(2px, 180px);
+  @include       lt(418px, 100px);
+  background:    darken($grey, 20%);
+}
+
+.bod {
+  position:      absolute;
+  @include       wh(300px, 300px);
+  @include       lt(0px, 200px);
+  background:    $fur-color;
+  border-top-left-radius:  5rem;
+  border-top-right-radius: 5rem;
+  overflow:      hidden;
+}
+
+.spot:nth-child(1) {
+  position:      absolute;
+  @include       wh(80px, 80px);
+  @include       lt(-40px, 135px);
+  background:    $spot-color;
+  border-radius:  50%;
+  transform:
+    //rotate(45deg)
+    scale(1, 1)
+    //skew(10deg)
+    ;
+}
+
+.spot:nth-child(2) {
+  position:      absolute;
+  @include       wh(80px, 80px);
+  @include       lt(-40px, -10px);
+  background:    $spot-color;
+  border-radius:  40%;
+  transform:
+    //rotate(45deg)
+    scale(1.5, 1)
+    //skew(10deg)
+    ;
+}
+
+.spot:nth-child(3) {
+  position:      absolute;
+  @include       wh(80px, 80px);
+  @include       lt(170px, -40px);
+  background:    $spot-color;
+  border-radius:  50%;
+  transform:
+    //rotate(45deg)
+    scale(1, 1)
+    //skew(10deg)
+    ;
+}
+
+.spot:nth-child(4) {
+  position:      absolute;
+  @include       wh(80px, 80px);
+  @include       lt(270px, 80px);
+  background:    $spot-color;
+  border-radius:  50%;
+  transform:
+    //rotate(45deg)
+    scale(1.5, 1.2)
+    //skew(10deg)
+    ;
+}
+
+.spot:nth-child(5) {
+  position:      absolute;
+  @include       wh(80px, 80px);
+  @include       lt(280px, 230px);
+  background:    $spot-color;
+  border-radius:  50%;
+  transform:
+    //rotate(45deg)
+    scale(0.8, 0.8)
+    //skew(10deg)
+    ;
+}
+
+.arm-l {
+  position:      absolute;
+  @include       wh(80px, 300px);
+  @include       lt(-5px, 290px);
+  background:    none;
+  border-radius:  30%;
+  box-shadow:    10px 10px 10px darken($fur-color, 25%);
+}
+
+.arm-r {
+  position:      absolute;
+  @include       wh(80px, 300px);
+  @include       lt(220px, 290px);
+  background:    none;
+  border-radius:  30%;
+  box-shadow:    -10px 10px 10px darken($fur-color, 25%);
+}
+
+.forearm-r {
+  position:      absolute;
+  @include       wh(90px, 270px);
+  @include       lt(260px, 300px);
+  background:    $fur_color;
+  border-radius:  20%;
+  box-shadow:    5px 5px 5px darken($fur-color, 25%);
+  transform:
+    rotate(30deg)
+    //scale(0.8, 0.8)
+    //skew(10deg)
+    ;
+  overflow:       hidden;
+}
+
+.hand {
+  position:      absolute;
+  @include       wh(100px, 100px);
+  @include       lt(340px, 250px);
+  background:    $fur_color;
+  border-radius:  45% 45% 40% 40%;
+  box-shadow:    -5px 5px 5px darken($fur-color, 25%);
+  transform:
+    rotate(-10deg)
+    scale(1, 1)
+    //skew(10deg)
+    ;
+  animation-name:              show-night-hand;
+  animation-delay:             $night-delay;
+  animation-duration:          $night-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  animation-timing-function:   step-end;
+}
+
+.finger:nth-child(1) {
+  position:      relative;
+  @include       wh(50px, 25px);
+  @include       lt(54px, 0px);
+  background:    $fur_color;
+  border-radius:  40%;
+  box-shadow:    -5px 5px 5px darken($fur-color, 25%);
+}
+
+.finger:nth-child(2) {
+  position:      relative;
+  @include       wh(50px, 25px);
+  @include       lt(54px, 0px);
+  background:    $fur_color;
+  border-radius:  40%;
+  box-shadow:    -5px 5px 5px darken($fur-color, 25%);
+}
+
+.finger:nth-child(3) {
+  position:      relative;
+  @include       wh(50px, 25px);
+  @include       lt(54px, 0px);
+  background:    $fur_color;
+  border-radius:  40%;
+  box-shadow:    -5px 5px 5px darken($fur-color, 25%);
+}
+
+.finger:nth-child(4) {
+  position:      relative;
+  @include       wh(50px, 25px);
+  @include       lt(54px, 0px);
+  background:    $fur_color;
+  border-radius:  40%;
+  box-shadow:    -5px 5px 5px darken($fur-color, 25%);
+}
+
+$ang-delta:   ((pi())/(2*20));
+@for $i from 1 through 20 {
+  $top:       50*sin($i*$ang-delta)+px;
+  $left:      50*cos($i*$ang-delta)+px;
+  $transform: rotate(45deg+(1-$i)*-5.5deg);
+  $scale:     scale(1-(($i+(-1))*.03));
+
+
+  .horn-slice:nth-child(#{$i}){
+    left:         $left;
+    top:          $top;
+    transform:    $transform $scale;
+    background:   $white;
+  }
+}
+
+.horn-slice {
+  position:       absolute;
+  @include        wh(30px, 20px);
+  border:         solid $grey;
+  border-radius:  50%;
+  background: $white;;
+}
+
+.horn-l {
+  position:      absolute;
+  @include       wh(100px, 100px);
+  @include       lt(0px, 50px);
+  transform:     rotate(90deg);
+}
+
+.horn-r {
+  position:      absolute;
+  @include       wh(100px, 100px);
+  @include       lt(190px, 50px);
+  transform:     scale(-1, 1) rotate(90deg);
+}
+
+.face-l {
+  position:      absolute;
+  @include       wh(170px, 200px);
+  @include       lt(60px, 100px);
+  background:    $fur_color;
+  border-radius:  50%;
+  box-shadow:    0px 5px 5px darken($fur-color, 25%);
+}
+
+.face-u {
+  position:      absolute;
+  @include       wh(120px, 120px);
+  @include       lt(85px, 60px);
+  background:    $fur_color;
+  border-radius:  50%;
+}
+
+.brows {
+  position:      absolute;
+  @include       wh(65px, 30px);
+  background:    darken($fur-color, 30%);
+  border-radius: 1rem 2rem 2rem 1rem;
+}
+
+.brow-l {
+  @include       lt(-5px, 20px);
+  transform:     rotate(15deg);
+}
+
+.brow-r {
+  @include       lt(65px, 20px);
+  transform:     rotate(160deg);
+}
+
+.eyes {
+  position:       absolute;
+  top:            60px;
+  @include        wh(40px, 30px);
+  border-radius:  50%;
+  background:     $eyes-color;
+}
+
+.eyes-night {
+  position:       absolute;
+  @include        wh(120px, 30px);
+  @include        lt(85px, 60px);
+  opacity:        0.0;
+  animation-name:              show-night-eyes;
+  animation-delay:             $night-delay;
+  animation-duration:          $night-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  //animation-timing-function:   step-end;
+}
+
+.eye-l {
+  @include        eye-l(
+    darken($fur-color, 25%),
+    $iris-color,
+    $black);
+  border-radius:  50% 40% 40% 50%;
+}
+
+.eye-r {
+  @include        eye-r(
+    darken($fur-color, 25%),
+    $iris-color,
+    $black);
+  border-radius:  40% 50% 50% 40%;
+}
+
+.nose {
+  position:      absolute;
+  @include       wh(40px, 30px);
+  @include       lt(40px, 110px);
+  background:    $nose-color;
+  border-radius: 3rem 1rem 4rem 4rem;
+  transform:     rotate(-45deg);
+}
+
+.nose-l {
+  position:      relative;
+  @include       wh(10px, 20px);
+  @include       lt(0px, 2px);
+  background:    darken($nose-color, 30%);
+  border-radius: 50%;
+}
+
+.nose-r {
+  position:      relative;
+  @include       wh(10px, 20px);
+  @include       lt(14px, -2px);
+  background:    darken($nose-color, 30%);
+  border-radius: 50%;
+  transform:     rotate(90deg);
+}
+
+.mouth {
+  position:      absolute;
+  @include       wh(100px, 20px);
+  @include       lt(10px, 170px);
+  background:    $black;
+  border-radius: 1rem 1rem 4rem 4rem;
+}
+
+
+.teeth {
+  position:      absolute;
+  @include       wh(15px, 15px);
+  background:    $white;
+  border-radius: 4rem 4rem 1rem 1rem;
+}
+
+.tooth-l {
+  @include       lt(30px, 155px);
+}
+
+.tooth-r {
+  @include       lt(70px, 155px);
+}
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+  animation-name:              show-night-text;
+  animation-delay:             $night-delay;
+  animation-duration:          $night-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  animation-timing-function:   step-end;
+}
+
+// ANIMATIONS
+@keyframes show-night-body {
+   0% {
+   background:  $background;
+   }
+   20% {
+   background:  $black;
+   }
+}
+
+@keyframes show-night-text {
+   0% {
+   color:  $footer-color;
+   }
+   20% {
+   color:  $bulb-color;
+   }
+}
+
+@keyframes show-night-cover {
+   0% {
+   opacity:  0.0;
+   }
+   20% {
+   opacity:  1.0;
+   }
+}
+
+@keyframes show-night-hand {
+   0% {
+   transform:  rotate(-10deg);
+   }
+   16% {
+   transform:  rotate(0deg);
+   }
+}
+
+@keyframes show-night-eyes {
+   0% {
+   opacity:  0.0;
+   }
+   25% {
+   opacity:  1.0;
+  }
+   100% {
+   opacity:  0.0;
+   }
+}
+
+@keyframes show-night-bulb {
+   0% {
+   z-index:  0;
+   }
+   80% {
+   z-index:  10;
+   }
+   100% {
+   z-index:  0;
+   }
+}
+/*
+*/

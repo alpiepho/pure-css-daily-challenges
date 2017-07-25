@@ -1,0 +1,146 @@
+
+$plate-color1:   #96A3B7;
+$plate-color2:   #595d63;
+$crumb-color:    #D69F35;
+$cherry-color1:  #A32A1D;
+$cherry-color2:  #ea3c3c;
+$leaf-color:     #008000;
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$background:     #212121;
+$footer-link:    $white;
+
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  position:      relative;
+  left:          35%;
+  top:           -8%;
+  display:       block;
+  margin:        auto;
+  font-size:     2em;
+  color:         $white;
+}
+
+.box {
+  position:      relative;
+  width:         600px;
+  height:        600px;
+  display:       block;
+  margin:        auto;
+  margin-top:    0%;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.plate {
+  position:      absolute;
+  top:           40%;
+  left:          0%;
+  height:        20%;
+  width:         100%;
+  border-radius: 1rem 1rem 0 0;
+  overflow:      hidden;
+  background: linear-gradient(0deg, $plate-color1, $plate-color2);
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+}
+
+.cherry {
+  position:      absolute;
+  top:           52%;
+  left:          45%;
+  height:        10%;
+  width:         10%;
+  border-radius: 50%;
+  overflow:      hidden;
+  background: radial-gradient(farthest-side at 100% 100%, $cherry-color1 $cherry-color2);
+}
+
+.leaf1 {
+  position:      absolute;
+  top:           46%;
+  left:          48%;
+  height:        6%;
+  width:         2%;
+  border-radius: 100%;
+  //overflow:      hidden;
+  background:    $leaf-color;
+  transform-origin: bottom center;
+  transform:     rotate(-35deg);
+}
+
+.leaf2 {
+  position:      absolute;
+  top:           46%;
+  left:          48%;
+  height:        6%;
+  width:         2%;
+  border-radius: 100%;
+  //overflow:      hidden;
+  background:    $leaf-color;
+  transform-origin: bottom center;
+  transform:     rotate(20deg);
+}
+
+.crumbs {
+  position:      absolute;
+  top:           52%;
+  left:          60%;
+  height:        10%;
+  width:         20%;
+  background:    none;
+  //overflow:      hidden;
+}
+
+.crumb {
+  position:      absolute;
+  top:           80%;
+  left:          30%;
+  height:        40%;
+  width:         20%;
+  //border-radius: 0.5rem 0 0 0;
+  background:    $crumb-color;
+  transform:     rotate(70deg);
+}
+
+.crumb::before {
+  content:       '';
+  position:      absolute;
+  top:           110%;
+  left:          0%;
+  height:        80%;
+  width:         80%;
+  background-color:    $crumb-color;
+  transform:     rotate(40deg) scale(0.5, 0.5);
+}
+
+.crumb::after {
+  content:       '';
+  position:      absolute;
+  top:           -110%;
+  left:          50%;
+  height:        80%;
+  width:         80%;
+  background-color:    $crumb-color;
+  transform:     rotate(70deg) scale(0.7, 0.7);
+}
+
+.footer  {
+  color: $grey;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+  {
+    color: $footer-link;
+  }
+}
