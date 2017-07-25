@@ -1,0 +1,224 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$outline-color:  $black;
+$letter-color:   #DBD30C;
+$claw-color:     #EBE5F1;
+$scratch-color:  #4090C5;
+
+$background:     $black;
+$footer-color:   $letter-color;
+$footer-link:    $scratch-color;
+$claw-delay:     0s;
+$claw-time:      10s;
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $letter-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(600px, 500px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.scratch {
+  position:      absolute;
+  @include       wh(1px, 100%);
+  background:    $scratch-color;
+  transform-origin: center bottom;
+}
+
+.left-scratch {
+  position:      absolute;
+  @include       wh(150px, 400px);
+  @include       tl(40px, 180px);
+  //border:        solid 1px;
+  background:    none;
+  transform:     rotate(-40deg);
+}
+
+.scratch:nth-child(1) {
+  @include       tl(0, 20%);
+  transform:     rotate(-4deg);
+}
+
+.scratch:nth-child(2) {
+  @include       tl(0, 50%);
+}
+
+.scratch:nth-child(3) {
+  @include       tl(0, 80%);
+  transform:     rotate(4deg);
+}
+
+.right-scratch {
+  position:      absolute;
+  @include       wh(150px, 400px);
+  @include       tr(40px, 180px);
+  //border:        solid 1px;
+  background:    none;
+  transform:     rotate(40deg);
+}
+
+.scratch:nth-child(4) {
+  @include       tl(0, 20%);
+  transform:     rotate(-4deg);
+}
+
+.scratch:nth-child(5) {
+  @include       tl(0, 50%);
+}
+
+.scratch:nth-child(6) {
+  @include       tl(0, 80%);
+  transform:     rotate(4deg);
+}
+
+
+.claw {
+  position:      absolute;
+  @include       wh(100px, 110%);
+  @include       triangle;
+  background: -webkit-linear-gradient(top, $claw-color, darken($claw-color, 90));
+  transform-origin: center bottom;
+}
+
+.left-claw {
+  position:      absolute;
+  @include       wh(150px, 400px);
+  @include       tl(40px, 180px);
+  //border:        solid 1px;
+  background:    none;
+  transform:     rotate(-40deg);
+  overflow:      hidden;
+  animation-name:              show-left-claw;
+  animation-delay:             $claw-delay;
+  animation-duration:          $claw-time;
+  animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  //animation-timing-function:   step-end;
+}
+
+.claw:nth-child(1) {
+  @include       tl(-10%, -12%);
+  transform:     skew(4deg);
+}
+
+.claw:nth-child(2) {
+  @include       tl(-10%, 18%);
+}
+
+.claw:nth-child(3) {
+  @include       tl(-10%, 48%);
+  transform:     skew(-4deg);
+}
+
+.right-claw {
+  position:      absolute;
+  @include       wh(150px, 400px);
+  @include       tr(40px, 180px);
+  //border:        solid 1px;
+  background:    none;
+  transform:     rotate(40deg);
+  overflow:      hidden;
+  animation-name:              show-right-claw;
+  animation-delay:             $claw-delay;
+  animation-duration:          $claw-time;
+  animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  //animation-timing-function:   step-end;
+}
+
+.claw:nth-child(4) {
+  @include       tl(-10%, -12%);
+  transform:     skew(4deg);
+}
+
+.claw:nth-child(5) {
+  @include       tl(-10%, 18%);
+}
+
+.claw:nth-child(6) {
+  @include       tl(-10%, 48%);
+  transform:     skew(-4deg);
+}
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}
+
+// ANIMATIONS
+@keyframes show-left-claw {
+   0% {
+   }
+   60% {
+   transform:   translate(500px, 600px) rotate(-40deg);
+   }
+   100% {
+   transform:   translate(500px, 600px) rotate(-40deg);
+   }
+}
+
+@keyframes show-right-claw {
+   0% {
+   }
+   60% {
+   transform:   translate(-500px, 600px) rotate(40deg);
+   }
+   100% {
+   transform:   translate(-500px, 600px) rotate(40deg);
+   }
+}
