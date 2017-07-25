@@ -1,0 +1,146 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$outline-color:  $black;
+$letter-color:   #008000;
+$back-color:     $white;
+$back-color2:    #14A769;
+
+$background:     $black;
+$footer-color:   $letter-color;
+$footer-link:    $back-color2;
+
+$circle-delay:   0s;
+$circle-time:    10s;
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $letter-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(600px, 500px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.circle {
+  position:      absolute;
+  @include       wh(300px, 300px);
+  @include       tl(86px, 146px);
+  background:    $back-color;
+  border:        solid 4px $black;
+  border-radius: 50%;
+  box-shadow:    0px 0px 30px 30px $letter-color;
+  animation-name:              show-circle;
+  animation-delay:             $circle-delay;
+  animation-duration:          $circle-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  //animation-timing-function:   step-end;
+}
+
+
+.middle {
+  position:      absolute;
+  @include       wh(120px, 120px);
+  @include       tl(90px, 88px);
+  background:    $letter-color;
+  border:        solid 4px $black;
+  border-radius: 50%;
+  &:after {
+    content: "";
+    position:      absolute;
+    @include       wh(60px, 60px);
+    @include       tl(25px, 25px);
+    background:    $back-color;
+    border:        solid 4px $black;
+    border-radius: 50%;
+  }
+}
+
+.top {
+  position:      absolute;
+  @include       wh(120px, 30px);
+  @include       tl(58px, 88px);
+  background:    $letter-color;
+  border:        solid 4px $black;
+  &:after {
+    content: "";
+    position:      absolute;
+    @include       wh(40px, 40px);
+    @include       tl(15px, 40px);
+    background:    $letter-color;
+    border-radius: 50%;
+  }
+}
+
+.bottom {
+  position:      absolute;
+  @include       wh(120px, 30px);
+  @include       tl(214px, 88px);
+  background:    $letter-color;
+  border:        solid 4px $black;
+  &:after {
+    content: "";
+    position:      absolute;
+    @include       wh(40px, 40px);
+    @include       tl(-15px, 40px);
+    background:    $letter-color;
+    border-radius: 50%;
+  }
+}
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}
+
+// ANIMATIONS
+@keyframes show-circle {
+   0% {
+   transform:  scale(0.1, 0.1);
+   }
+   60% {
+   transform:  scale(1, 1);
+   }
+}
