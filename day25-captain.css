@@ -1,0 +1,206 @@
+/*
+Good:
+- had gone away from relative and %, but that seems to work better for centering circles
+- completed in an hour
+- able to leverage Pug triangle mixin
+
+Bad:
+- had to use points to resize/recenter star points instead of computing properly.
+- could have used SCSS loop for points
+- could have used ::before and ::after for red/white/red circles (circles 1-3)
+- spacing of rings is not exact
+*/
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$red-color:      #AA1428;
+$blue-color:     #000042;
+
+$background:        $black;
+$title-color:       $red-color;
+$title-span-color:  $white;
+$footer-color:      $red-color;
+$footer-link:       $white;
+
+$circle-delay:   0s;
+$circle-time:    10s;
+
+body {
+  background:    $background;
+  color:         $white;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(500px, 500px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.circle1 {
+  position:      relative;
+  @include       wh(400px, 400px);
+  @include       tl(40px, 0px);
+  margin:        auto;
+  background:    $red-color;
+  //border:        solid 1px;
+  border-radius: 50%;
+   transform:
+     scale(0.1, 0.1)
+     translate(-500px, -500px);
+  animation-name:              show-circle;
+  animation-delay:             $circle-delay;
+  animation-duration:          $circle-time;
+  animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  animation-timing-function:   step-end;
+}
+
+.circle2 {
+  position:      relative;
+  @include       wh(78%, 78%);
+  @include       tl(11%, 0px);
+  margin:        auto;
+  background:    $white;
+  //border:        solid 1px;
+  border-radius: 50%;
+}
+
+.circle3 {
+  position:      relative;
+  @include       wh(74%, 74%);
+  @include       tl(12.5%, 0px);
+  margin:        auto;
+  background:    $red-color;
+  //border:        solid 1px;
+  border-radius: 50%;
+}
+
+.circle4 {
+  position:      relative;
+  @include       wh(70%, 70%);
+  @include       tl(15%, 0px);
+  margin:        auto;
+  background:    $blue-color;
+  //border:        solid 1px;
+  border-radius: 50%;
+}
+
+.points {
+  position:      relative;
+  @include       wh(100%, 100%);
+  @include       tl(0, 0%);
+  transform:     scale(1.2, 1.2) translate(0, 14px);
+}
+
+.point {
+  position:      absolute;
+  @include       wh(140%, 40%);
+  @include       tl(0, -20%);
+  @include       triangle;
+  margin:        auto;
+  background:    $white;
+  transform-origin: center bottom;
+}
+
+.point:nth-child(1) {
+  transform:     rotate(0deg);
+}
+
+.point:nth-child(2) {
+  transform:     rotate(72deg);
+}
+
+.point:nth-child(3) {
+  transform:     rotate(144deg);
+}
+
+.point:nth-child(4) {
+  transform:     rotate(216deg);
+}
+
+.point:nth-child(5) {
+  transform:     rotate(288deg);
+}
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}
+
+// ANIMATIONS
+@keyframes show-circle {
+   0% {
+   transform:  scale(0.1, 0.1) translate(-500px, -500px);
+   }
+   5% {
+   transform:  scale(0.2, 0.2) translate(-400px, -400px);
+   }
+   10% {
+   transform:  scale(0.3, 0.3) translate(300px, -400px);
+   }
+   15% {
+   transform:  scale(0.4, 0.4) translate(300px, -200px);
+   }
+   20% {
+   transform:  scale(0.6, 0.6) translate(-200px, -100px);
+   }
+   25% {
+   transform:  scale(0.8, 0.8) translate(-50px, -50px);
+   }
+    30% {
+   transform:  scale(1, 1)  translate(0px, 0px);
+   }
+}
