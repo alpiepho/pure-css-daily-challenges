@@ -1,0 +1,5 @@
+Daily CSS Day24 - Ironman
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+Focus on re-using elements and producing glowing effect around SVG path shapes using SVG blur.

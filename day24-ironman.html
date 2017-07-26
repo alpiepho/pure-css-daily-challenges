@@ -1,0 +1,87 @@
+.title
+  h2 Daily CSS - Day 24 - <span>Ironman</span>
+
+.box
+    .container
+      - for (var i = 0; i < 10; ++i) {
+      .segment
+        svg(
+          id="outer"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          viewBox="0 0 1400 1200"
+          enable-background="new 0 0 600 400"
+          xml:space="preserve"
+        )
+          defs
+            filter(
+              id="f4"
+              x="-100%"
+              y="-100%"
+              width="500%"
+              height="500%"
+            )
+              feGaussianBlur(
+                in="SourceGraphic"
+                stdDeviation="20"
+              )
+            filter(
+              id="f6"
+              x="-100%"
+              y="-100%"
+              width="500%"
+              height="500%"
+            )
+              feGaussianBlur(
+                in="SourceGraphic"
+                stdDeviation="8"
+              )
+        svg(
+          viewBox="0 0 1400 1200"
+        )
+          path(
+            id="segment-outer"
+            d="M350,550 L200,200 Q500,110 800,200 L800,200 L650,550 L300,550 z"
+            fill="#4CB1E4"
+            filter="url(#f4)"
+          )
+          path(
+            id="segment-inner"
+            d="M350,550 L200,200 Q500,110 800,200 L800,200 L650,550 L300,550 z"
+            fill="white"
+            filter="url(#f6)"
+          )
+      -  }
+      .section-circle
+        svg(
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px"
+            y="0px"
+            viewBox="0 0 1000 1000"
+            enable-background="new 0 0 600 400"
+            xml:space="preserve"
+          )
+            circle(
+              id="circle-outer"
+              cx="320"
+              cy="280"
+              r="240"
+              fill="#4CB1E4"
+              filter="url(#f4)"
+            )
+            circle(
+              id="circle-inner"
+              cx="300"
+              cy="280"
+              r="240"
+              fill="white"
+              filter="url(#f6)"
+          )
+
+.footer
+  hr
+  p Page built by
+    <a rel="nofollow" rel="noreferrer"href="https://www.linkedin.com/in/al-piepho-fw-sw-engineer/" target="_blank">Al Piepho</a> <em> (Aspiring Full Stack Developer) 2017</em>
