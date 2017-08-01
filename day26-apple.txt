@@ -1,0 +1,5 @@
+Daily CSS Day26 - Apple App Store Icon
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+Again, focus on clean (consistent text formatting, code structure and comments) and minimal code.   Also started Good/Bad/Ugly (thanks @kimdobie for "what I learned")

@@ -1,0 +1,192 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$blue-dark-color:    #2453F9;
+$blue-light-color:   #01D3FF;
+
+$body-color:        $black;
+$background-color:  $white;
+$title-color:       $blue-dark-color;
+$title-span-color:  $blue-light-color;
+$footer-color:      $blue-dark-color;
+$footer-link:       $blue-light-color;
+
+//$circle-delay:   0s;
+//$circle-time:    10s;
+
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(500px, 500px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.container {
+  position:      relative;
+  @include       wh(90%, 90%);
+  @include       tl(40px, 0px);
+  margin:        auto;
+  background:    $blue-dark-color;
+  background:    -webkit-linear-gradient($blue-light-color, $blue-dark-color);
+  background:    -o-linear-gradient(     $blue-light-color, $blue-dark-color);
+  background:    -moz-linear-gradient(   $blue-light-color, $blue-dark-color);
+  background:    linear-gradient(        $blue-light-color, $blue-dark-color);
+  //border:        solid 1px;
+  border-radius: 4em;
+}
+
+.circle {
+  position:      absolute;
+  @include       wh(80%, 80%);
+  @include       tl(8%, 8%);
+  margin:        auto;
+  background:    none;
+  border:        solid 10px $white;
+  border-radius: 50%;
+}
+
+.bar {
+  position:      absolute;
+  @include       wh(70%, 6%);
+  @include       tl(45%, 15%);
+  margin:        auto;
+}
+
+.bar-left {
+  @include           wh(20%, 6%);
+  @include           tl(45%, 15%);
+  -webkit-clip-path: polygon(0 0, 89% 0, 70% 100%, 0% 100%);
+  clip-path:         polygon(0 0, 89% 0, 70% 100%, 0% 100%);
+  background:        $white;
+}
+
+.bar-middle {
+  @include           wh(40%, 6%);
+  @include           tl(45%, 30%);
+  -webkit-clip-path: polygon(30% 0, 70% 0, 79.5% 100%, 21% 100%);
+  clip-path:         polygon(30% 0, 70% 0, 79.5% 100%, 21% 100%);
+  background:        $white;
+}
+
+.bar-right {
+  @include           wh(20%, 6%);
+  @include           tl(45%, 65%);
+  -webkit-clip-path: polygon(12% 0, 100% 0, 100% 100%, 30% 100%);
+  clip-path:         polygon(12% 0, 100% 0, 100% 100%, 30% 100%);
+  background:        $white;
+}
+
+.pencil {
+  position:         absolute;
+  @include          wh(6%, 30%);
+  @include          tl(32%, 33%);
+  margin:           auto;
+  background:       $white;
+  transform:        rotate(30deg);
+   &:before {
+     @include       pseudo;
+     @include       wh(100%, 20%);
+     @include       tl(-25%, 0);
+     background:    $white;
+     border-radius: 0.5em 0.5em 0 0;
+  }
+   &:after {
+     @include       pseudo;
+     @include       triangle;
+     @include       wh(500%, 40%);
+     @include       tl(105%, -200%);
+     background:    $white;
+     transform:     rotate(180deg);
+  }
+}
+
+.brush {
+  position:         absolute;
+  @include          wh(6%, 40%);
+  @include          tl(16%, 54.5%);
+  margin:           auto;
+  background:       $white;
+  border-radius:    0.4em 0.4em 0 0;
+  transform:        rotate(-30deg);
+   &:before {
+     @include       pseudo;
+     @include       wh(100%, 15%);
+     @include       tl(102%, 0);
+     background:    $white;
+  }
+   &:after {
+     @include       pseudo;
+     @include       wh(120%, 35%);
+     @include       tl(120%, -10%);
+     background:    $white;
+-webkit-clip-path: polygon(14% 0, 83% 0%, 87% 9%, 90% 19%, 91% 30%, 88% 42%, 83% 52%, 78% 62%, 74% 72%, 71% 80%, 65% 91%, 57% 100%, 50% 90%, 44% 79%, 37% 70%, 30% 60%, 21% 53%, 14% 44%, 10% 36%, 7% 23%, 10% 11%);
+clip-path: polygon(14% 0, 83% 0%, 87% 9%, 90% 19%, 91% 30%, 88% 42%, 83% 52%, 78% 62%, 74% 72%, 71% 80%, 65% 91%, 57% 100%, 50% 90%, 44% 79%, 37% 70%, 30% 60%, 21% 53%, 14% 44%, 10% 36%, 7% 23%, 10% 11%);  }
+}
+
+.learning {
+  text-align: center;
+  margin-top: 5%;
+
+}
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}
