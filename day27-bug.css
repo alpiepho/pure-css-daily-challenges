@@ -1,0 +1,208 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+
+$grey-color:     grey;
+$yellow-color:   #B2DB11;
+
+$body-color:        $black;
+$background-color:  $grey-color;
+$title-color:       $black;
+$title-span-color:  $yellow-color;
+$footer-color:      $black;
+$footer-link:       $yellow-color;
+
+$bug-delay:   0s;
+$bug-time:    10s;
+
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(400px, 400px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  //overflow:      hidden;
+}
+
+.body {
+  position:      absolute;
+  @include       wh(30%, 40%);
+  @include       tl(30%, 35%);
+  margin:        auto;
+  background:    $black;
+  //border:        solid 10px $white;
+  border-radius: 5em;
+   &:before {
+     @include       pseudo;
+     @include       wh(50%, 10%);
+     @include       tl(30%, 25%);
+     background:    $yellow-color;
+     border-radius: 2em;
+  }
+   &:after {
+     @include       pseudo;
+     @include       wh(50%, 10%);
+     @include       tl(55%, 25%);
+     background:    $yellow-color;
+     border-radius: 2em;
+  }
+  z-index:          10;
+  animation-name:              show-bug;
+  animation-delay:             $bug-delay;
+  animation-duration:          $bug-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   infinite;
+  //animation-timing-function:   step-end;
+}
+
+// top left
+.antenna:nth-child(1) {
+  position:      absolute;
+  @include       wh(30%, 5%);
+  @include       tl(5%, 0%);
+  background:    $black;
+  border-radius: 1em;
+  transform-origin: center right;
+  transform:     rotate(60deg);
+}
+.antenna:nth-child(2) {
+  position:      absolute;
+  @include       wh(30%, 5%);
+  @include       tl(5%, 40%);
+  background:    $black;
+  border-radius: 1em;
+  transform-origin: center right;
+  transform:     rotate(120deg);
+}
+
+// top left
+.leg:nth-child(3) {
+  position:      absolute;
+  @include       wh(40%, 10%);
+  @include       tl(30%, -25%);
+  background:    $black;
+  border-radius: 1em;
+  transform-origin: center right;
+  transform:     rotate(10deg);
+}
+
+// top right
+.leg:nth-child(4) {
+  position:      absolute;
+  @include       wh(40%, 10%);
+  @include       tl(30%, 90%);
+  background:    $black;
+  border-radius: 1em;
+  transform-origin: center left;
+  transform:     rotate(-10deg);
+}
+
+// mid left
+.leg:nth-child(5) {
+  position:      absolute;
+  @include       wh(40%, 10%);
+  @include       tl(55%, -25%);
+  background:    $black;
+  border-radius: 1em;
+  transform-origin: center right;
+  transform:     rotate(0deg);
+}
+
+// mid right
+.leg:nth-child(6) {
+  position:      absolute;
+  @include       wh(40%, 10%);
+  @include       tl(55%, 90%);
+  background:    $black;
+  border-radius: 1em;
+  transform-origin: center left;
+  transform:     rotate(-0deg);
+}
+
+// bottom left
+.leg:nth-child(7) {
+  position:      absolute;
+  @include       wh(40%, 10%);
+  @include       tl(75%, -20%);
+  background:    $black;
+  border-radius: 1em;
+  transform-origin: center right;
+  transform:     rotate(-10deg);
+}
+
+// bottom right
+.leg:nth-child(8) {
+  position:      absolute;
+  @include       wh(40%, 10%);
+  @include       tl(75%, 85%);
+  background:    $black;
+  border-radius: 1em;
+  transform-origin: center left;
+  transform:     rotate(10deg);
+}
+
+.learning {
+  text-align: center;
+  margin-top: -10%;
+
+}
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}
+
+// ANIMATIONS
+@keyframes show-bug {
+    19%  { transform:  rotate(0deg); }
+    20%  { transform:  rotate(2deg); }
+    21%  { transform:  rotate(-2deg); }
+    22%  { transform:  rotate(2deg); }
+    23%  { transform:  rotate(-2deg); }
+    24%  { transform:  rotate(2deg); }
+    25%  { transform:  rotate(0deg); }
+   100%  { transform:  translate(0, -500px) }
+}
