@@ -1,0 +1,279 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #777777;
+$blue:           #1E49A8;
+
+$grey-color:     grey;
+$cable-color:    white;
+
+$body-color:        $black;
+$background-color:  $blue;
+$title-color:       $black;
+$title-span-color:  $cable-color;
+$footer-color:      $black;
+$footer-link:       $cable-color;
+
+$cog-delay:   0s;
+$cog-time:    10s;
+$cog-iterations: 1; // infinite
+
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(500px, 500px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.counter {
+  position:      absolute;
+  @include       wh(20%, 20%);
+  @include       tl(40%, 10%);
+  margin:        auto;
+  background:    none;
+  font-family:   'Rock Salt', cursive;
+  font-size:     2em;
+  &:before {
+    @include       pseudo;
+    content:       'ready...';
+    animation-name:              show-counter;
+    animation-delay:             $cog-delay;
+    animation-duration:          $cog-time;
+    animation-fill-mode:         forwards;
+    animation-iteration-count:   $cog-iterations;
+    animation-timing-function:   step-end;
+  }
+}
+
+.cable1 {
+  position:      absolute;
+  @include       wh(60%, 2%);
+  @include       tl(5%, 18%);
+  margin:        auto;
+  background:    $white;
+  transform-origin: left center;
+  transform:     rotate(3deg);
+}
+
+.cable2 {
+  position:      absolute;
+  @include       wh(2%, 25%);
+  @include       tl(15%, 80%);
+  margin:        auto;
+  background:    $white;
+  transform-origin: center top;
+  transform:     rotate(45deg);
+}
+
+.cable3 {
+  position:      absolute;
+  @include       wh(2%, 60%);
+  @include       tl(35%, 62%);
+  margin:        auto;
+  background:    $white;
+}
+
+.pully {
+  position:      absolute;
+  @include       wh(30%, 30%);
+  margin:        auto;
+  background:    $black;
+  border-radius: 50%;
+}
+
+.pully1 {
+  @include       tl(5%, 3%);
+  animation-name:              show-pully1;
+  animation-delay:             $cog-delay;
+  animation-duration:          $cog-time;
+  animation-fill-mode:         forwards;
+  animation-iteration-count:   $cog-iterations;
+  animation-timing-function:   linear;
+}
+
+.pully2 {
+  @include       tl(0%, 60%);
+  transform:     scale(0.5, 0.5);
+  animation-name:              show-pully2;
+  animation-delay:             $cog-delay;
+  animation-duration:          $cog-time;
+  animation-fill-mode:         forwards;
+  animation-iteration-count:   $cog-iterations;
+  animation-timing-function:   linear;
+}
+
+.pully3 {
+  @include       tl(20%, 50%);
+  transform:     scale(0.30, 0.30);
+  animation-name:              show-pully3;
+  animation-delay:             $cog-delay;
+  animation-duration:          $cog-time;
+  animation-fill-mode:         forwards;
+  animation-iteration-count:   $cog-iterations;
+  animation-timing-function:   linear;
+}
+
+
+
+.slot {
+  position:      absolute;
+  @include       wh(20%, 35%);
+  margin:        auto;
+  background:    $background-color;
+  border-radius: 1em 1em 1em 1em;
+  transform-orgin: center bottom;
+}
+
+.slot1 {
+  @include       tl(6%, 40%);
+}
+
+.slot2 {
+  @include       tl(60%, 40%);
+}
+
+.slot3 {
+  @include       tl(32%, 68%);
+  transform:     rotate(90deg);
+}
+
+.slot4 {
+  @include       tl(32%, 12%);
+  transform:     rotate(90deg);
+}
+
+.sign {
+  position:      absolute;
+  @include       wh(50%, 40%);
+  @include       tl(55%, 38.5%);
+  margin:        auto;
+  background:    $white;
+  //border:        solid 2px $black;
+  border-radius: 1em;
+  font-family:   'Rock Salt', cursive;
+  font-size:     1.3em;
+  text-align:    center;
+  &:before {
+    @include       pseudo;
+    @include       wh(20px, 20px);
+    @include       tl(-2-5%, 44.7%);
+    background:    $white;
+    border:        solid 1px $black;
+    border-radius: 50%;
+  }
+  animation-name:              show-sign;
+  animation-delay:             $cog-delay;
+  animation-duration:          $cog-time;
+  //animation-fill-mode:         forwards;
+  animation-iteration-count:   $cog-iterations;
+  //animation-timing-function:   step-end;
+}
+
+.sign p:nth-child(2) {
+  font-size:      2em;
+  margin-top:     -0.9em;
+}
+
+.learning {
+  text-align: center;
+  margin-top: 0%;
+}
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}
+
+// ANIMATIONS
+// Process:
+// - started with counter
+// - got pully1 spinning
+// - got other pullys spinning, thought I might need to adjust rates
+// - got sign moving
+// - from sign stopping, figured out where to stop pullys
+// - reviewed how it looks in collection and changed timing so part of annimation shows up
+
+@keyframes show-counter {
+     0%  { content:  ''; }
+     5%  { content:  '1...'; }
+    15%  { content:  '12...'; }
+    25%  { content:  '123...'; }
+    35%  { content:  'go!'; }
+    80%  { content:  ''; }
+   100%  { content:  ''; }
+}
+
+@keyframes show-pully1 {
+     0%  { transform: rotate(0deg); }
+    37%  { transform: rotate(0deg); }
+    80%  { transform: rotate(-360deg); }
+    81%  { transform: rotate(-355deg);; }
+   100%  { transform: rotate(-355deg);; }
+}
+
+@keyframes show-pully2 {
+     0%  { transform: scale(0.5, 0.5) rotate(0deg); }
+    37%  { transform: scale(0.5, 0.5) rotate(0deg); }
+    80%  { transform: scale(0.5, 0.5) rotate(-360deg); }
+    81%  { transform: scale(0.5, 0.5) rotate(-355deg);; }
+   100%  { transform: scale(0.5, 0.5) rotate(-355deg);; }
+}
+
+@keyframes show-pully3 {
+     0%  { transform: scale(0.3, 0.3) rotate(0deg); }
+    37%  { transform: scale(0.3, 0.3) rotate(0deg); }
+    80%  { transform: scale(0.3, 0.3) rotate(-360deg); }
+    81%  { transform: scale(0.3, 0.3) rotate(-355deg);; }
+   100%  { transform: scale(0.3, 0.3) rotate(-355deg);; }
+}
+
+@keyframes show-sign {
+     0%  { transform: translate(0, 500px); }
+    37%  { transform: translate(0, 500px); }
+    80%  { transform: translate(0, 0px); }
+   100%  { transform: translate(0, 0px); }
+}

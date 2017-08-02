@@ -1,0 +1,5 @@
+Daily CSS Day28 - Cogs
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+I like the clean HTML/Pug and CSS/SCSS that my projects have evolved into.   Lots of fun with coordinated animations.
