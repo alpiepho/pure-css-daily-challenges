@@ -1,0 +1,214 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+
+$black:          #000000;
+$white:          darken(#FFFFFF, 20%);
+$grey:           #323232;
+$purple:         lighten(#4608AD, 30%);
+
+$grey-color:     #323232;
+$yellow-color:   #B2DB11;
+
+$body-color:        $black;
+$background-color:  $grey;
+$title-color:       $white;
+$title-span-color:  $purple;
+$learning-color:    $white;
+$footer-color:      $black;
+$footer-link:       $purple;
+
+//animation: show-NAME $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+$animation-duration:         10s;
+$animation-delay:            0s;
+$animation-timing-function:  ease;     // linear, ease,	ease-in,ease-out, ease-in-out, step-start, step-end, steps(int,start|end), cubic-bezier(n,n,n,n), initial, inherit
+$animation-iteration-count:  infinite; // infinite, <number>
+$animation-direction:        normal;   // normal, reverse, alternate, alternate-reverse, initial, inherit
+$animation-fill-mode:        none;     // none, forwards, backwards, both, initial, inherit
+$animation-play-state:       running;  // paused, rinning, initial, inherit
+
+
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(400px, 400px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.container {
+  position:      absolute;
+  @include       wh(50%, 50%);
+  @include       tl(10%, 25%);
+  margin:        auto;
+  background:    $black;
+  border-radius: 1em;
+}
+
+.bar1 {
+  position:      absolute;
+  @include       wh(50%, 15%);
+  @include       tl(10%, 25%);
+  margin:        auto;
+  background:    $purple;
+  border-radius: 0.5em;
+  animation:     show-bar1 $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+.bar2 {
+  position:      absolute;
+  @include       wh(50%, 25%);
+  @include       tl(30%, 25%);
+  margin:        auto;
+  background:    $purple;
+  border-radius: 0.5em;
+  animation:     show-bar2 $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+.arrow {
+  position:      absolute;
+  @include       wh(70%, 35%);
+  @include       tl(60%, 15%);
+  margin:        auto;
+  background:    none;
+  border-radius: 0.5em;
+  overflow:      hidden;
+  &:before {
+    @include       pseudo;
+    position:      absolute;
+    @include       wh(50%, 100%);
+    @include       tl(-45%, 24%);
+    margin:        auto;
+    background:    $purple;
+    border-radius: 0.5em;
+    transform:     scale(1.4) rotate(45deg);
+    animation:     show-arrow $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+  }
+}
+
+.learning {
+  color:         $learning-color;
+  text-align:    center;
+  margin-top:    -10%;
+
+}
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  text-align: center;
+}
+
+// ANIMATIONS
+/*
+*/
+@keyframes show-bar1 {
+    10%  { opacity:  1.0; }
+    20%  { opacity:  0.5; }
+    30%  { opacity:  1.0; }
+    35%  { opacity:  0.5; }
+    40%  { opacity:  1.0; }
+    42%  { opacity:  0.5; }
+    45%  { opacity:  1.0; }
+
+    60%  { opacity:  1.0; }
+    61%  { opacity:  0.1; }
+    62%  { opacity:  1.0; }
+    63%  { opacity:  0.1; }
+    64%  { opacity:  1.0; }
+    65%  { opacity:  0.1; }
+    66%  { opacity:  1.0; }
+
+   100%  { opacity:  1.0; }
+}
+
+@keyframes show-bar2 {
+    11%  { opacity:  1.0; }
+    21%  { opacity:  0.5; }
+    31%  { opacity:  1.0; }
+    36%  { opacity:  0.5; }
+    41%  { opacity:  1.0; }
+    43%  { opacity:  0.5; }
+    46%  { opacity:  1.0; }
+
+    60%  { opacity:  1.0; }
+    61%  { opacity:  0.1; }
+    62%  { opacity:  1.0; }
+    63%  { opacity:  0.1; }
+    64%  { opacity:  1.0; }
+    65%  { opacity:  0.1; }
+    66%  { opacity:  1.0; }
+
+   100%  { opacity:  1.0; }
+}
+
+@keyframes show-arrow {
+    12%  { opacity:  1.0; }
+    22%  { opacity:  0.5; }
+    32%  { opacity:  1.0; }
+    37%  { opacity:  0.5; }
+    42%  { opacity:  1.0; }
+    44%  { opacity:  0.5; }
+    47%  { opacity:  1.0; }
+
+    60%  { opacity:  1.0; }
+    61%  { opacity:  0.1; }
+    62%  { opacity:  1.0; }
+    63%  { opacity:  0.1; }
+    64%  { opacity:  1.0; }
+    65%  { opacity:  0.1; }
+    66%  { opacity:  1.0; }
+
+   100%  { opacity:  1.0; }
+}

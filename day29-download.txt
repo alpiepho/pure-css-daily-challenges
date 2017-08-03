@@ -1,0 +1,5 @@
+Daily CSS Day29 - Download
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+Cleaned up my 'template' for animation for future cut/paste/munge.
