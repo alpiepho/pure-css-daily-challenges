@@ -1,0 +1,32 @@
+- var lines1 = 5;
+- var lines2 = 5;
+
+.title
+  h2 Daily CSS - Day 30 - <span>Bar Graph</span>
+
+.box
+  .graph1
+    - for (var i = 1; i <= lines1; i++) {
+    .line(class='lineA-' + i)
+    - }
+
+  .graph2
+    - for (var i = 1; i <= lines2; i++) {
+    .line(class='lineB-' + i)
+    - }
+
+.learning
+  h1 Good:
+  p - very happy with how bar-graph mixin turned out
+  p - very very happy with animations (overkill?)
+  h1 Bad:
+  p - this was fun, but will I ever use it?
+  p - I should build a "shake" mixin/key-frame template
+  h1 Ugly:
+  p - the animation lists got a little complicated, can I concat lists?
+  p - the animation @key-frames are ugly too
+
+.footer
+  hr
+  p Page built by
+    <a rel="nofollow" rel="noreferrer"href="https://www.linkedin.com/in/al-piepho-fw-sw-engineer/" target="_blank">Al Piepho</a> <em> (Aspiring Full Stack Developer) 2017</em>

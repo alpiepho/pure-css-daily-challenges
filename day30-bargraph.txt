@@ -1,0 +1,5 @@
+Daily CSS Day30 - Bar Graph
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+Focus on building the bar graph as a re-usable SCSS mixin.  The mixin allows lots of configuration, including animation.
