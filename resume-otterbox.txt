@@ -2,4 +2,4 @@ Otterbox Otter
 
 A pure CSS implementation...no Javascript.  I recently saw this logo and wanted to try it  as a CSS.
 
-Uses the Pug preprocessor language for HTML and SCSS preprocessor language for CSS.  Both of these allow for cleaner code.
+Uses the Pug pre-processor language for HTML and SCSS pre-processor language for CSS.  Both of these allow for cleaner code.  See comments in HTML and CSS files for more details.
