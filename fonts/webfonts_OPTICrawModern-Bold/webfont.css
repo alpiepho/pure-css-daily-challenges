@@ -1,9 +1,0 @@
-@font-face {
-    font-family: 'OPTICrawModern-Bold';
-    src:url('https://github.com/alpiepho/pure-css-daily-challenges/tree/master/fonts/webfonts_OPTICrawModern-Bold/OPTICrawModern-Bold.ttf.woff') format('woff'),
-        url('https://github.com/alpiepho/pure-css-daily-challenges/tree/master/fonts/webfonts_OPTICrawModern-Bold/OPTICrawModern-Bold.ttf.svg#OPTICrawModern-Bold') format('svg'),
-        url('https://github.com/alpiepho/pure-css-daily-challenges/tree/master/fonts/webfonts_OPTICrawModern-Bold/OPTICrawModern-Bold.ttf.eot'),
-        url('https://github.com/alpiepho/pure-css-daily-challenges/tree/master/fonts/webfonts_OPTICrawModern-Bold/OPTICrawModern-Bold.ttf.eot?#iefix') format('embedded-opentype'); 
-    font-weight: normal;
-    font-style: normal;
-}
