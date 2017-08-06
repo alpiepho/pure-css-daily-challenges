@@ -1,0 +1,279 @@
+
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+
+//animation: show-NAME $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+$animation-duration:         10s;
+$animation-delay:            0s;
+$animation-timing-function:  linear;     // linear, ease,	ease-in,ease-out, ease-in-out, step-start, step-end, steps(int,start|end), cubic-bezier(n,n,n,n), initial, inherit
+$animation-iteration-count:  infinite; // infinite, <number>
+$animation-direction:        normal;   // normal, reverse, alternate, alternate-reverse, initial, inherit
+$animation-fill-mode:        forwards;     // none, forwards, backwards, both, initial, inherit
+$animation-play-state:       running;  // paused, rinning, initial, inherit
+
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #323232;
+$off-white:      darken(#FFFFFF, 10%);
+$yellow:         #FBDE18;
+
+$body-color:        $white;
+$background-color:  $black;
+$title-color:       $white;
+$title-span-color:  $white;
+$learning-color:    $white;
+$footer-color:      $yellow;
+$footer-link:       $yellow;
+
+
+
+
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+.box {
+  position:      relative;
+  @include       wh(400px, 400px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+
+.ear-left {
+  position:      absolute;
+  @include       wh(15%, 15%);
+  @include       tl(25%, 7.5%);
+  border-radius: 0.5em;
+  background:    $yellow;
+  transform:     rotate(45deg);
+}
+
+.ear-right {
+  position:      absolute;
+  @include       wh(15%, 15%);
+  @include       tr(25%, 7%);
+  border-radius: 0.5em;
+  background:    $yellow;
+  transform:     rotate(45deg);
+}
+
+.edges {
+  position:      absolute;
+  @include       wh(55%, 190%);
+  @include       tl(-55%, 22.5%);
+  margin:        auto;
+  //background:    grey;
+  border-radius: 50%;
+  overflow:      hidden;
+  &:after{
+    content:'';
+    position:absolute;
+    @include       wh(200%, 20%);
+    @include       tl(40%, -50%);
+    border-radius: inherit;
+    background:    $yellow;
+  }
+  transform:       scale(1.5, 1.5);
+}
+
+.whisker1-left {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(53%, -63%);
+  border-radius: 50%;
+  border-left:   solid 120px $black;
+  background:    none;
+  transform:     rotate(-20deg);
+  z-index:       1;
+}
+
+.whisker2-left {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(54%, -60%);
+  border-radius: 50%;
+  border-left:   solid 150px $black;
+  background:    none;
+  transform:     rotate(-22deg);
+  z-index:       1;
+}
+
+.whisker3-left {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tl(54%, -55%);
+  border-radius: 50%;
+  border-left:   solid 180px $black;
+  background:    none;
+  transform:     rotate(-28deg);
+  z-index:       1;
+}
+
+
+.whisker1-right {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tr(53%, -63%);
+  border-radius: 50%;
+  border-left:   solid 120px $black;
+  background:    none;
+  transform:     rotate(20deg) scale(-1, 1);
+  z-index:       1;
+
+}
+
+.whisker2-right {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tr(54%, -60%);
+  border-radius: 50%;
+  border-left:   solid 150px $black;
+  background:    none;
+  transform:     rotate(22deg) scale(-1, 1);
+  z-index:       1;
+}
+
+.whisker3-right {
+  position:      absolute;
+  @include       wh(400px, 400px);
+  @include       tr(54%, -55%);
+  border-radius: 50%;
+  border-left:   solid 180px $black;
+  background:    none;
+  transform:     rotate(28deg) scale(-1, 1);
+  z-index:       1;
+}
+
+.nose1 {
+  position:      absolute;
+  @include       wh(40px, 40px);
+  @include       tl(50%, 40%);
+  border-radius: 0.9em 0.5em 50% 0.5em;
+  background:    $black;
+  transform:     rotate(45deg);
+  z-index:       1;
+}
+
+.nose2 {
+  position:      absolute;
+  @include       wh(10px, 40px);
+  @include       tl(53%, 47%);
+  //border-radius: 0.9em 0.5em 50% 0.5em;
+  background:    $black;
+  //transform:     rotate(45deg);
+  z-index:       1;
+}
+
+.nose3 {
+  position:      absolute;
+  @include       wh(40px, 40px);
+  @include       tl(58%, 40%);
+  //border-radius: 0.9em 0.5em 50% 0.5em;
+  background:    $black;
+  transform:     rotate(45deg);
+  z-index:       1;
+}
+
+
+.eye-left {
+  position:      absolute;
+  @include       wh(25px, 25px);
+  @include       tl(45.5%, 20%);
+  border-radius: 50%;
+  background:    $black;
+  z-index:       1;
+}
+
+.eye-right {
+  position:      absolute;
+  @include       wh(25px, 25px);
+  @include       tr(45.5%, 20%);
+  border-radius: 50%;
+  background:    $black;
+  z-index:       1;
+}
+
+.label1 {
+  position:      absolute;
+  @include       wh(25px, 25px);
+  @include       tl(64%, 12%);
+  color:         $yellow;
+  font-family:   'Rozha One', serif;
+  font-size:     5em;
+  &::first-letter {
+    font-size: 140%;
+  }
+  transform:     scale(1.5, 1);
+}
+
+.label2 {
+  position:      absolute;
+  @include       wh(25px, 25px);
+  @include       tl(90%, 68%);
+  color:         $yellow;
+  font-family:   'Rozha One', serif;
+  font-size:     1.7em;
+  transform:     scale(1.2, 1);
+}
+
+
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  hr {
+    display: none;
+  }
+  text-align: center;
+  margin-top: 60px;
+}
+
+// ANIMATIONS
+@keyframes show-graph2 {
+  25%   { transform: translate(-10px, 0) rotate(-90deg); }
+  26%   { transform: translate(10px, 0)  rotate(-90deg); }
+  27%   { transform: translate(-10px, 0) rotate(-90deg); }
+  28%   { transform: translate(10px, 0)  rotate(-90deg); }
+  29%   { transform: translate(-10px, 0) rotate(-90deg); }
+  30%   { transform: translate(10px, 0)  rotate(-90deg); }
+  31%   { transform: translate(0, 0)      rotate(-90deg); }
+  100%  { transform: translate(0, 0)      rotate(-90deg); }
+}
