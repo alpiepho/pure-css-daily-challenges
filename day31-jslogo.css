@@ -1,0 +1,158 @@
+// This uses the SCSS pre-processor language for CSS design.  Like Pub, this allows for much cleaner code.  It also allows helps with more complicated designs, allowing other people to see how things woork.
+
+// A couple things that make this cleaner are the consistent alignment of CSS property fields, and the common pattern of how the various mixins are used.
+
+// COMMON MIXINS (ever expanding)
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+
+// $className -  base name for line divs (allows indenpendent graphs)
+// $barWeight -  thickness of each bar
+// $barRadius -  end radius of bars
+// $values -     relative values for each bar (include units in list)
+// $colors -     list of matching colors for bars
+// $animations - list of matching annimations for bars (overkill?)
+@mixin bar-graph($className, $barWeight, $barRadius, $values, $colors, $animations) {
+  @for $i from 1 through length($colors) {
+    .#{$className}-#{$i} {
+      height:           $barWeight;
+      width:            nth($values, $i);
+      background-color: nth($colors, $i);
+      border-radius:    0 $barRadius $barRadius 0;
+      animation:        nth($animations, $i);
+    }
+  }
+}
+
+// ANIMATION DECLARATIONS
+//animation: show-NAME $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+$animation-duration:         10s;
+$animation-delay:            0s;
+$animation-timing-function:  linear;     // linear, ease,	ease-in,ease-out, ease-in-out, step-start, step-end, steps(int,start|end), cubic-bezier(n,n,n,n), initial, inherit
+$animation-iteration-count:  infinite; // infinite, <number>
+$animation-direction:        normal;   // normal, reverse, alternate, alternate-reverse, initial, inherit
+$animation-fill-mode:        forwards;     // none, forwards, backwards, both, initial, inherit
+$animation-play-state:       running;  // paused, rinning, initial, inherit
+
+// APPLICATION SPECIFIC VARIABLES
+
+$black:          #000000;
+$white:          #FFFFFF;
+$yellow:         #F0DA5A;
+
+$body-color:        $white;
+$background-color:  $black;
+$title-color:       $yellow;
+$title-span-color:  $yellow;
+$learning-color:    $yellow;
+$footer-color:      $yellow;
+$footer-link:       $yellow;
+
+
+// COMMON CLASS STYLES
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.box {
+  position:      relative;
+  @include       wh(400px, 400px);
+  margin:        auto;
+  background:    none;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+
+// APPLICATION SPECIFIC STYLES
+.container {
+  @include       wh(100%, 100%);
+  @include       tl(0, 0);
+  margin:        auto;
+  background:    $yellow;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.label {
+  position:      absolute;
+  @include       wh(22%, 22%);
+  @include       tl(20%, 20%);
+  font-size:     16em;
+  color:         $black;
+  font-family: 'Source Sans Pro', sans-serif;
+  transform:     scale(1.1, 1.2);
+}
+
+.learning {
+  color:         $learning-color;
+  text-align:    center;
+ // margin-top:    -10%;
+}
+
+// FOOTER
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  //hr { display: none; }
+  text-align: center;
+  //margin-top: 60px;
+}
+
+
+// ANIMATION FUNCTIONS
+/*
+@keyframes show-blink {
+   0%   { transform: scale(1, 1); }
+  20%   { transform: scale(1, 1); }
+  21%   { transform: scale(1, 0.1); }
+  22%   { transform: scale(1, 1);  }
+  100%  { transform: scale(1, 1); }
+}
+*/
