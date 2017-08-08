@@ -1,0 +1,202 @@
+// This uses the SCSS pre-processor language for CSS design.  Like Pub, this allows for much cleaner code.  It also allows helps with more complicated designs, allowing other people to see how things woork.
+
+// A couple things that make this cleaner are the consistent alignment of CSS property fields, and the common pattern of how the various mixins are used.
+
+// COMMON MIXINS (ever expanding)
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+
+// $className -  base name for line divs (allows indenpendent graphs)
+// $barWeight -  thickness of each bar
+// $barRadius -  end radius of bars
+// $values -     relative values for each bar (include units in list)
+// $colors -     list of matching colors for bars
+// $animations - list of matching annimations for bars (overkill?)
+@mixin bar-graph($className, $barWeight, $barRadius, $values, $colors, $animations) {
+  @for $i from 1 through length($colors) {
+    .#{$className}-#{$i} {
+      height:           $barWeight;
+      width:            nth($values, $i);
+      background-color: nth($colors, $i);
+      border-radius:    0 $barRadius $barRadius 0;
+      animation:        nth($animations, $i);
+    }
+  }
+}
+
+// ANIMATION DECLARATIONS
+//animation: show-NAME $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+$animation-duration:         10s;
+$animation-delay:            0s;
+$animation-timing-function:  linear;     // linear, ease,	ease-in,ease-out, ease-in-out, step-start, step-end, steps(int,start|end), cubic-bezier(n,n,n,n), initial, inherit
+$animation-iteration-count:  infinite; // infinite, <number>
+$animation-direction:        normal;   // normal, reverse, alternate, alternate-reverse, initial, inherit
+$animation-fill-mode:        forwards;     // none, forwards, backwards, both, initial, inherit
+$animation-play-state:       running;  // paused, rinning, initial, inherit
+
+// APPLICATION SPECIFIC VARIABLES
+
+$black:          #000000;
+$white:          #FFFFFF;
+$yellow:         #F0AD00;
+$grey:           #5A6378;
+$blue:           #60B5CC;
+$green:          #7FD13B;
+
+$body-color:        $white;
+$background-color:  $white;
+$title-color:       $grey;
+$title-span-color:  $green;
+$learning-color:    $blue;
+$footer-color:      $grey;
+$footer-link:       $yellow;
+
+
+// COMMON CLASS STYLES
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.box {
+  position:      relative;
+  @include       wh(400px, 400px);
+  margin:        auto;
+  background:    $blue;
+  //border:        solid 1px;
+  overflow:      hidden;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+
+// APPLICATION SPECIFIC STYLES
+
+.box1 {
+  position:      absolute;
+  @include       wh(100%, 100%);
+  @include       tl(-5%, -79%);
+  margin:        auto;
+  background:    $grey;
+  border:        solid 20px $background-color;
+  transform:     rotate(45deg);
+}
+
+.box2 {
+  position:      absolute;
+  @include       wh(150%, 100%);
+  @include       tl(-40%, 10%);
+  margin:        auto;
+  background:    $green;
+  border:        solid 20px $background-color;
+  transform:     rotate(45deg);
+}
+
+.box3 {
+  position:      absolute;
+  @include       wh(100%, 100%);
+  @include       tl(-60%, 64%);
+  margin:        auto;
+  background:    $blue;
+  border:        solid 20px $background-color;
+  transform:     rotate(45deg);
+}
+
+.box4 {
+  position:      absolute;
+  @include       wh(100%, 100%);
+  @include       tl(20%, 95%);
+  margin:        auto;
+  background:    $yellow;
+  border:        solid 20px $background-color;
+  transform:     rotate(45deg);
+}
+
+.tri {
+  position:      absolute;
+  @include       wh(60%, 60%);
+  @include       tl(22%, 22%);
+  margin:        auto;
+  background:    $background-color;
+  -webkit-clip-path: polygon(50% 50%, 0 0, 100% 0);
+  clip-path:         polygon(50% 50%, 0 0, 100% 0);
+  &:before {
+    @include       pseudo;
+    @include       wh(65%, 65%);
+    @include       tl(8%, 14%);
+    margin:        auto;
+    background:    $yellow;
+    -webkit-clip-path: polygon(50% 50%, 0 0, 100% 0);
+    clip-path:         polygon(50% 50%, 0 0, 100% 0);
+
+  }
+}
+
+.learning {
+  color:         $learning-color;
+  text-align:    center;
+}
+
+// FOOTER
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  //hr { display: none; }
+  text-align: center;
+  //margin-top: 60px;
+}
+
+
+// ANIMATION FUNCTIONS
+/*
+@keyframes show-blink {
+   0%   { transform: scale(1, 1); }
+  20%   { transform: scale(1, 1); }
+  21%   { transform: scale(1, 0.1); }
+  22%   { transform: scale(1, 1);  }
+  100%  { transform: scale(1, 1); }
+}
+*/
