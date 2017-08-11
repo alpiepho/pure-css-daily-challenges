@@ -1,0 +1,272 @@
+// This uses the SCSS pre-processor language for CSS design.  Like Pub, this allows for much cleaner code.  It also allows helps with more complicated designs, allowing other people to see how things woork.
+
+// A couple things that make this cleaner are the consistent alignment of CSS property fields, and the common pattern of how the various mixins are used.
+
+// COMMON MIXINS (ever expanding)
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+
+// $className -  base name for line divs (allows indenpendent graphs)
+// $barWeight -  thickness of each bar
+// $barRadius -  end radius of bars
+// $values -     relative values for each bar (include units in list)
+// $colors -     list of matching colors for bars
+// $animations - list of matching annimations for bars (overkill?)
+@mixin bar-graph($className, $barWeight, $barRadius, $values, $colors, $animations) {
+  @for $i from 1 through length($colors) {
+    .#{$className}-#{$i} {
+      height:           $barWeight;
+      width:            nth($values, $i);
+      background-color: nth($colors, $i);
+      border-radius:    0 $barRadius $barRadius 0;
+      animation:        nth($animations, $i);
+    }
+  }
+}
+
+// ANIMATION DECLARATIONS
+//animation: show-NAME $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+$animation-duration:         10s;
+$animation-delay:            0s;
+$animation-timing-function:  linear;     // linear, ease,	ease-in,ease-out, ease-in-out, step-start, step-end, steps(int,start|end), cubic-bezier(n,n,n,n), initial, inherit
+$animation-iteration-count:  infinite; // infinite, <number>
+$animation-direction:        normal;   // normal, reverse, alternate, alternate-reverse, initial, inherit
+$animation-fill-mode:        forwards;     // none, forwards, backwards, both, initial, inherit
+$animation-play-state:       running;  // paused, rinning, initial, inherit
+$animation-params: $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+
+// APPLICATION SPECIFIC VARIABLES
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #404040;
+$blue:           #4470B5;
+$purple:         #912382;
+$red:            lighten(#694F63, 20%);
+$silver:         #C1C2C7;
+
+$keys: lighten(grey, 30%);
+
+$body-color:        $white;
+$background-color:  $white;
+$title-color:       $black;
+$title-span-color:  $black;
+$learning-color:    $black;
+$footer-color:      $black;
+$footer-link:       $black;
+
+
+// COMMON CLASS STYLES
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.box {
+  position:      relative;
+  @include       wh(400px, 400px);
+  margin:        auto;
+  background:    none;
+  //overflow:      hidden;
+  //border: solid 1px black;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+  margin-bottom: 0px;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+
+// APPLICATION SPECIFIC STYLES
+.box1 {
+  position:      absolute;
+  @include       wh(95%, 20%);
+  @include       tl(20%, 0%);
+  margin:        auto;
+  //border: solid 1px black;
+  background:    linear-gradient(
+                 to left,
+                 $silver 50%,
+                 rgba(255,255,255,0.5) 95%,
+                 darken($silver, 50%) 100%);
+  &:before {
+    @include     pseudo;
+    @include     wh(100%, 50%);
+    @include     tl(-50%, 0%);
+    margin:      auto;
+    background:  linear-gradient(
+                 to left,
+                 $white 10%,
+                 $keys  11%,
+                 $white 12%,
+                 $keys  20%,
+                 $white 20.5%,
+
+                 $white 25%,
+                 $keys  26%,
+                 $white 27%,
+                 $keys  35%,
+                 $white 35.5%,
+
+                 $white 40%,
+                 $keys  41%,
+                 $white 42%,
+                 $keys  50%,
+                 $white 50.5%,
+
+                 $white 55%,
+                 $keys  56%,
+                 $white 57%,
+                 $keys  65%,
+                 $white 65.5%,
+
+                 $white 70%,
+                 $keys  71%,
+                 $white 72%,
+                 $keys  80%,
+                 $white 80.5%,
+
+                 $white 83%,
+                 $keys  84%,
+                 $white 85%,
+                 $keys  88%,
+                 $white 88.5%,
+
+                 $white 90%,
+                 $keys  91%,
+                 $white 93%,
+                 $keys  95%,
+                 $white 95.5%,
+
+                 $white 100%);
+  }
+
+}
+
+.ring {
+  position:      relative;
+  @include       wh(80%, 80%);
+  @include       tl(10%, 0%);
+  margin:        auto;
+  background:    darken($silver, 20%);
+  border-radius: 50%;
+  &:before {
+    @include     pseudo;
+    @include     wh(80%, 80%);
+    @include     tl(15%, 0%);
+    background:    $silver;
+     border-radius: 50%;
+  }
+
+}
+
+.fa {
+  position:      absolute;
+  @include       wh(60px, 60px);
+  @include       tl(35%, 35%);
+  font-size:     1.2em;
+  color:         lighten(green, 10%);
+}
+
+.circle {
+  position:      absolute;
+  @include       wh(60px, 60px);
+  @include       tl(25%, 85%);
+  margin:        auto;
+  background:    $silver;
+  border-radius: 50%;
+}
+
+.container {
+  position:      absolute;
+  @include       wh(100%, 20%);
+  @include       tl(23%, 0%);
+  margin:        auto;
+  background:    none;
+  //border: solid 1px green;
+  transform:     rotate(-7deg) scale(1, 1);
+  transform-origin: bottom right;
+}
+
+.container-mirror {
+  position:      absolute;
+  @include       wh(100%, 20%);
+  @include       tl(25%, 0%);
+  margin:        auto;
+  background:    none;
+  //border: solid 1px blue;
+  transform:      scale(1, -1) rotate(-7.5deg);
+  transform-origin: bottom right;
+  opacity:        0.2;
+}
+
+.learning {
+  color:         $learning-color;
+  text-align:    center;
+  margin-top:    -100px;
+}
+
+// FOOTER
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  //hr { display: none; }
+  text-align: center;
+  //margin-top: 60px;
+}
+
+
+// ANIMATION FUNCTIONS
+/*
+*/
+/*
+@keyframes show-box1 {
+   0%   { opacity: 0.0; }
+  20%   { opacity: 0.0; }
+  20.1%   { opacity: 1.0; }
+  90%   { opacity: 1.0; }
+  91%   { opacity: 0.0; }
+  100%  { opacity: 0.0; }
+}
+*/

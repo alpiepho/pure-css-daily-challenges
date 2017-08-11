@@ -1,0 +1,5 @@
+Daily CSS Day37 - Laptop
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+Focus on using external images.
