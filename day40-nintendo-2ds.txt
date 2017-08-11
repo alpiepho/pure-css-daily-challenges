@@ -1,0 +1,5 @@
+Daily CSS Day40 - Nintendo 2DS
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+Focus different shapes and shading.  And on reuse of things like the button mixin.

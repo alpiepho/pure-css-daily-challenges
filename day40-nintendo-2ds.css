@@ -1,0 +1,502 @@
+// This uses the SCSS pre-processor language for CSS design.  Like Pub, this allows for much cleaner code.  It also allows helps with more complicated designs, allowing other people to see how things woork.
+
+// A couple things that make this cleaner are the consistent alignment of CSS property fields, and the common pattern of how the various mixins are used.
+
+// COMMON MIXINS (ever expanding)
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+
+// $className -  base name for line divs (allows indenpendent graphs)
+// $barWeight -  thickness of each bar
+// $barRadius -  end radius of bars
+// $values -     relative values for each bar (include units in list)
+// $colors -     list of matching colors for bars
+// $animations - list of matching annimations for bars (overkill?)
+@mixin bar-graph($className, $barWeight, $barRadius, $values, $colors, $animations) {
+  @for $i from 1 through length($colors) {
+    .#{$className}-#{$i} {
+      height:           $barWeight;
+      width:            nth($values, $i);
+      background-color: nth($colors, $i);
+      border-radius:    0 $barRadius $barRadius 0;
+      animation:        nth($animations, $i);
+    }
+  }
+}
+
+// ANIMATION DECLARATIONS
+//animation: show-NAME $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+$animation-duration:         10s;
+$animation-delay:            0s;
+$animation-timing-function:  linear;     // linear, ease,	ease-in,ease-out, ease-in-out, step-start, step-end, steps(int,start|end), cubic-bezier(n,n,n,n), initial, inherit
+$animation-iteration-count:  infinite; // infinite, <number>
+$animation-direction:        normal;   // normal, reverse, alternate, alternate-reverse, initial, inherit
+$animation-fill-mode:        forwards;     // none, forwards, backwards, both, initial, inherit
+$animation-play-state:       running;  // paused, rinning, initial, inherit
+$animation-params: $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+
+// APPLICATION SPECIFIC VARIABLES
+
+$black:          #000000;
+$white:          #FFFFFF;
+$red:            #B2373A;
+$grey:           #404040;
+
+$body-color:        $white;
+$background-color:  $grey;
+$title-color:       $white;
+$title-span-color:  $white;
+$learning-color:    $white;
+$footer-color:      $white;
+$footer-link:       $white;
+
+
+// COMMON CLASS STYLES
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.box {
+  position:      relative;
+  @include       wh(400px, 400px);
+  margin:        auto;
+  background:    none;
+  //overflow:      hidden;
+  animation:     show-box $animation-params;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+  margin-bottom: 60px;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+
+// APPLICATION SPECIFIC STYLES
+.outside {
+  position:      absolute;
+  @include       wh(100%, 100%);
+  @include       tl(0%, 0%);
+  margin:        auto;
+  background:    $red;
+  border:        solid 2px $black;
+  border-radius: 5em 5em 1em 1em;
+  background:    linear-gradient(
+                  to left top, 
+                  $red 0%,                
+                  lighten($red, 20%) 100%);
+}
+
+.speaker {
+  position:      absolute;
+  @include       wh(15%, 15%);
+  @include       tl(5%, 2%);
+  margin:        auto;
+  background:    none;
+  overflow:      hidden;
+}
+
+// got idea from http://lea.verou.me/css3patterns/#polka-dot
+// had to rework and finally scale/mask to get
+// what I wanted for speaker holes
+.holes-pattern {
+  position:      absolute;
+  @include       wh(100%, 100%);
+  @include       tl(0%, 0%);
+  margin:        auto;
+  background-color: transparent;
+  background-image: radial-gradient(
+                      black 20%, 
+                      transparent 21%),
+                    radial-gradient(
+                      black 20%, 
+                      transparent 21%);
+  background-size:  20px 20px;
+  background-position: 5px 5px, 5px 5px;
+  transform:     scale(0.6, 0.6);
+}
+
+.camera {
+  position:      absolute;
+  @include       wh(8%, 8%);
+  @include       tl(5%, 43%);
+  margin:        auto;
+  background:    $black;
+  border-radius: 50%;
+  &:before {
+    @include       pseudo;
+    position:      absolute;
+    @include       wh(50%, 50%);
+    @include       tl(22%, 25%);
+    margin:        auto;
+    background:    lighten($black, 30%);
+    border-radius: 50%;
+  }
+}
+
+.led1 {
+  position:      absolute;
+  @include       wh(5%, 3%);
+  @include       tl(12%, 80%);
+  margin:        auto;
+  background:    lighten($black, 40%);
+  border-radius: 5em;
+  border:        solid 2px lighten($black, 20%);
+}
+
+.round {
+  position:      absolute;
+  @include       wh(20%, 20%);
+  @include       tl(30%, 2%);
+  margin:        auto;
+  border-radius: 50%;
+  background:    linear-gradient(
+                  to right bottom, 
+                  $red 30%,                
+                  lighten($red, 30%) 100%);
+  &:before {
+    @include       pseudo;
+    position:      absolute;
+    @include       wh(80%, 80%);
+    @include       tl(10%, 10%);
+    margin:        auto;
+    border-radius: 50%;
+    background:    linear-gradient(
+                   to left top, 
+                   $red 30%,                
+                   lighten($red, 30%) 100%);
+  }
+}
+
+.round-inner {
+  position:      absolute;
+  @include       wh(60%, 60%);
+  @include       tl(20%, 19%);
+  margin:        auto;
+  border-radius: 50%;
+  background:    linear-gradient(
+                  to left top, 
+                  $grey 30%,                
+                  lighten($grey, 30%) 100%);
+  &:before {
+    @include       pseudo;
+    position:      absolute;
+    @include       wh(80%, 80%);
+    @include       tl(10%, 10%);
+    margin:        auto;
+    border-radius: 50%;
+    background:    linear-gradient(
+                   to right bottom, 
+                   $grey 30%,                
+                   lighten($grey, 30%) 100%);
+  }
+}
+
+.screen1 {
+  position:      absolute;
+  @include       wh(45%, 34%);
+  @include       tl(18%, 27%);
+  margin:        auto;
+  border-radius: 0.4em;
+  background:    linear-gradient(
+                  to left top, 
+                  darken($red, 20%) 0%,                
+                  darken($red, 5%) 100%);
+  &:before {
+    @include       pseudo;
+    position:      absolute;
+    @include       wh(90%, 90%);
+    @include       tl(5%, 5%);
+    margin:        auto;
+    background:    linear-gradient(
+                   to left top, 
+                   $grey 70%,                
+                   lighten($grey, 30%) 100%);
+  }
+}
+
+@mixin button {
+  position:      absolute;
+  @include       wh(8%, 8%);
+  @include       tl(32%, 82%);
+  margin:        auto;
+  border-radius: 50%;
+  background:    linear-gradient(
+                  to left top, 
+                  lighten($red, 30%) 30%,                
+                  lighten($red, 20%) 100%);
+  &:before {
+    @include       pseudo;
+    @include       wh(90%, 90%);
+    @include       tl(6%, 5%);
+    margin:        auto;
+    border-radius: 50%;
+    background:    linear-gradient(
+                   to right bottom, 
+                   lighten($red, 20%) 5%,                
+                   $red 100%);
+  }
+  &:after {
+    @include       pseudo;
+    content:       'X';
+    color:         $grey;
+    text-align:    center;
+    @include       wh(90%, 90%);
+    @include       tl(20%, 5%);
+  }
+}
+
+.xbutton {
+  @include       button;
+  @include       tl(28%, 82%);
+  &:after {
+    content:     'X';
+  }
+}
+
+.ybutton {
+  @include       button;
+  @include       tl(35%, 74%);
+  &:after {
+    content:     'Y';
+  }
+}
+
+.abutton {
+  @include       button;
+  @include       tl(35%, 90%);
+  &:after {
+    content:     'A';
+  }
+}
+
+.bbutton {
+  @include       button;
+  @include       tl(42%, 82%);
+  &:after {
+    content:     'B';
+  }
+}
+
+@mixin cross {
+  position:      absolute;
+  @include       wh(6%, 15%);
+  @include       tl(58%, 9%);
+  margin:        auto;
+  border-radius: 0.4em;
+  background:    $black;
+  &:before {
+    @include       pseudo;
+    @include       wh(100%, 100%);
+    @include       tl(0%, 0%);
+    margin:        auto;
+    border-radius: 0.4em;
+    background:    $black;
+    transform:     rotate(90deg);
+  }
+}
+
+.cross {
+  @include       cross;
+}
+
+.cross-inner {
+  @include       cross;
+  transform:     scale(0.9, 0.9);
+  background:    linear-gradient(
+                   to right bottom, 
+                   lighten($red, 20%) 5%,                
+                   $red 100%);
+  &:before {
+    background:    linear-gradient(
+                   to right bottom, 
+                   lighten($red, 20%) 5%,                
+                   $red 100%);  }
+}
+
+.screen2 {
+  position:      absolute;
+  @include       wh(40%, 30%);
+  @include       tl(58%, 30%);
+  margin:        auto;
+  border-radius: 0.4em;
+  background:    linear-gradient(
+                  to left top, 
+                  darken($red, 20%) 0%,                
+                  darken($red, 5%) 100%);
+  &:before {
+    @include       pseudo;
+    position:      absolute;
+    @include       wh(90%, 90%);
+    @include       tl(5%, 5%);
+    margin:        auto;
+    background:    linear-gradient(
+                   to left top, 
+                   $grey 70%,                
+                   lighten($grey, 30%) 100%);
+  }
+}
+
+.start {
+  @include       button;
+  @include       tl(62%, 74%);
+  &:after {
+    content:     'START';
+    @include       tl(20%, 120%);
+  }
+  transform:     scale(0.7, 0.7);
+}
+
+.select {
+  @include       button;
+  @include       tl(70%, 74%);
+  &:after {
+    content:     'SELECT';
+    @include       tl(20%, 120%);
+  }
+  transform:     scale(0.7, 0.7);
+}
+
+.mic {
+  @include       button;
+  @include       wh(2%, 2%);
+  @include       tl(80%, 10%);
+  background:    none;
+  &:before {
+    background:  $black;
+    @include     tl(-80%,120%);
+  }
+  &:after {
+    content:     'MIC';
+    @include     tl(120%, 10%);
+  }
+  transform:     scale(0.7, 0.7);
+}
+
+//.home
+//.power
+
+.home {
+  position:      absolute;
+  @include       tl(90%, 42%);
+  @include       wh(12%, 8%);
+  border-radius: 5em;
+  background:    $red;
+  border:        solid 1px $grey;
+}
+
+i.fa-home {
+  position:      absolute;
+  @include       tl(91%, 45%);
+  color:         lighten($grey, 30%);
+  font-size:     1.5em;
+}
+
+//.power-icon
+
+.led2 {
+  position:      absolute;
+  @include       wh(2%, 2%);
+  @include       tl(82%, 85%);
+  margin:        auto;
+  background:    lighten($black, 40%);
+  border-radius: 5em;
+}
+
+.power {
+  @include       button;
+  @include       tl(85%, 74%);
+  &:after {
+    content:     '';
+  }
+}
+
+i.fa-power-off {
+  position:      absolute;
+  @include       tl(87%, 76%);  
+  color:         darken($red, 20%);
+}
+
+
+.led3 {
+  position:      absolute;
+  @include       wh(2%, 2%);
+  @include       tl(88%, 85%);
+  margin:        auto;
+  background:    lighten($black, 60%);
+  border-radius: 5em;
+}
+
+//.sleep
+//.slider
+
+.learning {
+  color:         $learning-color;
+  text-align:    center;
+  margin-top:    40px;
+}
+
+// FOOTER
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  //hr { display: none; }
+  text-align: center;
+  //margin-top: 60px;
+}
+
+
+// ANIMATION FUNCTIONS
+/*
+*/
+/*
+@keyframes show-box1 {
+   0%   { opacity: 0.0; }
+  20%   { opacity: 0.0; }
+  20.1%   { opacity: 1.0; }
+  90%   { opacity: 1.0; }
+  91%   { opacity: 0.0; }
+  100%  { opacity: 0.0; }
+}
+*/
