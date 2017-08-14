@@ -1,0 +1,6 @@
+Daily CSS Day43 - Animal
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+This was leveraged from previous logo I recreated. (leaving off the Company name)
+

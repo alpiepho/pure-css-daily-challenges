@@ -1,0 +1,6 @@
+Daily CSS Day42 - Critter
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+Just having fun with simple character and animations.
+
