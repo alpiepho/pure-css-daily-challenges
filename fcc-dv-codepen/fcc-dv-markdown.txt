@@ -1,0 +1,19 @@
+This is version using extends React.Component
+
+- started from https://codepen.io/mercuryworks/pen/EyQaBO 
+- requires explicit binding
+
+
+FCC-DV-Markdown-Previewer
+
+
+
+CSS/SASS
+https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+
+
+JS/BABEL
+https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.js
+https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.js
+https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
+https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js
