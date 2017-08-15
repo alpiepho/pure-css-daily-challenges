@@ -1,12 +1,14 @@
 This is version using extends React.Component
 
-- started from https://codepen.io/mercuryworks/pen/EyQaBO 
+- started from https://codepen.io/mercuryworks/pen/EyQaBO
 - requires explicit binding
 
 
 FCC-DV-Markdown-Previewer
 
+Solution to freeCodeCamp Data Visualization project: "Markdown Previewer".
 
+Note: this uses 'mark' package from https://github.com/chjj/marked.
 
 CSS/SASS
 https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
