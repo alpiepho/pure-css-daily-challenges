@@ -71,15 +71,7 @@ $white:          #FFFFFF;
 $grey:           #404040;
 $purple:         #912382;
 $silver:         #C1C2C7;
-
-$yellow:         yellow;
-$orange:         orange;
-
-$blue:           blue;
-$red:            red;
-
-$brown:          brown;
-$blue2:          #77B5FE;
+$blue:           #5cabff;
 
 
 $body-color:        $black;
@@ -106,7 +98,7 @@ body {
   margin:        auto;
   background:    none;
   //overflow:      hidden;
-  //border: solid 1px black;
+  //border: solid 1px green;
 }
 
 .title {
@@ -122,42 +114,104 @@ body {
 
 
 // APPLICATION SPECIFIC STYLES
-.container1 {
+.cloud {
   position:      absolute;
-  @include       wh(30%, 50%);
-  @include       tl(-10%, 0%);
-  margin:        auto;
-  background:    none;
-  //overflow:      hidden;
-  //border: solid 1px black;
-  animation: show-move $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+  @include       wh(100px, 1px);
+  @include       tl(85%, 32%);
+  background:    lighten($background-color, 20%);
+  border-radius: 50%;
+  box-shadow:    0px 0px 130px 130px lighten($background-color, 20%);
+  overflow:      hidden;
 }
 
-.container2 {
+.thrust1 {
   position:      absolute;
-  @include       wh(100%, 100%);
-  @include       tl(0%, 0%);
+  @include       wh(30px, 1px);
+  @include       tl(85%, 42%);
+  background:    lighten($background-color, 50%);
+  border-radius: 50%;
+  box-shadow:    0px 0px 30px 20px lighten($background-color, 50%);
+  overflow:      hidden;
+}
+
+.thrust2 {
+  position:      absolute;
+  @include       wh(60px, 1px);
+  @include       tl(95%, 37%);
+  background:    lighten($background-color, 40%);
+  border-radius: 50%;
+  box-shadow:    0px 0px 50px 30px lighten($background-color, 40%);
+  overflow:      hidden;
+}
+
+.arm-right-lower {
+  position:      absolute;
+  @include       wh(8%, 15%);
+  @include       tl(60%, 70%);
   margin:        auto;
-  background:    none;
-  //overflow:      hidden;
-  //border: solid 1px black;
-  animation: show-flip $animation-duration step-end $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+  border-radius: 50%;
+  background:    radial-gradient(
+                   circle at 0px 0px,
+                   $blue,
+                   $black);
+  transform:     rotate(-90deg);
 }
 
 .body {
   position:      absolute;
-  @include       wh(100%, 100%);
-  @include       tl(50%, 0%);
+  @include       wh(50%,40%);
+  @include       tl(40%, 25%);
   margin:        auto;
-  background:    $yellow;
-  //overflow:      hidden;
-  border-radius: 50% 50% 1em 1em;
+  border-radius: 50%;
+  background:    radial-gradient(
+                   circle at 40px 50px,
+                   $blue,
+                   $black);
+}
+
+.arm-left-lower {
+  position:      absolute;
+  @include       wh(8%, 15%);
+  @include       tl(60%, 35%);
+  margin:        auto;
+  border-radius: 50%;
+  background:    radial-gradient(
+                   circle at 0px 0px,
+                   $blue,
+                   $black);
+  transform:     rotate(-90deg);
+}
+
+.arm-left {
+  position:      absolute;
+  @include       wh(10%,20%);
+  @include       tl(50%, 27%);
+  margin:        auto;
+  border-radius: 50%;
+  background:    radial-gradient(
+                   circle at 0px 20px,
+                   $blue,
+                   $black);
+  transform:     rotate(-10deg);
+}
+
+
+.head {
+  position:      absolute;
+  @include       wh(30%,25%);
+  @include       tl(20%, 35%);
+  margin:        auto;
+  border-radius: 50%;
+  background:    radial-gradient(
+                   circle at 40px 50px,
+                   $blue,
+                   $black);
 }
 
 .eye-right {
   position:      absolute;
-  @include       wh(20%, 20%);
-  @include       tl(75%, 60%);
+  @include       wh(20%, 40%);
+  @include       tl(20%, 60%);
   margin:        auto;
   background:    $white;
   border-radius: 50%;
@@ -165,131 +219,69 @@ body {
   &:before {
     @include     pseudo;
     @include       wh(50%, 50%);
-    @include       tl(45%, 2%);
+    @include       tl(40%, 12%);
     margin:        auto;
     background:    $black;
     border-radius: 50%;
   }
 }
 
-.nose {
-  position:      absolute;
-  @include       wh(20%, 20%);
-  @include       tl(90%, 55%);
-  margin:        auto;
-  background:    $orange;
-  border-radius: 50% 0 0.5em 0;
-  //border:        solid 2px $black;
-  transform:     rotate(100deg);
-}
-
 .eye-left {
   position:      absolute;
-  @include       wh(20%, 20%);
-  @include       tl(75%, 35%);
+  @include       wh(20%, 40%);
+  @include       tl(20%, 35%);
   margin:        auto;
   background:    $white;
   border-radius: 50%;
   border:        solid 2px $black;
   &:before {
-    @include       pseudo;
+    @include     pseudo;
     @include       wh(50%, 50%);
-    @include       tl(45%, 58%);
+    @include       tl(40%, 12%);
     margin:        auto;
     background:    $black;
     border-radius: 50%;
   }
 }
 
-.mouth {
+.antenna {
   position:      absolute;
-  @include       wh(15%, 8%);
-  @include       tl(110%, 55%);
+  @include       triangle;
+  @include       wh(50%,55%);
+  @include       tl(-50%, 25%);
   margin:        auto;
-  background:    $black;
+  background:    radial-gradient(
+                   circle at 40px 50px,
+                   $blue,
+                   $black);
+  z-index:       -1;
+}
+
+@mixin ring {
+  position:      absolute;
+  margin:        auto;
+  background:    none;
   border-radius: 50%;
+  border:        solid 2px darken($silver, 30%);
+  z-index:       -2;
 }
 
-.wing {
-  position:      absolute;
-  @include       wh(20%, 30%);
-  @include       tl(105%, 00%);
-  margin:        auto;
-  background:    $yellow;
-  border-radius: 50% 0 0.5em 0;
-  border:        none;
-  border:        solid 2px $black;
-  transform-origin: center top;
-  transform:     skew(-10deg) rotate(10deg);
-  animation: show-wing $animation-duration-wing $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+.ring1 {
+  @include       ring;
+  @include       wh(30%, 10%);
+  @include       tl(-50%, 34%);
 }
 
-.feathers {
-  position:      absolute;
-  @include       wh(20%, 20%);
-  @include       tl(40%, 35%);
-  margin:        auto;
-  background:    $yellow;
-  border-radius: 0 90% 0 0;
-  border:        none;
-  transform:     rotate(-10deg);
-    &:before {
-    @include       pseudo;
-    position:      absolute;
-    @include       wh(100%, 100%);
-    @include       tl(10%, -70%);
-    margin:        auto;
-    background:    $yellow;
-    border-radius: 0 90% 0 0;
-    border:        none;
-    transform:     rotate(-10deg);
-  }
+.ring2 {
+  @include       ring;
+  @include       wh(50%, 20%);
+  @include       tl(-55%, 24%);
 }
 
-@mixin foot {
-  position:      absolute;
-  @include       wh(10%, 15%);
-  @include       tl(140%, 75%);
-  margin:        auto;
-  background:    $orange;
-  border-radius: 50%;
-  border:        none;
-  border:        solid 1px $black;
-  //transform:     rotate(-10deg);
-  &:before {
-    @include       pseudo;
-    position:      absolute;
-    @include       wh(100%, 100%);
-    @include       tl(0%, -70%);
-    margin:        auto;
-    background:    $orange;
-    border-radius: 50%;
-    border:        none;
-    border:        solid 1px $black;
-    //transform:     rotate(-10deg);
-  }
-  &:after {
-    @include       pseudo;
-    position:      absolute;
-    @include       wh(100%, 100%);
-    @include       tl(0%, -140%);
-    margin:        auto;
-    background:    $orange;
-    border-radius: 50%;
-    border:        none;
-    border:        solid 1px $black;
-    //transform:     rotate(-10deg);
-  }
-}
-
-.foot-right {
-  @include       foot;
-  @include       tl(140%, 75%);
-}
-
-.foot-left {
-  @include       foot;
-  @include       tl(140%, 35%);
+.ring3 {
+  @include       ring;
+  @include       wh(70%, 30%);
+  @include       tl(-62%, 14%);
 }
 
 
@@ -297,6 +289,7 @@ body {
   color:         $learning-color;
   text-align:    center;
   margin-top:    0px;
+  z-index:       2;
 }
 
 // FOOTER
@@ -315,26 +308,10 @@ body {
 
 
 // ANIMATION FUNCTIONS
+/*
 @keyframes show-move {
    0%   { transform: translate(0, 0); }
  50%    { transform: translate(300px, 0); }
   100%  { transform: translate(0, 0); }
 }
-
-@keyframes show-flip {
-   0%   { transform: scale(1, 1); }
-  50%   { transform: scale(-1, 1); }
- 100%   { transform: scale(1, 1); }
-}
-
-@keyframes show-wing {
-   0%   { transform: skew(-10deg) rotate(10deg); }
-  20%   { transform: skew(-10deg) rotate(20deg); }
-  30%   { transform: skew(-10deg) rotate(10deg); }
-  40%   { transform: skew(-10deg) rotate(20deg); }
-  50%   { transform: skew(-10deg) rotate(10deg); }
-  60%   { transform: skew(-10deg) rotate(20deg); }
-  70%   { transform: skew(-10deg) rotate(10deg); }
-  80%   { transform: skew(-10deg) rotate(20deg); }
-  90%   { transform: skew(-10deg) rotate(10deg); }
-}
+*/

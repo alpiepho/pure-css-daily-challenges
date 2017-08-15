@@ -69,18 +69,11 @@ $animation-params: $animation-duration $animation-timing-function $animation-del
 $black:          #000000;
 $white:          #FFFFFF;
 $grey:           #404040;
-$purple:         #912382;
 $silver:         #C1C2C7;
 
 $yellow:         yellow;
 $orange:         orange;
-
-$blue:           blue;
-$red:            red;
-
 $brown:          brown;
-$blue2:          #77B5FE;
-
 
 $body-color:        $black;
 $background-color:  $black;
@@ -140,8 +133,9 @@ body {
   margin:        auto;
   background:    none;
   //overflow:      hidden;
-  //border: solid 1px black;
-  animation: show-flip $animation-duration step-end $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+  //border: solid 1px green;
+  transform-origin: 50% 100%;
+  animation: show-flip $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
 }
 
 .body {
@@ -292,6 +286,46 @@ body {
   @include       tl(140%, 35%);
 }
 
+.helmet {
+  position:      absolute;
+  @include       wh(80%, 50%);
+  @include       tl(50%, 0%);
+  margin:        auto;
+  background:    none;
+  //overflow:      hidden;
+  border-radius: 50% 50% 1em 1em;
+  border:        solid 20px lighten($black, 40%);
+  &:before {
+    @include       pseudo;
+    @include       wh(100%, 82%);
+    @include       tl(-5%, -20%);
+    margin:        auto;
+    background:    none;
+    //overflow:      hidden;
+    border-radius: 50% 50% 1em 1em;
+    border:        solid 20px lighten($black, 40%);
+  }
+  &:after {
+    @include       pseudo;
+    @include       wh(100%, 82%);
+    @include       tl(-5%, -20%);
+    margin:        auto;
+    background:    none;
+    border-radius: 50%;
+    border:        solid 20px lighten($black, 40%);
+  }
+}
+
+.rock {
+  position:      absolute;
+  @include       wh(5%, 5%);
+  @include       tl(65%, 47%);
+  margin:        auto;
+  background:    $brown;
+  border-radius: 0.5em 0.2em 80% 0.2em;
+  border:        none;
+  transform:     rotate(40deg);
+}
 
 .learning {
   color:         $learning-color;
@@ -315,16 +349,19 @@ body {
 
 
 // ANIMATION FUNCTIONS
+
 @keyframes show-move {
-   0%   { transform: translate(0, 0); }
- 50%    { transform: translate(300px, 0); }
-  100%  { transform: translate(0, 0); }
+    0%  { transform: translate(0, 0); }
+   20%  { transform: translate(100px, 0); }
+   70%  { transform: translate(600px, -70px); }
+  100%  { transform: translate(600px, -70px); }
 }
 
 @keyframes show-flip {
-   0%   { transform: scale(1, 1); }
-  50%   { transform: scale(-1, 1); }
- 100%   { transform: scale(1, 1); }
+   0%   { transform: rotate(0deg); }
+  20%   { transform: rotate(0deg); }
+  70%   { transform: rotate(360deg); }
+ 100%   { transform: rotate(360deg); }
 }
 
 @keyframes show-wing {
