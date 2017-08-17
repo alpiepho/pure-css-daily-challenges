@@ -1,0 +1,63 @@
+
+$background-color: grey
+
+body
+  padding:          20px
+  background-color: $background-color
+  color:            darken(white, 10%)
+
+.board-header
+  text-align:       center
+
+.table
+  color:            black
+  font-size:        1.2em
+
+.footer
+  color:            black
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+    color:          black
+  text-align:       center
+
+th.sorted
+  text-decoration:  underline
+
+// .table-fixed from https://bootsnipp.com/snippets/oVlgM
+.table-fixed thead
+  width:             97%
+
+.table-fixed tbody
+  height:            600px
+  overflow-y:        auto
+  width:             100%
+
+.table-fixed thead,
+.table-fixed tbody,
+.table-fixed tr,
+.table-fixed td,
+.table-fixed th
+  display: block
+
+.table-fixed tbody td,
+.table-fixed thead > tr> th
+  float: left
+  border-bottom-width: 0
+  a,
+  a:active,
+  a:focus,
+  a:hover,
+  a:visited
+    color:  black
+  min-height: 40px
+
+// .table-fixed conflicts with default bootstrap table-striped, so create CSS manually
+.table-fixed tbody tr:nth-of-type(odd) td
+  background-color: lighten($background-color, 5%)
+
+.table-fixed img
+  max-height: 20px
+  margin-right: 8px
+
