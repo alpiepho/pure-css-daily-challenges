@@ -1,0 +1,386 @@
+// This uses the SCSS pre-processor language for CSS design.  Like Pub, this allows for much cleaner code.  It also allows helps with more complicated designs, allowing other people to see how things work.
+
+// A couple things that make this cleaner are the consistent alignment of CSS property fields, and the common pattern of how the various mixins are used.
+
+// COMMON MIXINS (ever expanding)
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+
+// $className -  base name for line divs (allows indenpendent graphs)
+// $barWeight -  thickness of each bar
+// $barRadius -  end radius of bars
+// $values -     relative values for each bar (include units in list)
+// $colors -     list of matching colors for bars
+// $animations - list of matching annimations for bars (overkill?)
+@mixin bar-graph($className, $barWeight, $barRadius, $values, $colors, $animations) {
+  @for $i from 1 through length($colors) {
+    .#{$className}-#{$i} {
+      height:           $barWeight;
+      width:            nth($values, $i);
+      background-color: nth($colors, $i);
+      border-radius:    0 $barRadius $barRadius 0;
+      animation:        nth($animations, $i);
+    }
+  }
+}
+
+// ANIMATION DECLARATIONS
+//animation: show-NAME $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+$animation-duration:         7s;
+$animation-delay:            0s;
+$animation-timing-function:  linear;     // linear, ease,	ease-in,ease-out, ease-in-out, step-start, step-end, steps(int,start|end), cubic-bezier(n,n,n,n), initial, inherit
+$animation-iteration-count:  1; // infinite, <number>
+$animation-direction:        normal;   // normal, reverse, alternate, alternate-reverse, initial, inherit
+$animation-fill-mode:        forwards;     // none, forwards, backwards, both, initial, inherit
+$animation-play-state:       running;  // paused, rinning, initial, inherit
+$animation-params: $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+
+// APPLICATION SPECIFIC VARIABLES
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #404040;
+
+$bottle-color:      #611400;
+$beer-color:        #DA6900;
+$foam-color:        white;
+$glass-color:       $grey;
+
+$body-color:        $black;
+$background-color:  $black;
+$title-color:       $white;
+$title-span-color:  $white;
+$learning-color:    $white;
+$footer-color:      $white;
+$footer-link:       $white;
+
+
+$animation-duration-wing: 1s;
+
+// COMMON CLASS STYLES
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.box {
+  position:      relative;
+  @include       wh(400px, 400px);
+  margin:        auto;
+  background:    none;
+  overflow:      hidden;
+  //border: solid 1px green;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+  margin-bottom: 0px;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+
+// APPLICATION SPECIFIC STYLES
+.string1 {
+  position:      absolute;
+  @include       wh(1%, 75%);
+  @include       tl(0%, 24%);
+  margin:        auto;
+  background:    $grey;
+  overflow:      hidden;
+  animation: show-string1 $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+.bottle-container {
+  position:      absolute;
+  @include       wh(15%, 45%);
+  @include       tl(45%, 25%);
+  margin:        auto;
+  background:    none;
+  //overflow:      hidden;
+  transform-origin: center 44%;
+  //transform:     translate(0px, -120px) rotate(90deg);
+  animation: show-bottle $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+.beer-pouring {
+  position:      absolute;
+  @include       wh(6%, 25%);
+  @include       tl(32%, 52%);
+  margin:        auto;
+  background:    $beer-color;
+  border-radius: 0 5em 0 0;
+  //opacity:       0.6;
+  opacity:       0.0;
+  animation: show-pouring $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+.bottle-upper {
+  position:      absolute;
+  @include       wh(50%, 40%);
+  @include       tl(0%, 25%);
+  margin:        auto;
+  background:    $bottle-color;
+  border-radius: 0.5em 0.5em 0 0;
+}
+
+.bottle-lower {
+  position:      absolute;
+  @include       wh(100%, 70%);
+  @include       tl(30%, 0%);
+  margin:        auto;
+  background:    $bottle-color;
+  border-radius: 4em 4em 0.5em 0.5em;
+  &:before {
+    position:    absolute;
+    //content:     'Root Beer';
+    @include     tl(30%, 0%);
+    font-size:   1.6em;
+    font-style:  italic;
+  }
+}
+
+.bow {
+  position:      absolute;
+  @include       wh(100px, 50px);
+  @include       tl(50%, -100%);
+  &:before {
+    @include       pseudo;
+    @include       wh(30px, 30px);
+    @include       tl(0%, 0%);
+    border:        8px solid $grey;
+    border-radius: 50px 50px 0 50px;
+    transform:     rotate(-10deg);
+  }
+  &:after {
+    @include       pseudo;
+    @include       wh(30px, 30px);
+    @include       tl(0%, 45%);
+    border:        8px solid $grey;
+    border-radius: 50px 50px 0 50px;
+    transform:     rotate(100deg);
+  }
+  transform:     scale(0.5, 0.5) rotate(-90deg);
+}
+
+.string2 {
+  position:      absolute;
+  @include       wh(100%, 3%);
+  @include       tl(60%, 0%);
+  margin:        auto;
+  background:    $grey;
+  overflow:      hidden;
+}
+
+.beer-foam {
+  position:      absolute;
+  @include       wh(30%, 10%);
+  @include       tl(46%, 47%);
+  margin:        auto;
+  background:    none;
+  overflow:      hidden;
+  opacity:       0.0;
+  animation: show-foam $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+.foam1,
+.foam2,
+.foam3,
+.foam4,
+.foam5 {
+  position:      absolute;
+  @include       wh(30%, 70%);
+  margin:        auto;
+  background:    $foam-color;
+  border-radius: 50%;
+}
+
+.foam1 {
+  @include       tl(46%, 0%);
+}
+
+.foam2 {
+  @include       tl(50%, 20%);
+}
+
+.foam3 {
+  @include       tl(40%, 40%);
+}
+
+.foam4 {
+  @include       tl(40%, 50%);
+}
+
+.foam5 {
+  @include       tl(50%, 70%);
+}
+
+
+.glass-back {
+  position:      absolute;
+  @include       wh(24%, 30%);
+  @include       tl(56%, 50%);
+  margin:        auto;
+  background:    $background-color;
+  overflow:      hidden;
+}
+
+.glass-handle {
+  position:      absolute;
+  @include       wh(12%, 18%);
+  @include       tl(60%, 70%);
+  margin:        auto;
+  background:    none;
+  border-radius: 2em;
+  border:        solid 10px $glass-color;
+}
+
+.beer-glass {
+  position:      absolute;
+  @include       wh(80%, 100%);
+  @include       tl(0%, 10%);
+  margin:        auto;
+  background:    $beer-color;
+  transform:     translate(0, 120px);
+  animation: show-beer $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+.glass-side1 {
+  position:      absolute;
+  @include       wh(8%, 30%);
+  @include       tl(56%, 50%);
+  margin:        auto;
+  background:    $glass-color;
+  opacity:       0.6;
+}
+
+.glass-side2 {
+  position:      absolute;
+  @include       wh(8%, 30%);
+  @include       tl(56%, 58%);
+  margin:        auto;
+  background:    $glass-color;
+  opacity:       0.4;
+}
+
+.glass-side3 {
+  position:      absolute;
+  @include       wh(8%, 30%);
+  @include       tl(56%, 66%);
+  margin:        auto;
+  background:    $glass-color;
+  opacity:       0.6;
+}
+
+.glass-rim {
+  position:      absolute;
+  @include       wh(26%, 4%);
+  @include       tl(56%, 49%);
+  margin:        auto;
+  background:    $glass-color;
+  border-radius: 2em;
+}
+
+.glass-base {
+  position:      absolute;
+  @include       wh(26%, 4%);
+  @include       tl(86%, 49%);
+  margin:        auto;
+  background:    $glass-color;
+  border-radius: 2em;
+}
+
+.learning {
+  color:         $learning-color;
+  text-align:    center;
+  margin-top:    0px;
+  z-index:       2;
+}
+
+// FOOTER
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  //hr { display: none; }
+  text-align: center;
+  //margin-top: 60px;
+}
+
+
+// ANIMATION FUNCTIONS
+
+@keyframes show-string1 {
+    0%  { transform: translate(0, 0); }
+   10%  { transform: translate(0, 0); }
+   40%  { transform: translate(0, -150px); }
+  100%  { transform: translate(0, -150px); }
+}
+
+@keyframes show-bottle {
+    0%  { transform: translate(0px, -0px) rotate(0deg); }
+   10%  { transform: translate(0px, -0px) rotate(0deg); }
+   40%  { transform: translate(0px, -120px) rotate(90deg); }
+  100%  { transform: translate(0px, -120px) rotate(90deg); }
+}
+
+@keyframes show-pouring {
+    0%  { opacity: 0.0; }
+   40%  { opacity: 0.0; }
+   50%  { opacity: 1.0; }
+   60%  { opacity: 0.0; }
+  100%  { opacity: 0.0; }
+}
+
+@keyframes show-beer {
+    0%  { transform: translate(0, 120px); }
+   40%  { transform: translate(0, 120px); }
+   60%  { transform: translate(0, 0); }
+  100%  { transform: translate(0, 0); }
+}
+
+@keyframes show-foam {
+    0%  { opacity: 0.0; }
+   55%  { opacity: 0.0; }
+   60%  { opacity: 1.0; }
+  100%  { opacity: 1.0; }
+}
+

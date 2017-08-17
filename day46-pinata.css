@@ -1,0 +1,305 @@
+// This uses the SCSS pre-processor language for CSS design.  Like Pub, this allows for much cleaner code.  It also allows helps with more complicated designs, allowing other people to see how things work.
+
+// A couple things that make this cleaner are the consistent alignment of CSS property fields, and the common pattern of how the various mixins are used.
+
+// COMMON MIXINS (ever expanding)
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+
+
+
+
+// ANIMATION DECLARATIONS
+//animation: show-NAME $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+$animation-duration:         5s;
+$animation-delay:            0s;
+$animation-timing-function:  linear;     // linear, ease,	ease-in,ease-out, ease-in-out, step-start, step-end, steps(int,start|end), cubic-bezier(n,n,n,n), initial, inherit
+$animation-iteration-count:  infinite; // infinite, <number>
+$animation-direction:        normal;   // normal, reverse, alternate, alternate-reverse, initial, inherit
+$animation-fill-mode:        forwards;     // none, forwards, backwards, both, initial, inherit
+$animation-play-state:       running;  // paused, rinning, initial, inherit
+$animation-params: $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+
+// APPLICATION SPECIFIC VARIABLES
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #404040;
+$silver:         #C1C2C7;
+
+$red:            red;
+$yellow:         yellow;
+$orange:         orange;
+$blue:           blue;
+$green:          green;
+$brown:          brown;
+
+$body-color:        $black;
+$background-color:  $black;
+$title-color:       $white;
+$title-span-color:  $white;
+$learning-color:    $white;
+$footer-color:      $white;
+$footer-link:       $white;
+
+
+$animation-duration-wing: 1s;
+
+// COMMON CLASS STYLES
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.box {
+  position:      relative;
+  @include       wh(500px, 500px);
+  margin:        auto;
+  background:    none;
+  //overflow:      hidden;
+  //border: solid 1px green;
+  transform-origin: center top;
+  animation: show-box $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+  margin-bottom: 0px;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+
+// APPLICATION SPECIFIC STYLES
+
+.string {
+  position:      absolute;
+  @include       wh(1%, 30%);
+  @include       tl(0%, 48%);
+  margin:        auto;
+  background:    $grey;
+  overflow:      hidden;
+}
+
+.bow {
+  position:      absolute;
+  @include       wh(100px, 50px);
+  @include       tl(23%, 40%);
+  //border: solid 1px green;
+  //transform:     scale(1.2, 1.2);
+  &:before {
+    @include       pseudo;
+    @include       wh(30px, 30px);
+    @include       tl(0%, 0%);
+    border:        4px solid $grey;
+    border-radius: 50px 50px 0 50px;
+    transform:     rotate(-10deg);
+  }
+  &:after {
+    @include       pseudo;
+    @include       wh(30px, 30px);
+    @include       tl(0%, 45%);
+    border:        4px solid $grey;
+    border-radius: 50px 50px 0 50px;
+    transform:     rotate(100deg);
+  }
+}
+
+.egg {
+  position:      absolute;
+  @include       wh(50%, 60%);
+  @include       tl(30%, 24%);
+  background:    none;
+  overflow:      hidden;
+  background-color: none;
+  border:        solid 1px $white;
+  border-radius: 50%  50%  50%  50%  / 60%   60%   40%  40%;
+}
+
+.container {
+  position:      absolute;
+  @include       wh(100%, 100%);
+  @include       tl(0%, 0%);
+  margin:        auto;
+  background:    none;
+  //overflow:      hidden;
+  //border: solid 1px green;
+  //transform:     scale(1.2, 1.2);
+}
+
+$words: (
+  "Party"
+  "Gonna Miss"
+  "Woo Hoo"
+  "Yeah!"
+  "Swing"
+  "Sing"
+  "Bam!"
+  "Wow"
+  "Can't hit me"
+  "Missed!"
+);
+
+$tops: (
+  //0%,
+  10%,
+  20%,
+  30%,
+  40%,
+  50%,
+  60%,
+  70%,
+  80%,
+  90%,
+);
+
+$lefts: (
+  0%
+  10%
+  20%
+  30%
+  40%
+  50%
+  60%
+  70%
+  80%
+  //90%
+);
+
+$colors: (
+  //white
+  //grey
+  brown
+  yellow
+  orange
+  green
+  purple
+  blue
+  //aqua
+  //teal
+  //pink
+  //coral
+  cyan
+  //firebrick
+  maroon
+  //tan
+  violet
+);
+
+$sizes: (
+  //0.5em
+  //1.0em
+  //1.5em
+  2.0em
+  2.5em
+  3.0em
+  3.5em
+  //4.0em
+  //4.5em
+);
+
+$degs: (
+  15deg
+  30deg
+  45deg
+  //60deg
+  //90deg
+  -15deg
+  -30deg
+  -45deg
+  //-60deg
+ // -90deg
+  0deg
+);
+
+@for $i from 1 through length($words) {
+  .word-#{$i} {
+    position:      absolute;
+    width:         1px;
+    height:        1px;
+    top:           nth($tops, random(length($tops)));
+    left:          nth($lefts, random(length($lefts)));
+    &:before {
+      position:    absolute;
+      content:     nth($words, $i);
+      font-size:   nth($sizes, random(length($sizes)));
+      color:       nth($colors, random(length($colors)));;
+    }
+    transform:     rotate(nth($degs, random(length($degs))));
+    animation: show-word-#{$i} $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+  }
+  
+  @keyframes show-word-#{$i} {
+    100% {
+      top:           nth($tops, random(length($tops)));
+      left:          nth($lefts, random(length($lefts)));
+      transform:     rotate(nth($degs, random(length($degs))));
+    }
+  }
+}
+
+  
+.learning {
+  color:         $learning-color;
+  text-align:    center;
+  margin-top:    50px;
+}
+
+// FOOTER
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  //hr { display: none; }
+  text-align: center;
+  //margin-top: 60px;
+}
+
+
+// ANIMATION FUNCTIONS
+
+@keyframes show-box {
+    0%  { transform: rotate(0deg); }
+   30%  { transform: rotate(-10deg); }
+   70%  { transform: rotate(10deg); }
+  100%  { transform: rotate(0deg); }
+}
+

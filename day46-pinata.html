@@ -1,0 +1,35 @@
+// This uses the Pug pre-processor language.  Pug provides a cleaner layout of the div/classes that make up the HTML.
+
+.title
+  h2 Daily CSS - Day 46 - <span>Pinata</span>
+
+
+.box
+  .string
+  .bow
+  .egg
+    .container
+      // total words should match array in css
+      - for (var i = 1; i <= (20); i++) {
+      .text(class='word-' + i)
+      - }
+    
+    
+
+
+.learning
+  h1 Good:
+  p - Randowm words are fun.
+  h1 Bad:
+  p - Not the pinata I hoped to design in the first place.
+  h1 Ugly:
+  p - I had to give up on previous designs to generate strips to look light paper.
+  p - Also tried generating ciricle panes.
+  p - both resulted in too many divs.
+  
+
+.footer
+  hr
+  p Page built by 
+    <a rel="nofollow" rel="noreferrer"href="https://www.linkedin.com/in/al-piepho-fw-sw-engineer/" target="_blank">Al Piepho</a> <em> (SW | FW | Embedded | Web) 2017</em>
+
