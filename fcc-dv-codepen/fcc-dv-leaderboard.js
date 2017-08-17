@@ -34,6 +34,41 @@ class CamperRow extends React.Component {
   }
 }
 
+class CamperTable extends React.Component {
+	render() {
+    var rows = [];
+    var lastCategory = null;
+    this.props.campers.forEach((camper, i) => {
+      rows.push(<CamperRow camper={camper} rank={i+1} key={camper.username}/>);
+    });
+    var recentClassName =  "col-xs-2 " + (this.props.recent ? "sorted" : "notsorted");
+    var alltimeClassName = "col-xs-2 " + (this.props.recent ? "notsorted" : "sorted");
+    return (
+        <div className="container">
+          <table className="table table-fixed ">
+            <thead>
+              <tr>
+                <th className="col-xs-2">Rank</th>
+                <th className="col-xs-6">FCC Camper</th>
+                <th className={recentClassName}
+                    onClick={this.props.handleToggleList}>
+                      Recent Points
+               </th>
+                <th className={alltimeClassName}
+                    onClick={this.props.handleToggleList}>
+                      All-Time Points
+               </th>
+               </tr>
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+        </div>
+    );
+  }
+}
+
 class Board extends React.Component {
   
 	constructor() {
@@ -62,39 +97,14 @@ class Board extends React.Component {
     }
  
 	render() {
-    var rows = [];
-    var lastCategory = null;
-    this.state.campers.forEach((camper, i) => {
-      rows.push(<CamperRow camper={camper} rank={i+1} key={camper.username}/>);
-    });
-    var recentClassName =  "col-xs-2 " + (this.state.recent ? "sorted" : "notsorted");
-    var alltimeClassName = "col-xs-2 " + (this.state.recent ? "notsorted" : "sorted");
-
 		return (
       <div>
         <h1 className="board-header">freeCodeCamp DV - Camper Leaderboard</h1>
-        <div className="container">
-          <table className="table table-fixed ">
-            <thead>
-              <tr>
-                <th className="col-xs-2">Rank</th>
-                <th className="col-xs-6">FCC Camper</th>
-                <th className={recentClassName}
-                    onClick={this.handleToggleList}>
-                      Recent Points
-               </th>
-                <th className={alltimeClassName}
-                    onClick={this.handleToggleList}>
-                      All-Time Points
-               </th>
-               </tr>
-            </thead>
-            <tbody>
-              {rows}
-            </tbody>
-          </table> {/* table */}
-        </div> {/* container */}
-        
+        <CamperTable 
+          campers={this.state.campers}
+          recent={this.state.recent}
+          handleToggleList={this.handleToggleList} 
+        />
         <Footer />
       </div>
 		);
