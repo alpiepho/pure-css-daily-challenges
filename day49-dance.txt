@@ -1,0 +1,3 @@
+Daily CSS Day49 - Dance
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
