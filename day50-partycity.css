@@ -1,0 +1,244 @@
+// This uses the SCSS pre-processor language for CSS design.  Like Pub, this allows for much cleaner code.  It also allows helps with more complicated designs, allowing other people to see how things work.
+
+// A couple things that make this cleaner are the consistent alignment of CSS property fields, and the common pattern of how the various mixins are used.
+
+// COMMON MIXINS (ever expanding)
+@mixin wh($w, $h) {
+  width:  $w;
+  height: $h;
+}
+
+@mixin tl($t, $l) {
+  top:  $t;
+  left: $l;
+}
+
+@mixin tr($t, $r) {
+  top:   $t;
+  right: $r;
+}
+
+@mixin pseudo {
+  position: absolute;
+  content:  '';
+}
+
+@mixin triangle {
+  -webkit-clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+  clip-path:
+    polygon(50% 0%,
+            40% 100%,
+            60% 100%);
+}
+
+
+// ANIMATION DECLARATIONS
+//animation: show-NAME $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+$animation-duration:         5s;
+$animation-delay:            0s;
+$animation-timing-function:  linear;     // linear, ease,	ease-in,ease-out, ease-in-out, step-start, step-end, steps(int,start|end), cubic-bezier(n,n,n,n), initial, inherit
+$animation-iteration-count:  1; // infinite, <number>
+$animation-direction:        normal;   // normal, reverse, alternate, alternate-reverse, initial, inherit
+$animation-fill-mode:        forwards;     // none, forwards, backwards, both, initial, inherit
+$animation-play-state:       running;  // paused, rinning, initial, inherit
+$animation-params: $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+
+// APPLICATION SPECIFIC VARIABLES
+
+$black:          #000000;
+$white:          #FFFFFF;
+$grey:           #404040;
+
+$sky:            #8095C0;
+$red:            red;
+$purple:         purple;
+$orange:         orange;
+$blue:           blue;
+$green:          green;
+
+$body-color:        $white;
+$background-color:  $white;
+$title-color:       $black;
+$title-span-color:  $black;
+$learning-color:    $black;
+$footer-color:      $black;
+$footer-link:       $black;
+
+
+$animation-duration-wing: 1s;
+
+// COMMON CLASS STYLES
+body {
+  background:    $background-color;
+  color:         $body-color;
+  font-family:   sans-serif;
+}
+
+.box {
+  position:      relative;
+  @include       wh(400px, 400px);
+  margin:        auto;
+  background:    none;
+  //overflow:      hidden;
+  //border: solid 1px green;
+}
+
+.title {
+  font-size:     1.5em;
+  text-align:    center;
+  color:         $title-color;
+  margin-bottom: 0px;
+}
+
+.title span {
+  color:         $title-span-color;
+}
+
+
+// APPLICATION SPECIFIC STYLES
+.container1 {
+  position:      absolute;
+  @include       wh(100%, 100%);
+  @include       tl(0%, 0%);
+  margin:        auto;
+  animation: show-top $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+.container2 {
+  position:      absolute;
+  @include       wh(100%, 100%);
+  @include       tl(50%, 8%);
+  margin:        auto;
+  animation: show-bottom $animation-duration $animation-timing-function $animation-delay $animation-iteration-count $animation-direction $animation-fill-mode $animation-play-state;
+}
+
+$outline-neg:    -4px;
+$outline-pos:     4px;
+$outline-blur:    4px;
+$outline-color:  $black;
+$shadow1-h:       5px;
+$shadow1-v:       27px;
+$shadow1-blur:    20px;
+$shadow1-color:   lighten($black, 60%);
+$shadow2-h:       0px;
+$shadow2-v:       24px;
+$shadow2-blur:    20px;
+$shadow2-color:   lighten($black, 10%);
+
+@mixin letter {
+  position:      absolute;
+  @include       wh(10%, 10%);
+  font-size:     10em;
+  font-weight:   bold;
+  //text-shadow: h-shadow v-shadow blur-radius color|none|initial|inherit;
+  text-shadow:   $outline-neg $outline-neg $outline-blur $outline-color,
+                 $outline-pos $outline-neg $outline-blur $outline-color,
+                 $outline-neg $outline-pos $outline-blur $outline-color,
+                 $outline-pos $outline-pos $outline-blur $outline-color,
+                 $shadow1-h $shadow1-v $shadow1-blur $shadow1-color,  
+                 $shadow2-h $shadow2-v $shadow2-blur $shadow2-color;  
+  
+}
+
+.letter1 {
+  @include       letter;
+  @include       tl(0%, 0%);
+  color:         $red; 
+}
+
+.letter2 {
+  @include       letter;
+  @include       tl(0%, 25%);
+  color:         $purple; 
+}
+
+.letter3 {
+  @include       letter;
+  @include       tl(0%, 45%);
+  color:         $orange; 
+}
+
+.letter4 {
+  @include       letter;
+  @include       tl(0%, 62%);
+  color:         $blue; 
+}
+
+.letter5 {
+  @include       letter;
+  @include       tl(0%, 75%);
+  color:         $green; 
+}
+
+.letter6 {
+  @include       letter;
+  @include       tl(0%, 0%);
+  color:         $red; 
+}
+
+.letter7 {
+  @include       letter;
+  @include       tl(0%, 25%);
+  color:         $orange;
+  &:before {
+    @include          pseudo;
+    @include          wh(25px, 25px);
+    @include          tl(68%, 25%);
+    background-color: $blue;
+  }
+}
+
+.letter8 {
+  @include       letter;
+  @include       tl(0%, 35%);
+  color:         $green; 
+}
+
+.letter9 {
+  @include       letter;
+  @include       tl(0%, 48%);
+  color:         $purple; 
+}
+
+.letter0 {
+  @include       letter;
+  @include       tl(0%, 67%);
+  color:         $orange; 
+}
+
+.learning {
+  color:         $learning-color;
+  text-align:    center;
+  margin-top:    0px;
+  z-index:       2;
+}
+
+// FOOTER
+.footer  {
+  color: $footer-color;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited {
+    color: $footer-link;
+  }
+  //hr { display: none; }
+  text-align: center;
+  //margin-top: 60px;
+}
+
+
+// ANIMATION FUNCTIONS
+
+@keyframes show-top1 {
+    0%  { transform: translate(-1000px, 0); }
+  100%  { transform: translate(0, 0);  }
+}
+@keyframes show-bottom1 {
+    0%  { transform: translate(1000px, 0); }
+  100%  { transform: translate(0, 0);  }
+}
+

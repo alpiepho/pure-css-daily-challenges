@@ -1,0 +1,6 @@
+Daily CSS Day50 - Party City
+
+A pure CSS challenge.  This uses HTML( with Pug),  CSS (with SCSS).  No Javascript.
+
+Wrapping up the 50 day challenge. (took me 55 days...oops).  
+
