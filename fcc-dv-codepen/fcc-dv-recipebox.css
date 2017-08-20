@@ -1,0 +1,24 @@
+
+$background-color: grey
+
+body
+  padding:          20px
+  background-color: $background-color
+  color:            darken(white, 10%)
+
+.app-header
+  text-align:       center
+
+
+.footer
+  color:            black
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+    color:          black
+  text-align:       center
+
+.panel
+  color:            black
+
