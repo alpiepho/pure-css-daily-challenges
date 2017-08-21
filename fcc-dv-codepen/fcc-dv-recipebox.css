@@ -4,9 +4,9 @@ $background-color: grey
 body
   padding:          20px
   background-color: $background-color
-  color:            darken(white, 10%)
 
 .app-header
+  color:            darken(white, 10%)
   text-align:       center
 
 
@@ -21,4 +21,3 @@ body
 
 .panel
   color:            black
-
