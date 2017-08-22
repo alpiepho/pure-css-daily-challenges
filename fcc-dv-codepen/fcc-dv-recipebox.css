@@ -9,7 +9,6 @@ body
   color:            darken(white, 10%)
   text-align:       center
 
-
 .footer
   color:            black
   p a:active,
@@ -21,3 +20,14 @@ body
 
 .panel
   color:            black
+
+.panel-collapse
+  margin-left:      5%
+  width:            90%
+
+.btn
+  margin:           10px
+
+// override selector with more specificity
+.modal-footer .btn+.btn
+  margin:           10px

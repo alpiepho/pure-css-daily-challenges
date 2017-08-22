@@ -1,3 +1,18 @@
+// NOTES: This is the solution for the freeCodeCamp project at:
+// https://www.freecodecamp.com/challenges/build-a-recipe-box
+//
+// This was implemented the "React way"...no jQuery (I peaked at the example
+// application when I was nearly done with this...it useds jQuery to re-use
+// the single Modal dialog.  And it doesn't ask for confirmation in delete.)
+//
+// One area of question is the use of 3 separate Modal dialogs.  On one
+// hand it makes it clear that they are used independently.  On the other
+// there is wasted code (HTML and JS).  I'm also not sure how best to
+// combine them: 1) add props to condition on in render? 2) implement with
+// sub-class?
+
+
+// components from ReactBootstrap (https://react-bootstrap.github.io/components.html)
 var Button       = ReactBootstrap.Button;
 var ControlLabel = ReactBootstrap.ControlLabel;
 var FormControl  = ReactBootstrap.FormControl;
@@ -5,30 +20,10 @@ var FormGroup    = ReactBootstrap.FormGroup;
 var HelpBlock    = ReactBootstrap.HelpBlock;
 var Modal        = ReactBootstrap.Modal;
 
-// TODO
 
-
-// - buttons for delete and edit
-// - modal for delete confirm
-// - logic behind for delete
-// - modal for edit
-// - logic behind for edit
-
-// - refactor AddRecipeModal to use recipe as state
-
-// - better format of parts list
-// - format add modal
-// - format edit modal
-// - format delete confirm modal
-
-// list how this could be ported for Terms5 and steps needed
-// can local storage (google) sync to othe browsers and avoid MongoDB?
-
-
-const DATA_KEY = "recipes";
-
-/*
-*/
+//////////////////////////////////////////////////////////////////////////////////
+// Mock Data
+//////////////////////////////////////////////////////////////////////////////////
 var mockData = [
   { name: "Chicken Soup",
     id: 0,
@@ -47,7 +42,9 @@ var mockData = [
   }
 ];
 
-
+//////////////////////////////////////////////////////////////////////////////////
+// Footer - my standard footer with link to LinkedIn
+//////////////////////////////////////////////////////////////////////////////////
 class Footer extends React.Component {
 	render() {
 		return (
@@ -61,6 +58,9 @@ class Footer extends React.Component {
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////
+// RecipePanel - panel for recipe name and ingredients (parts)
+//////////////////////////////////////////////////////////////////////////////////
 class RecipePanel extends React.Component {
 	constructor(props) {
     super(props);
@@ -68,25 +68,21 @@ class RecipePanel extends React.Component {
     this.handleEdit   = this.handleEdit.bind(this);
   }
 
-  handleDelete() {
-    this.props.openDelete(this.props.recipe);
-  }
+  handleDelete() { this.props.openDelete(this.props.recipe); }
 
-  handleEdit() {
-    this.props.openEdit(this.props.recipe);
-  }
+  handleEdit()   { this.props.openEdit(this.props.recipe); }
 
 	render() {
     var id   = "collapse" + this.props.id;
     var href = "#" + id;
-    var parts = [];
+    var listItems = [];
     var ingredients = this.props.recipe.parts.sort(function(a, b) {
       if(a < b) return -1;
       if(a > b) return 1;
       return 0;
     });
     ingredients.forEach((part, i) => {
-      parts.push(<li className="list-group-item" key={i}>{part}</li>);
+      listItems.push(<li className="list-group-item" key={i}>{part}</li>);
     });
 
     return (
@@ -99,28 +95,27 @@ class RecipePanel extends React.Component {
         </div>
         <div id={id} className="panel-collapse collapse">
           <ul className="list-group">
-            {parts}
+            {listItems}
           </ul>
-
           <Button
             bsStyle="danger"
-            onClick={this.handleDelete}
-          >
+            onClick={this.handleDelete}>
             Delete
           </Button>
           <Button
             bsStyle="primary"
-            onClick={this.handleEdit}
-          >
+            onClick={this.handleEdit}>
             Edit
           </Button>
-
         </div>
       </div>
     );
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+// RecipePanels - component for all panels
+//////////////////////////////////////////////////////////////////////////////////
 class RecipePanels extends React.Component {
 	render() {
     var panels = [];
@@ -138,7 +133,6 @@ class RecipePanels extends React.Component {
                     key={i}/>);
     });
     return (
-
         <div className="panel-group" id="accordion">
            {panels}
         </div>
@@ -147,8 +141,9 @@ class RecipePanels extends React.Component {
 }
 
 
-// TODO: refactor AddRecipeModal to use recipe as state
-
+//////////////////////////////////////////////////////////////////////////////////
+// AddRecipeModal - Modal specific to adding a new recipe
+//////////////////////////////////////////////////////////////////////////////////
 class AddRecipeModal extends React.Component {
 	constructor() {
     super();
@@ -161,23 +156,13 @@ class AddRecipeModal extends React.Component {
     this.state = { name: '', parts: '' };
   }
 
-  getValid() {
-    const length = this.state.name.length;
-    if (length > 0) return true;
-    return false;
-  }
-
-  handleNameChange(e) {
-    this.setState({ name: e.target.value });
-  }
-
-  handlePartsChange(e) {
-    this.setState({ parts: e.target.value });
-  }
+  getValid()           { return (this.state.name.length > 0); }
+  handleNameChange(e)  { this.setState({ name: e.target.value }); }
+  handlePartsChange(e) { this.setState({ parts: e.target.value }); }
 
   handleSave(e) {
     var data = {};
-    data["name"] = this.state.name;
+    data["name"]  = this.state.name;
     data["parts"] = this.state.parts.split(",").map(function(e) {return e.trim()});
     this.props.saveAdd(data);
     this.setState({ name: '', parts: '' });
@@ -190,11 +175,9 @@ class AddRecipeModal extends React.Component {
             <Modal.Title>Add New Recipe</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-
             <form>
               <FormGroup
-                controlId="formBasicText"
-              >
+                controlId="formBasicText">
                 <ControlLabel>Name</ControlLabel>
                 <FormControl
                   type="text"
@@ -212,14 +195,13 @@ class AddRecipeModal extends React.Component {
                 <FormControl.Feedback />
               </FormGroup>
             </form>
-
           </Modal.Body>
           <Modal.Footer>
             <Button
-              bsStyle="primary"
+              bsStyle="success"
               onClick={this.handleSave}
               disabled={this.getValid() == false}>
-              Add Recipe
+              Add
             </Button>
             <Button
               bsStyle="primary"
@@ -232,9 +214,9 @@ class AddRecipeModal extends React.Component {
   }
 }
 
-
-
-
+//////////////////////////////////////////////////////////////////////////////////
+// DeleteRecipeModal - Modal specific to deleting a recipe
+//////////////////////////////////////////////////////////////////////////////////
 class DeleteRecipeModal extends React.Component {
 	constructor(props) {
     super(props);
@@ -288,8 +270,7 @@ class DeleteRecipeModal extends React.Component {
 
             <form>
               <FormGroup
-                controlId="formBasicText"
-              >
+                controlId="formBasicText">
                 <ControlLabel>Are you sure you want to delete '{name}'?</ControlLabel>
               </FormGroup>
             </form>
@@ -298,7 +279,7 @@ class DeleteRecipeModal extends React.Component {
           <Modal.Footer>
             <Button
               bsStyle="danger"
-              onClick={this.handleUpdate}
+              onClick={this.handleUpdate}>
               Delete
             </Button>
             <Button
@@ -313,9 +294,9 @@ class DeleteRecipeModal extends React.Component {
 }
 
 
-
-// TODO: should/can I combine with AddRecipeModal?
-// No, Edit is more complex so leave seperate
+//////////////////////////////////////////////////////////////////////////////////
+// EditRecipeModal - Modal specific to editing a recipe
+//////////////////////////////////////////////////////////////////////////////////
 class EditRecipeModal extends React.Component {
 	constructor(props) {
     super(props);
@@ -369,8 +350,7 @@ class EditRecipeModal extends React.Component {
 
             <form>
               <FormGroup
-                controlId="formBasicText"
-              >
+                controlId="formBasicText">
                 <ControlLabel>Name</ControlLabel>
                 <FormControl
                   type="text"
@@ -409,6 +389,7 @@ class EditRecipeModal extends React.Component {
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////
 class RecipeBox extends React.Component {
 	constructor() {
     super();
@@ -428,42 +409,49 @@ class RecipeBox extends React.Component {
     this.closeEdit  = this.closeEdit.bind(this);
     this.saveEdit   = this.saveEdit.bind(this);
 
-    // DEBUG: override with mock data
-    //this.saveData(mockData);
-    //this.saveData([]);
+    // DEBUG: override to clear all
+    //localStorage.clear();
 
-    this.state = { recipes: this.getData(),
-                   showAdd: false,
+    this.state = { recipes:      this.getData(),
+                   showAdd:      false,
                    deleteRecipe: { name: "", parts: [] },
-                   showDelete: false,
-                   editRecipe: { name: "", parts: [] },
-                   showEdit: false
+                   showDelete:   false,
+                   editRecipe:   { name: "", parts: [] },
+                   showEdit:     false
                  };
   }
 
+  ////
+  //// get/set using Local Storage
+  ////
   getData() {
     var data = [];
     if (typeof(Storage) !== "undefined") {
-      data = localStorage.getItem(DATA_KEY);
-      if (data !== undefined) {
+      data = localStorage.getItem("recipes");
+      if (data !== null) {
         data = JSON.parse(data);
-        // DEBUG
-        console.log(data);
+      } else {
+        data = mockData;
       }
     } else {
       console.log("WARNING: no local storage, cannot save recipes.");
     }
+// DEBUG: dump the contents of localStorage
+//console.log(data);
     return data;
   }
 
   saveData(data) {
     if (typeof(Storage) !== "undefined") {
-      localStorage.setItem(DATA_KEY, JSON.stringify(data));
+      localStorage.setItem("recipes", JSON.stringify(data));
     } else {
       console.log("WARNING: no local storage, cannot save recipes.");
     }
   }
 
+  ////
+  //// utility to find index of a given recipe
+  ////
   findRecipeIndex(given) {
     var index = -1;
     for (let i=0; i < this.state.recipes.length; i++) {
@@ -473,6 +461,9 @@ class RecipeBox extends React.Component {
     return index;
   }
 
+  ////
+  //// support for AddRecipeModal
+  ////
   openAdd() {
     this.setState( { showAdd: true } );
   }
@@ -490,7 +481,9 @@ class RecipeBox extends React.Component {
     this.saveData(recipes);
   }
 
-
+  ////
+  //// support for DeleteRecipeModal
+  ////
   openDelete(deleteRecipe) {
     this.setState( { showDelete: true, deleteRecipe: deleteRecipe } );
   }
@@ -508,7 +501,9 @@ class RecipeBox extends React.Component {
     this.saveData(recipes);
   }
 
-
+  ////
+  //// support for EditRecipeModal
+  ////
   openEdit(editRecipe) {
     this.setState( { showEdit: true, editRecipe: editRecipe } );
   }
@@ -528,6 +523,9 @@ class RecipeBox extends React.Component {
   }
 
 
+  ////
+  //// render
+  ////
 	render() {
 		return (
       <div>
@@ -559,11 +557,11 @@ class RecipeBox extends React.Component {
           closeEdit={this.closeEdit}
           recipe={this.state.editRecipe}
         />
-
         <Footer />
       </div>
 		);
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////
 ReactDOM.render(<RecipeBox />, document.getElementById('recipebox'));
