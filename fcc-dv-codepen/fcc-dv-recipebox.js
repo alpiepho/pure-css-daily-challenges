@@ -7,15 +7,14 @@ var Modal        = ReactBootstrap.Modal;
 
 // TODO
 
-// - button for add new recipe
-// - modal for adding new recipe
-// - logic behind for adding new recipe
 
 // - buttons for delete and edit
 // - modal for delete confirm
 // - logic behind for delete
 // - modal for edit
 // - logic behind for edit
+
+// - refactor AddRecipeModal to use recipe as state
 
 // - better format of parts list
 // - format add modal
@@ -29,13 +28,16 @@ var Modal        = ReactBootstrap.Modal;
 const DATA_KEY = "recipes";
 
 /*
+*/
 var mockData = [
   { name: "Chicken Soup",
+    id: 0,
     parts: ["Chicken",
             "Water",
             "Noodles"]
   },
   { name: "Pumpkin Pie",
+    id: 1,
     parts: ["Pumpkin Puree",
             "Sweetened Condensed Milk",
             "Eggs",
@@ -44,7 +46,7 @@ var mockData = [
            ]
   }
 ];
-*/
+
 
 class Footer extends React.Component {
 	render() {
@@ -58,108 +60,22 @@ class Footer extends React.Component {
   }
 }
 
-/*
-class CamperRow extends React.Component {
-	render() {
-    var href = "https://freecodecamp.com/" + this.props.camper.username;
-    var img  = this.props.camper.img;
-    return (
-       <tr>
-        <td className="col-xs-2">{this.props.rank}</td>
-        <td className="col-xs-6">
-           <a href={href} target="_blank">
-            <img src={img} />
-           {this.props.camper.username}
-          </a>
-        </td>
-        <td className="col-xs-2">{this.props.camper.recent}</td>
-        <td className="col-xs-2">{this.props.camper.alltime}</td>
-      </tr>
-    );
-  }
-}
-
-class CamperTable extends React.Component {
-	render() {
-    var rows = [];
-    var lastCategory = null;
-    this.props.campers.forEach((camper, i) => {
-      rows.push(<CamperRow camper={camper} rank={i+1} key={camper.username}/>);
-    });
-    var recentClassName =  "col-xs-2 " + (this.props.recent ? "sorted" : "notsorted");
-    var alltimeClassName = "col-xs-2 " + (this.props.recent ? "notsorted" : "sorted");
-    return (
-        <div className="container">
-          <table className="table table-fixed ">
-            <thead>
-              <tr>
-                <th className="col-xs-2">Rank</th>
-                <th className="col-xs-6">FCC Camper</th>
-                <th className={recentClassName}
-                    onClick={this.props.handleToggleList}>
-                      Recent Points
-               </th>
-                <th className={alltimeClassName}
-                    onClick={this.props.handleToggleList}>
-                      All-Time Points
-               </th>
-               </tr>
-            </thead>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
-        </div>
-    );
-  }
-}
-
-class Board extends React.Component {
-
-	constructor() {
-    super();
-    this.state             = { campers: [], recent: true };
-    this.setStateRecent    = this.setStateRecent.bind(this);
-    this.setStateAllTime   = this.setStateAllTime.bind(this);
-    this.handleToggleList  = this.handleToggleList.bind(this);
-
-    $.getJSON(URL_RECENT,  this.setStateRecent);
-  }
-
-  setStateRecent(data) {
-    this.setState( { campers: data, recent: true } );
-  }
-
-  setStateAllTime(data) {
-    this.setState( { campers: data, recent: false } );
-  }
-
-  handleToggleList(e) {
-    if (this.state.recent)
-      $.getJSON(URL_ALLTIME,  this.setStateAllTime);
-    else
-      $.getJSON(URL_RECENT,  this.setStateRecent)
-    }
-
-	render() {
-		return (
-      <div>
-        <h1 className="board-header">freeCodeCamp DV - Recipe Box</h1>
-        <CamperTable
-          campers={this.state.campers}
-          recent={this.state.recent}
-          handleToggleList={this.handleToggleList}
-        />
-        <Footer />
-      </div>
-		);
-	}
-}
-
-
-*/
 
 class RecipePanel extends React.Component {
+	constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit   = this.handleEdit.bind(this);
+  }
+
+  handleDelete() {
+    this.props.openDelete(this.props.recipe);
+  }
+
+  handleEdit() {
+    this.props.openEdit(this.props.recipe);
+  }
+
 	render() {
     var id   = "collapse" + this.props.id;
     var href = "#" + id;
@@ -185,6 +101,20 @@ class RecipePanel extends React.Component {
           <ul className="list-group">
             {parts}
           </ul>
+
+          <Button
+            bsStyle="danger"
+            onClick={this.handleDelete}
+          >
+            Delete
+          </Button>
+          <Button
+            bsStyle="primary"
+            onClick={this.handleEdit}
+          >
+            Edit
+          </Button>
+
         </div>
       </div>
     );
@@ -200,7 +130,12 @@ class RecipePanels extends React.Component {
       return 0;
     });
     recipes.forEach((recipe, i) => {
-      panels.push(<RecipePanel recipe={recipe} id={i+1} key={i}/>);
+      panels.push(<RecipePanel
+                    openDelete={this.props.openDelete}
+                    openEdit={this.props.openEdit}
+                    recipe={recipe}
+                    id={i+1}
+                    key={i}/>);
     });
     return (
 
@@ -210,6 +145,9 @@ class RecipePanels extends React.Component {
     );
   }
 }
+
+
+// TODO: refactor AddRecipeModal to use recipe as state
 
 class AddRecipeModal extends React.Component {
 	constructor() {
@@ -222,7 +160,6 @@ class AddRecipeModal extends React.Component {
 
     this.state = { name: '', parts: '' };
   }
-
 
   getValid() {
     const length = this.state.name.length;
@@ -296,22 +233,212 @@ class AddRecipeModal extends React.Component {
 }
 
 
+
+
+class DeleteRecipeModal extends React.Component {
+	constructor(props) {
+    super(props);
+
+    this.getValid          = this.getValid.bind(this);
+    this.handleNameChange  = this.handleNameChange.bind(this);
+    this.handlePartsChange = this.handlePartsChange.bind(this);
+    this.handleUpdate      = this.handleUpdate.bind(this);
+
+    this.state = { recipe: this.props.recipe };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ recipe: nextProps.recipe });
+  }
+
+  getValid() {
+    const length = this.state.recipe.name.length;
+    if (length > 0) return true;
+    return false;
+  }
+
+  handleNameChange(e) {
+    let recipe = this.state.recipe;
+    recipe.name = e.target.value;
+    this.setState({ recipe: recipe });
+  }
+
+  handlePartsChange(e) {
+    let recipe = this.state.recipe;
+    recipe.parts = e.target.value.split(",").map(function(e) {return e.trim()});
+    this.setState({ recipe: recipe });
+  }
+
+  handleUpdate(e) {
+    this.props.saveDelete(this.state.recipe);
+    let recipe = { name: "", parts: []};
+    this.setState({ recipe: recipe });
+  }
+
+	render() {
+    let name     = this.state.recipe.name;
+    let partsStr = this.state.recipe.parts.join(', ');
+
+    return (
+        <Modal show={this.props.showDelete} onHide={this.props.closeDelete}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Delete Recipe</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+
+            <form>
+              <FormGroup
+                controlId="formBasicText"
+              >
+                <ControlLabel>Are you sure you want to delete '{name}'?</ControlLabel>
+              </FormGroup>
+            </form>
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              bsStyle="danger"
+              onClick={this.handleUpdate}
+              Delete
+            </Button>
+            <Button
+              bsStyle="primary"
+              onClick={this.props.closeDelete}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+    );
+  }
+}
+
+
+
+// TODO: should/can I combine with AddRecipeModal?
+// No, Edit is more complex so leave seperate
+class EditRecipeModal extends React.Component {
+	constructor(props) {
+    super(props);
+
+    this.getValid          = this.getValid.bind(this);
+    this.handleNameChange  = this.handleNameChange.bind(this);
+    this.handlePartsChange = this.handlePartsChange.bind(this);
+    this.handleUpdate      = this.handleUpdate.bind(this);
+
+    this.state = { recipe: this.props.recipe };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ recipe: nextProps.recipe });
+  }
+
+  getValid() {
+    const length = this.state.recipe.name.length;
+    if (length > 0) return true;
+    return false;
+  }
+
+  handleNameChange(e) {
+    let recipe = this.state.recipe;
+    recipe.name = e.target.value;
+    this.setState({ recipe: recipe });
+  }
+
+  handlePartsChange(e) {
+    let recipe = this.state.recipe;
+    recipe.parts = e.target.value.split(",").map(function(e) {return e.trim()});
+    this.setState({ recipe: recipe });
+  }
+
+  handleUpdate(e) {
+    this.props.saveEdit(this.state.recipe);
+    let recipe = { name: "", parts: []};
+    this.setState({ recipe: recipe });
+  }
+
+	render() {
+    let name     = this.state.recipe.name;
+    let partsStr = this.state.recipe.parts.join(', ');
+
+    return (
+        <Modal show={this.props.showEdit} onHide={this.props.closeEdit}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Recipe</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+
+            <form>
+              <FormGroup
+                controlId="formBasicText"
+              >
+                <ControlLabel>Name</ControlLabel>
+                <FormControl
+                  type="text"
+                  value={name}
+                  placeholder="Enter name"
+                  onChange={this.handleNameChange}
+                />
+                <ControlLabel>Ingredients</ControlLabel>
+                <FormControl
+                  type="textarea"
+                  value={partsStr}
+                  placeholder="Enter ingredients (comma separated)"
+                  onChange={this.handlePartsChange}
+                />
+                <FormControl.Feedback />
+              </FormGroup>
+            </form>
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              bsStyle="primary"
+              onClick={this.handleUpdate}
+              disabled={this.getValid() == false}>
+              Update
+            </Button>
+            <Button
+              bsStyle="primary"
+              onClick={this.props.closeEdit}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+    );
+  }
+}
+
+
 class RecipeBox extends React.Component {
 	constructor() {
     super();
 
-    this.getData  = this.getData.bind(this);
-    this.saveData = this.saveData.bind(this);
+    this.getData    = this.getData.bind(this);
+    this.saveData   = this.saveData.bind(this);
 
-    this.openAdd  = this.openAdd.bind(this);
-    this.closeAdd = this.closeAdd.bind(this);
-    this.saveAdd  = this.saveAdd.bind(this);
+    this.openAdd    = this.openAdd.bind(this);
+    this.closeAdd   = this.closeAdd.bind(this);
+    this.saveAdd    = this.saveAdd.bind(this);
+
+    this.openDelete   = this.openDelete.bind(this);
+    this.closeDelete  = this.closeDelete.bind(this);
+    this.saveDelete   = this.saveDelete.bind(this);
+
+    this.openEdit   = this.openEdit.bind(this);
+    this.closeEdit  = this.closeEdit.bind(this);
+    this.saveEdit   = this.saveEdit.bind(this);
 
     // DEBUG: override with mock data
     //this.saveData(mockData);
     //this.saveData([]);
 
-    this.state = { recipes: this.getData(), showAdd: false };
+    this.state = { recipes: this.getData(),
+                   showAdd: false,
+                   deleteRecipe: { name: "", parts: [] },
+                   showDelete: false,
+                   editRecipe: { name: "", parts: [] },
+                   showEdit: false
+                 };
   }
 
   getData() {
@@ -320,6 +447,8 @@ class RecipeBox extends React.Component {
       data = localStorage.getItem(DATA_KEY);
       if (data !== undefined) {
         data = JSON.parse(data);
+        // DEBUG
+        console.log(data);
       }
     } else {
       console.log("WARNING: no local storage, cannot save recipes.");
@@ -335,6 +464,15 @@ class RecipeBox extends React.Component {
     }
   }
 
+  findRecipeIndex(given) {
+    var index = -1;
+    for (let i=0; i < this.state.recipes.length; i++) {
+      let recipe = this.state.recipes[i];
+      if (given.id === recipe.id) index = i;
+    }
+    return index;
+  }
+
   openAdd() {
     this.setState( { showAdd: true } );
   }
@@ -347,24 +485,79 @@ class RecipeBox extends React.Component {
     this.setState( { showAdd: false } );
 
     var recipes = this.state.recipes;
+    newRecipe.id = recipes.length;
     recipes.push(newRecipe);
     this.saveData(recipes);
   }
+
+
+  openDelete(deleteRecipe) {
+    this.setState( { showDelete: true, deleteRecipe: deleteRecipe } );
+  }
+
+  closeDelete() {
+    this.setState( { showDelete: false } );
+  }
+
+  saveDelete(newRecipe) {
+    this.setState( { showDelete: false } );
+
+    var index = this.findRecipeIndex(newRecipe);
+    var recipes = this.state.recipes;
+    recipes.splice(index, 1); // remove
+    this.saveData(recipes);
+  }
+
+
+  openEdit(editRecipe) {
+    this.setState( { showEdit: true, editRecipe: editRecipe } );
+  }
+
+  closeEdit() {
+    this.setState( { showEdit: false } );
+  }
+
+  saveEdit(newRecipe) {
+    this.setState( { showEdit: false } );
+
+    var index = this.findRecipeIndex(newRecipe);
+    var recipes = this.state.recipes;
+    recipes.splice(index, 1); // remove
+    recipes.push(newRecipe);  // replace
+    this.saveData(recipes);
+  }
+
 
 	render() {
 		return (
       <div>
         <h1 className="app-header">freeCodeCamp DV - Recipe Box</h1>
-        <RecipePanels recipes={this.state.recipes} />
+        <RecipePanels
+          recipes={this.state.recipes}
+          openDelete={this.openDelete}
+          openEdit={this.openEdit}
+        />
         <Button
           bsStyle="primary"
           onClick={this.openAdd}>
-          Add New Recipe
+          New
         </Button>
         <AddRecipeModal
           showAdd={this.state.showAdd}
           saveAdd={this.saveAdd}
           closeAdd={this.closeAdd}
+        />
+        <DeleteRecipeModal
+          showDelete={this.state.showDelete}
+          saveDelete={this.saveDelete}
+          closeDelete={this.closeDelete}
+          recipe={this.state.deleteRecipe}
+        />
+        <EditRecipeModal
+          showEdit={this.state.showEdit}
+          saveEdit={this.saveEdit}
+          closeEdit={this.closeEdit}
+          recipe={this.state.editRecipe}
         />
 
         <Footer />
