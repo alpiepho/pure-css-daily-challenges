@@ -1,0 +1,4 @@
+FCC-DV-GameOfLife
+
+Solution to freeCodeCamp Data Visualization project: "Game of Live".
+
