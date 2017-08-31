@@ -29,14 +29,46 @@ body
 .cell-level-1
   background-color: black
 
+// wall
 .cell-level0
   background-color: none
 
+// floor
 .cell-level1
   background-color: white
-  
+
+// tunnel
 .cell-level2
-  background-color: yellow
+  background-color: white
+  
+// health
+.cell-level10,
+.cell-level20,
+.cell-level30,
+.cell-level40
+  background-color: green
+
+// weapon
+.cell-level100,
+.cell-level200,
+.cell-level300,
+.cell-level400
+  background-color: orange
+
+// enemies
+.cell-level1000,
+.cell-level2000,
+.cell-level3000,
+.cell-level4000
+  background-color: red
+
+// boss
+.cell-level10000
+  background-color: red
+
+// you
+.cell-level100000
+  background-color: blue
 
 .board
   display:    table

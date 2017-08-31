@@ -209,9 +209,10 @@ const ROOM_RETRIES = 10;
 
 class BoardEngine {
   constructor() {
-    this.rows  = 0;
-    this.cols  = 0;
-    this.rooms = [];
+    this.rows    = 0;
+    this.cols    = 0;
+    this.rooms   = [];
+    this.tunnels = [];
   }
   
   ////////////////////////////////////////////////////////
@@ -273,7 +274,7 @@ class BoardEngine {
           if (this.overlaps(rooms[i], rect)) ok = false;
         }
         if (ok) {
-          rect["id"] = count;
+          rect["id"] = rooms.length;
           rooms.push(rect);
           retries = 0;
         }
@@ -373,6 +374,63 @@ class BoardEngine {
     // return the tunnel
     return result;
   }
+  
+  tunnelById1(id) {
+    var tunnel;
+    for (let i = 0; i < this.tunnels.length; i++) {
+      if (this.tunnels[i].id1 == id) {
+        tunnel = this.tunnels[i];
+        break;
+      }
+    }
+    return tunnel; 
+  }
+
+  tunnelById2(id) {
+    var tunnel;
+    for (let i = 0; i < this.tunnels.length; i++) {
+      if (this.tunnels[i].id2 == id) {
+        tunnel = this.tunnels[i];
+        break;
+      }
+    }
+    return tunnel; 
+  }
+
+  /*
+  Partially working algorithm.  Going to add jump instead
+  validateTunnels() {
+    var result = false;
+    
+    // setup master array
+    var masterAccessed = [];
+    for (let i = 0; i< this.rooms.length; i++) {
+      masterAccessed.push(false);
+    }
+    
+    // for each room
+    //   find tunnel leading out
+    //   follow tunnel and count rooms
+    //   if any path touches all rooms, return true
+    
+    var found = false;
+    for (let i = 0; !found && i< this.rooms.length; i++) {
+      var room = this.rooms[i];
+      var tunnel = this.tunnelById1(room.id);
+      var accessed = masterAccessed.splice();
+      var count = 0;
+      var tries = 1000;
+      while (tries > 0 && !found && !accessed[tunnel.id1]) {
+        accessed[tunnel.id1] = true;
+        count += 1;
+        tries -= 1;
+        if (count == this.rooms.length) found = true;
+        tunnel = this.tunnelById1(tunnel.id2);  
+      }
+    }
+    return found;
+  }
+  */
 
   
   ////////////////////////////////////////////////////////
@@ -443,8 +501,8 @@ class BoardEngine {
         }
       }
  
-    }          
-
+    }        
+    
     // update the cells
     for (let i=0; i<tunnels.length; i++) {
       var tunnel = tunnels[i];
@@ -472,10 +530,17 @@ class App extends React.Component {
   
     this.boardEngine = new BoardEngine();
     var arr;
-    arr              = this.boardEngine.buildWalls();
-    arr              = this.boardEngine.buildRooms(arr, ROOMS_MAX);
-    arr              = this.boardEngine.buildTunnels(arr);
+    arr = this.boardEngine.buildWalls();
+    arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
+    arr = this.boardEngine.buildTunnels(arr);
 
+    //this.gameEngine = new GameEngine();
+    //this.gameEngine.setLevel(1);
+    //arr = this.gameEngine.objects(arr); // (health, weapons)
+    //arr = this.gameEngine.players(arr); // (enemies, boss, you)
+    //arr = this.gameEngine.move(dir, jmp, light);
+    
+    
     this.state       = { arr: arr };
 
     this.lightClick   = this.lightClick.bind(this);
