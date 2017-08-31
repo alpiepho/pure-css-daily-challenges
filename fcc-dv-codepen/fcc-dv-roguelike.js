@@ -51,7 +51,7 @@ TODO:
 - track keys for navigation
 - BoardEngine
         - generate (given) number of random size (range) rooms
-   - generate (given) number of tunnels between rooms
+   - generate tunnels between rooms
 - GameEngine
    - update health
    - update skills
@@ -85,7 +85,7 @@ class Footer extends React.Component {
           </div>
     );
   }
-}
+} //// end Footer
 
 ///////////////////////////////////////////////////////////
 // Cell
@@ -101,7 +101,7 @@ class Cell extends React.Component {
         <div className={classStr}></div>
     );
   }
-}
+} //// end Cell
 
 ///////////////////////////////////////////////////////////
 // Row
@@ -119,7 +119,7 @@ class Row extends React.Component {
         </div>
     );
   }
-}
+} //// end Row
 
 ///////////////////////////////////////////////////////////
 // Board
@@ -140,7 +140,7 @@ class Board extends React.Component {
         </div>
     );
   }
-}
+} //// end Board
 
 
 ///////////////////////////////////////////////////////////
@@ -159,7 +159,7 @@ class Controls extends React.Component {
         </div>
     );
   }
-}
+} //// end Controls
 
 ///////////////////////////////////////////////////////////
 // MapKey
@@ -188,7 +188,7 @@ class MapKey extends React.Component {
         </div>
     );
   }
-}
+}  //// end MapKey
 */
 
 //DEBUG: generated using cellClick and dumpClick
@@ -214,6 +214,7 @@ class BoardEngine {
     this.rooms = [];
   }
   
+  ////////////////////////////////////////////////////////
   contains(rect, X,Y) {
     var result = false;
     if (X >= rect.x && X <=(rect.x+rect.w-1) &&
@@ -222,6 +223,7 @@ class BoardEngine {
     return result;
   }
   
+  ////////////////////////////////////////////////////////
   overlaps(rect1, rect2) {
     var result = false;
     for (let X=rect2.x-1; !result && X < (rect2.x+rect2.w+1); X++) {
@@ -229,14 +231,11 @@ class BoardEngine {
         if (this.contains(rect1, X,Y)) result = true;
       }  
     }
-    //console.log(rect1);
-    //console.log(rect2);
-    //console.log(result);
     return result;
   }
   
-  
-  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
   buildWalls() {
     this.rows = BOARD_SIZE / CELL_SIZE;
     this.cols = this.rows;
@@ -251,9 +250,9 @@ class BoardEngine {
     }
     return arr;
   }
-
   
-  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
   buildRooms(arr, rooms_max) {
     // clone the arr
     var newArr = arr.slice();
@@ -274,6 +273,7 @@ class BoardEngine {
           if (this.overlaps(rooms[i], rect)) ok = false;
         }
         if (ok) {
+          rect["id"] = count;
           rooms.push(rect);
           retries = 0;
         }
@@ -298,7 +298,8 @@ class BoardEngine {
   }
   
   
-  tunnel_up(A, B) {
+  ////////////////////////////////////////////////////////
+  tunnel_up(A, B, id1) {
     var result = undefined;
     var found  = false;
     // check up from given (A, B-1), stop at edge (0)
@@ -308,7 +309,7 @@ class BoardEngine {
         var room = this.rooms[i];
         if (this.contains(room, A,Y)) {
           found = true;
-          result = {x:A, y:Y, w:1, h:(B-Y+1)}; // tunnel will run into both rooms
+          result = {x:A, y:Y, w:1, h:(B-Y+1), id1:id1, id2:room.id}; // tunnel will run into both rooms
         }
       }
     }    
@@ -316,7 +317,8 @@ class BoardEngine {
     return result;
   }
   
-  tunnel_down(A, B) {
+  ////////////////////////////////////////////////////////
+  tunnel_down(A, B, id1) {
     var result = undefined;
     var found  = false;
     // check up from given (A, B+1), stop at edge (this.rows)
@@ -326,7 +328,7 @@ class BoardEngine {
         var room = this.rooms[i];
         if (this.contains(room, A,Y)) {
           found = true;
-          result = {x:A, y:B, w:1, h:(Y-B+1)}; // tunnel will run into both rooms
+          result = {x:A, y:B, w:1, h:(Y-B+1), id1:id1, id2:room.id}; // tunnel will run into both rooms
         }
       }
     }    
@@ -334,7 +336,8 @@ class BoardEngine {
     return result;
   }
 
-  tunnel_left(A, B) {
+  ////////////////////////////////////////////////////////
+  tunnel_left(A, B, id1) {
     var result = undefined;
     var found  = false;
     // check up from given (A-1, B), stop at edge (0)
@@ -344,7 +347,7 @@ class BoardEngine {
         var room = this.rooms[i];
         if (this.contains(room, X,B)) {
           found = true;
-          result = {x:X, y:B, w:(A-X+1), h:1}; // tunnel will run into both rooms
+          result = {x:X, y:B, w:(A-X+1), h:1, id1:id1, id2:room.id}; // tunnel will run into both rooms
         }
       }
     }    
@@ -352,7 +355,8 @@ class BoardEngine {
     return result;
   }
 
-  tunnel_right(A, B) {
+  ////////////////////////////////////////////////////////
+  tunnel_right(A, B, id1) {
     var result = undefined;
     var found  = false;
     // check up from given (A+1, B), stop at edge (this.cols)
@@ -362,7 +366,7 @@ class BoardEngine {
         var room = this.rooms[i];
         if (this.contains(room, X,B)) {
           found = true;
-          result = {x:A, y:B, w:(X-A+1), h:1}; // tunnel will run into both rooms
+          result = {x:A, y:B, w:(X-A+1), h:1, id1:id1, id2:room.id}; // tunnel will run into both rooms
         }
       }
     }    
@@ -371,14 +375,13 @@ class BoardEngine {
   }
 
   
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
   buildTunnels(arr) {
     // clone the arr
     var newArr = arr.slice();
     
-    // generate tunnels
-    var tunnels = [];
-    
-    // for each room
+    // generate tunnels for each room
     //   start top, check for clear path up to another room, stop at edge
     //   start right, check for clear path right to another room, stop at edge
     //   start bottom, check for clear path down to another room, stop at edge
@@ -386,46 +389,60 @@ class BoardEngine {
     //   stop if a path found
     // TODO: collect list of start points with direction and randomly pick
     //       so tunnels are not all the same direction
+    // TODO: add path validation, can all rooms be accessed
+    
+    var tunnels = [];
+    
     
     for (let i=0; i<this.rooms.length; i++) {
       var room = this.rooms[i];
-      var found = false;
+      
+      // build list of points around this room
+      var testPoints = [];
       // start top, check for clear path up to another room, stop at edge
-      for (let X=room.x; !found && X < (room.x + room.w); X++) {
-        var tunnel = this.tunnel_up(X, room.y);
-        if (tunnel != undefined) {
-          found = true;
-          tunnels.push(tunnel);
-        }
+      for (let X=room.x; X < (room.x + room.w); X++) {
+        testPoints.push({ A: X, B: room.y, dir: 0 });
       }
-
       // start bottom, check for clear path down to another room, stop at edge
-      for (let X=room.x; !found && X < (room.x + room.w); X++) {
-        var tunnel = this.tunnel_down(X, (room.y+room.h-1));
-        if (tunnel != undefined) {
-          found = true;
-          tunnels.push(tunnel);
-        }
+      for (let X=room.x; X < (room.x + room.w); X++) {
+        testPoints.push({ A: X, B: (room.y+room.h-1), dir: 1 });
       }
-
       // start left, check for clear path left to another room, stop at edge
-      for (let Y=room.y; !found && Y < (room.y + room.h); Y++) {
-        var tunnel = this.tunnel_left(room.x, Y);
-        if (tunnel != undefined) {
-          found = true;
-          tunnels.push(tunnel);
-        }
+      for (let Y=room.y; Y < (room.y + room.h); Y++) {
+       testPoints.push({ A: room.x, B: Y, dir: 2 });
       }
-
       // start right, check for clear path right to another room, stop at edge
-      for (let Y=room.y; !found && Y < (room.y + room.h); Y++) {
-        var tunnel = this.tunnel_right((room.x+room.w-1), Y);
-        if (tunnel != undefined) {
-          found = true;
-          tunnels.push(tunnel);
-        }
+      for (let Y=room.y; Y < (room.y + room.h); Y++) {
+       testPoints.push({ A: (room.x+room.w-1), B: Y, dir: 3 });
+      }
+  
+      // build list of indexes to track what was tested
+      var indexes = [];
+      for (let j=0; j < testPoints.length; j++) {
+        indexes.push(false);
       }
 
+      // randomly check all test points
+      var found = false;
+      var count = 0; // just in case
+      while (!found && count < 100) {
+        // randomly pick an index
+        var index = Math.floor(Math.random() * (testPoints.length));
+        if (!indexes[index]) {
+          indexes[index] = true;                                            // mark tested
+          var point = testPoints[index];                                    // grab this point
+          var tunnel;
+          if (point.dir == 0) tunnel = this.tunnel_up(point.A,    point.B, room.id); // test up
+          if (point.dir == 1) tunnel = this.tunnel_down(point.A,  point.B, room.id); // test down
+          if (point.dir == 2) tunnel = this.tunnel_left(point.A,  point.B, room.id); // test left
+          if (point.dir == 3) tunnel = this.tunnel_right(point.A, point.B, room.id); // test right
+          if (tunnel != undefined) {
+            found = true;
+            tunnels.push(tunnel);                                           // save it
+          }      
+        }
+      }
+ 
     }          
 
     // update the cells
@@ -445,7 +462,7 @@ class BoardEngine {
   }
   
   
-}
+} //// end BuildEngine
 
 
 //////////////////////////////////////////////////////////
@@ -484,7 +501,7 @@ class App extends React.Component {
 		);
 	}
 
-}
+} //// end App
 
 ///////////////////////////////////////////////////////////
 ReactDOM.render(<App />, document.getElementById('roguelikegame'));
