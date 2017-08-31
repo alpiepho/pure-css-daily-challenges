@@ -10,7 +10,7 @@ User Story:
   I have health, a level, and a weapon. I can pick up a better weapon. I can pick up health items.
 
 User Story: 
-  All the items and enemies on the map are arranged at random.
+  All the items and enemies on the map are arranged at random .
 
 User Story: 
   I can move throughout a map, discovering items.
@@ -36,7 +36,7 @@ User Story:
   
 TODO:
         - comment old code
-- more cells, 100x100?
+        - more cells, 100x100?
 - labels for score parameter levels
    health skill game-level game-score overall-score
 - buttons for:
@@ -50,7 +50,7 @@ TODO:
    0-1   1-n,    1-n,   1-n
 - track keys for navigation
 - BoardEngine
-   - generate (given) number of random size (range) rooms
+        - generate (given) number of random size (range) rooms
    - generate (given) number of tunnels between rooms
 - GameEngine
    - update health
@@ -60,7 +60,6 @@ TODO:
 
 
 FUTURE:
-- improve performance for cell selection/move, seems slow.  rendering?
 - fix row collaspe when window is too narrow (should go to scrollbar)
 */
 
@@ -69,12 +68,8 @@ var Button       = ReactBootstrap.Button;
 var ControlLabel = ReactBootstrap.ControlLabel;
 
 
-const CELL_SIZE=(5+1+1);  // must match CSS
+const CELL_SIZE=(5+1+1); // TODO match CSS?
 const BOARD_SIZE=400;
-//const INTERVAL=1000;
-//const INTERVAL_MIN=125;
-//const INTERVAL_MAX=16000;
-//const RAMDOM_LEVEL=0.15;
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +98,7 @@ class Cell extends React.Component {
 	render() {
     var classStr = "cell cell-level" + this.props.cell.level;
 		return (
-        <div className={classStr} onClick={this.handleChange.bind(this)}></div>
+        <div className={classStr}></div>
     );
   }
 }
@@ -116,7 +111,7 @@ class Row extends React.Component {
     var count = this.props.cells.length;
     var cells = [];
     for (let col=0; col < count; col++) {
-      cells.push(<Cell cell={this.props.cells[col]} cellClick={this.props.cellClick} key={col}/>);
+      cells.push(<Cell cell={this.props.cells[col]} key={col}/>);
     }
 		return (
         <div className="row">
@@ -134,7 +129,7 @@ class Board extends React.Component {
     var count = this.props.arr.length;
     var rows  = [];
     for (var row=0; row<count; row++) {
-      rows.push(<Row cells={this.props.arr[row]} cellClick={this.props.cellClick} key={row}/>); 
+      rows.push(<Row cells={this.props.arr[row]} key={row}/>); 
     }
 		return (
         <div className="board-wrapper">
@@ -153,28 +148,8 @@ class Board extends React.Component {
 ///////////////////////////////////////////////////////////
 class Controls extends React.Component {
 	render() {
-    var extra = [];
-    extra.push(
-          <Button
-            //bsStyle="primary"
-            key={1}
-            onClick={this.props.dumpClick}>
-            Dump
-          </Button>       
-    );
-    extra.push(
-          <Button
-            //bsStyle="primary"
-            key={2}
-            onClick={this.props.resetClick}>
-            Reset
-          </Button>       
-    );
-    // DEBUG
-    //extra = "";
 		return (
         <div className="controls">
-          {extra}
           <Button
             //bsStyle="primary"
             onClick={this.props.lightClick}>
@@ -189,6 +164,7 @@ class Controls extends React.Component {
 ///////////////////////////////////////////////////////////
 // MapKey
 ///////////////////////////////////////////////////////////
+/*
 class MapKey extends React.Component {
 	render() {
 		return (
@@ -213,6 +189,7 @@ class MapKey extends React.Component {
     );
   }
 }
+*/
 
 //DEBUG: generated using cellClick and dumpClick
 const spotRing0 = ["10,10"];
@@ -234,21 +211,7 @@ class BoardEngine {
   constructor() {
     this.rows  = 0;
     this.cols  = 0;
-  }
-  
-  walls() {
-    var row_count = BOARD_SIZE / CELL_SIZE;
-    var col_count = row_count;
-    var arr = [];
-    for (let row=0; row < row_count; row++) {
-      var cols = [];
-      for (let col=0; col < col_count; col++) {
-        var cell = {row: row, col: col, level: 0}; // level = 0 : wall
-        cols.push(cell);
-      }
-      arr.push(cols);
-    }
-    return arr;
+    this.rooms = [];
   }
   
   contains(rect, X,Y) {
@@ -266,25 +229,38 @@ class BoardEngine {
         if (this.contains(rect1, X,Y)) result = true;
       }  
     }
-    console.log(rect1);
-    console.log(rect2);
-    console.log(result);
+    //console.log(rect1);
+    //console.log(rect2);
+    //console.log(result);
     return result;
   }
   
-  rooms(arr) {
-    // get dimentions
-    if (this.rows == 0) {
-      this.rows = arr.length;
-      this.cols = arr[0].length;      
+  
+  
+  buildWalls() {
+    this.rows = BOARD_SIZE / CELL_SIZE;
+    this.cols = this.rows;
+    var arr = [];
+    for (let row=0; row < this.rows; row++) {
+      var cols = [];
+      for (let col=0; col < this.cols; col++) {
+        var cell = {row: row, col: col, level: 0}; // level = 0 : wall
+        cols.push(cell);
+      }
+      arr.push(cols);
     }
-    
+    return arr;
+  }
+
+  
+  
+  buildRooms(arr, rooms_max) {
     // clone the arr
     var newArr = arr.slice();
     
     // generate rooms
     var rooms = [];
-    for (let count = 0; count < ROOMS_MAX; count++) {
+    for (let count = 0; count < rooms_max; count++) {
       // may need retries to get rooms that dont overlap
       var retries = ROOM_RETRIES;
       while( retries > 0) {
@@ -305,6 +281,7 @@ class BoardEngine {
       }
       
       // update the cells
+      this.rooms = rooms;
       for (let i=0; i<rooms.length; i++) {
         var room = rooms[i];
         for (let X=room.x; X < (room.x+room.w); X++) {
@@ -319,78 +296,83 @@ class BoardEngine {
     }
     return newArr;
   }
-}
-
-
-
-///////////////////////////////////////////////////////////
-// Engine
-///////////////////////////////////////////////////////////
-/*
-class Engine {
-  constructor() {
-    this.rows  = 0;
-    this.cols  = 0;
-  }
   
-  run(arr) {
-    if (this.rows == 0) {
-      this.rows = arr.length;
-      this.cols = arr[0].length;      
-    }
-    
-    var newArr = arr.slice();
-   
-    // for each cell, check neighbors count to
-    // determine new level for this cell
-    for (let row = 0; row < this.rows; row++) {
-      for (let col = 0; col < this.cols; col++) {
-        var rBefore = (row == 0 ? (this.rows-1) : (row-1));
-        var rAfter  = ((row+1) == this.rows ? 0 : (row+1));
-        var cBefore = (col == 0 ? (this.cols-1) : (col-1));
-        var cAfter  = ((col+1) == this.cols ? 0 : (col+1));
+  
+  tunnel_up(A, B) {
+    var result = undefined;
+    var found  = false;
+    console.log(A + "," + B);
 
-        var count = 0;
-        if (arr[rBefore][cBefore].level > 0) count += 1;
-        if (arr[row    ][cBefore].level > 0) count += 1;
-        if (arr[rAfter ][cBefore].level > 0) count += 1;
-      
-        if (arr[rBefore][col    ].level > 0) count += 1;
-        if (arr[rAfter ][col    ].level > 0) count += 1;
-
-        if (arr[rBefore][cAfter ].level > 0) count += 1;
-        if (arr[row    ][cAfter ].level > 0) count += 1;
-        if (arr[rAfter ][cAfter ].level > 0) count += 1;
-      
-        //Rules
-        //8 neighbors
-        //can wrap from top row to bottom row
-        //can wrap from left column to right column
-        //on + 2 neighbors -> on
-        //on + 3 neighbors -> on
-        //on + (1,4,5,6,7,8 neighbors) -> off
-        //off + 3 neighbors -> on
-        
-        var level = arr[row][col].level;
-        if (level == -1)
-          level = 0;
-        if (level == 0) {
-          if (count === 3)
-            level  = 1;
-        } else if (level > 0) {
-          if (count == 2 || count == 3)
-            level = 2;
-          else
-            level = -1; // show newly killed
+    // check up from given (A, B-1), stop at edge (0)
+    for (let Y=(B-1); !found && Y >= 0; Y--) {
+      console.log(Y);
+         
+      // check if any room contains this point
+      for (let i=0; i<this.rooms.length; i++) {
+        var room = this.rooms[i];
+        if (this.contains(room, A,Y)) {
+          found = true;
+          result = {x:A, y:Y, w:1, h:(B-Y+1)}; // tunnel will run into both rooms
         }
-        newArr[row][col].level = level;
       }
     }
     
+    // return the tunnel
+    console.log(result);
+    return result;
+  }
+  
+    
+  buildTunnels(arr) {
+    // clone the arr
+    var newArr = arr.slice();
+    
+    // generate tunnels
+    var tunnels = [];
+    
+    // for each room
+    //   start top, check for clear path up to another room, stop at edge
+    //   start right, check for clear path right to another room, stop at edge
+    //   start bottom, check for clear path down to another room, stop at edge
+    //   start left, check for clear path left to another room, stop at edge
+    //   stop if a path found
+    
+    for (let i=0; i<this.rooms.length; i++) {
+      var room = this.rooms[i];
+      var found = false;
+      // start top, check for clear path up to another room, stop at edge
+      for (let X=room.x; !found && X < (room.x + room.w); X++) {
+        var tunnel = this.tunnel_up(X, room.y);
+        if (tunnel != undefined) {
+          found = true;
+          tunnels.push(tunnel);
+        }
+      }
+        
+
+    }
+    console.log(tunnels);
+          
+
+    // update the cells
+    for (let i=0; i<tunnels.length; i++) {
+      var tunnel = tunnels[i];
+      for (let X=tunnel.x; X < (tunnel.x+tunnel.w); X++) {
+        for (let Y=tunnel.y; Y < (tunnel.y+tunnel.h); Y++) {
+          if (X < this.cols && Y < this.rows) {
+            newArr[Y][X].level = 2; // tunnel             
+          }
+        }  
+      }
+    }
+      
+
     return newArr;
   }
+  
+  
 }
-*/
+
 
 //////////////////////////////////////////////////////////
 class App extends React.Component {
@@ -399,44 +381,13 @@ class App extends React.Component {
   
     this.boardEngine = new BoardEngine();
     var arr;
-    arr              = this.boardEngine.walls();
-    arr              = this.boardEngine.rooms(arr);
+    arr              = this.boardEngine.buildWalls();
+    arr              = this.boardEngine.buildRooms(arr, ROOMS_MAX);
+    arr              = this.boardEngine.buildTunnels(arr);
 
-    this.state       = { arr: arr, iterations: 0 };
+    this.state       = { arr: arr };
 
-    this.cellClick   = this.cellClick.bind(this);
-    this.dumpClick   = this.dumpClick.bind(this);   // dumps  selected cells, for building rooms
-    this.resetClick  = this.resetClick.bind(this);  // clears selected cells
-    this.lightClick  = this.lightClick.bind(this);
-  }
-
-  cellClick(cell) {
-    var arr   = this.state.arr;
-    var level = arr[cell.row][cell.col].level;
-    level += 1;
-    if (level == 3) level = 0;
-    arr[cell.row][cell.col].level = level;
-    this.setState( { arr: arr } );
-  }
-
-  dumpClick() {
-    var arr   = this.state.arr;
-    var list = [];
-    var row_count = arr.length;
-    var col_count = arr[0].length;
-    for (let row=0; row < row_count; row++) {
-      for (let col=0; col < col_count; col++) {
-        if (arr[row][col].level > 0) {
-          list.push(row + "," + col);
-        }
-      }
-    }
-    console.log(list);
-  }
-
-  resetClick() {
-    var arr = this.boardEngine.walls();
-    this.setState( { arr: arr, iterations: 0} );    
+    this.lightClick   = this.lightClick.bind(this);
   }
 
   lightClick() {
@@ -451,11 +402,9 @@ class App extends React.Component {
       <div>
         <h1 className="app-header">freeCodeCamp DV - Roguelike Game</h1>
         <Controls 
-          dumpClick={this.dumpClick}
-          resetClick={this.resetClick}
           lightClick={this.lightClick}
         />
-       <Board arr={this.state.arr} cellClick={this.cellClick}/>
+       <Board arr={this.state.arr} />
         <Footer />
       </div>
 		);
