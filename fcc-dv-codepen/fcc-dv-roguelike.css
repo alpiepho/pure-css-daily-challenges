@@ -1,0 +1,60 @@
+
+$background-color: grey
+
+body
+  padding:          20px
+  background-color: $background-color
+
+.app-header
+  color:            darken(white, 10%)
+  text-align:       center
+
+.footer
+  color:            black
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+    color:          black
+  text-align:       center
+
+.cell
+  position:         relative
+  float:            left
+  width:            15px
+  height:           15px
+  background-color: lighten($background-color, 10%)
+  //border:           solid 1px black
+ 
+.cell-level-1
+  background-color: black
+
+.cell-level0
+  background-color: none
+
+.cell-level1
+  background-color: white
+  
+.cell-level2
+  background-color: white
+
+.board
+  display:    table
+  margin:     20px auto
+  margin-top: 10px
+
+.controls
+  display:    table
+  margin:     0px auto
+
+.btn
+  margin:     10px
+
+.control-label
+  margin-left: 5px
+  
+.mapkey
+  display:    table
+  margin:     0px auto
+
+
