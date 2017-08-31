@@ -301,12 +301,8 @@ class BoardEngine {
   tunnel_up(A, B) {
     var result = undefined;
     var found  = false;
-    console.log(A + "," + B);
-
     // check up from given (A, B-1), stop at edge (0)
     for (let Y=(B-1); !found && Y >= 0; Y--) {
-      console.log(Y);
-         
       // check if any room contains this point
       for (let i=0; i<this.rooms.length; i++) {
         var room = this.rooms[i];
@@ -315,14 +311,66 @@ class BoardEngine {
           result = {x:A, y:Y, w:1, h:(B-Y+1)}; // tunnel will run into both rooms
         }
       }
-    }
-    
+    }    
     // return the tunnel
-    console.log(result);
     return result;
   }
   
-    
+  tunnel_down(A, B) {
+    var result = undefined;
+    var found  = false;
+    // check up from given (A, B+1), stop at edge (this.rows)
+    for (let Y=(B+1); !found && Y < this.rows; Y++) {
+      // check if any room contains this point
+      for (let i=0; i<this.rooms.length; i++) {
+        var room = this.rooms[i];
+        if (this.contains(room, A,Y)) {
+          found = true;
+          result = {x:A, y:B, w:1, h:(Y-B+1)}; // tunnel will run into both rooms
+        }
+      }
+    }    
+    // return the tunnel
+    return result;
+  }
+
+  tunnel_left(A, B) {
+    var result = undefined;
+    var found  = false;
+    // check up from given (A-1, B), stop at edge (0)
+    for (let X=(A-1); !found && X >= 0; X--) {
+      // check if any room contains this point
+      for (let i=0; i<this.rooms.length; i++) {
+        var room = this.rooms[i];
+        if (this.contains(room, X,B)) {
+          found = true;
+          result = {x:X, y:B, w:(A-X+1), h:1}; // tunnel will run into both rooms
+        }
+      }
+    }    
+    // return the tunnel
+    return result;
+  }
+
+  tunnel_right(A, B) {
+    var result = undefined;
+    var found  = false;
+    // check up from given (A+1, B), stop at edge (this.cols)
+    for (let X=(A+1); !found && X < this.cols; X++) {
+      // check if any room contains this point
+      for (let i=0; i<this.rooms.length; i++) {
+        var room = this.rooms[i];
+        if (this.contains(room, X,B)) {
+          found = true;
+          result = {x:A, y:B, w:(X-A+1), h:1}; // tunnel will run into both rooms
+        }
+      }
+    }    
+    // return the tunnel
+    return result;
+  }
+
+  
   buildTunnels(arr) {
     // clone the arr
     var newArr = arr.slice();
@@ -336,6 +384,8 @@ class BoardEngine {
     //   start bottom, check for clear path down to another room, stop at edge
     //   start left, check for clear path left to another room, stop at edge
     //   stop if a path found
+    // TODO: collect list of start points with direction and randomly pick
+    //       so tunnels are not all the same direction
     
     for (let i=0; i<this.rooms.length; i++) {
       var room = this.rooms[i];
@@ -348,11 +398,35 @@ class BoardEngine {
           tunnels.push(tunnel);
         }
       }
-        
 
-    }
-    console.log(tunnels);
-          
+      // start bottom, check for clear path down to another room, stop at edge
+      for (let X=room.x; !found && X < (room.x + room.w); X++) {
+        var tunnel = this.tunnel_down(X, (room.y+room.h-1));
+        if (tunnel != undefined) {
+          found = true;
+          tunnels.push(tunnel);
+        }
+      }
+
+      // start left, check for clear path left to another room, stop at edge
+      for (let Y=room.y; !found && Y < (room.y + room.h); Y++) {
+        var tunnel = this.tunnel_left(room.x, Y);
+        if (tunnel != undefined) {
+          found = true;
+          tunnels.push(tunnel);
+        }
+      }
+
+      // start right, check for clear path right to another room, stop at edge
+      for (let Y=room.y; !found && Y < (room.y + room.h); Y++) {
+        var tunnel = this.tunnel_right((room.x+room.w-1), Y);
+        if (tunnel != undefined) {
+          found = true;
+          tunnels.push(tunnel);
+        }
+      }
+
+    }          
 
     // update the cells
     for (let i=0; i<tunnels.length; i++) {
