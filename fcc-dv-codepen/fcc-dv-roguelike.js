@@ -202,10 +202,16 @@ class MapKey extends React.Component {
             <ControlLabel>You</ControlLabel>
           </div>
           <div>
+            <ControlLabel>Mouse click anywehere in board to start</ControlLabel>
+          </div>
+          <div>
             <ControlLabel>Arrows to move up, down, left, right</ControlLabel>
           </div>
           <div>
             <ControlLabel>J for jump on next move</ControlLabel>
+          </div>
+          <div>
+            <ControlLabel>Double the points if you play in the dark.</ControlLabel>
           </div>
           <div>
             <ControlLabel>10 Levels, find the Boss on each and WIN!!</ControlLabel>
@@ -217,11 +223,6 @@ class MapKey extends React.Component {
     );
   }
 }  //// end MapKey
-
-//DEBUG: generated using cellClick and dumpClick
-const spotRing0 = ["10,10"];
-const spotRing1 = ["6,9", "6,10", "6,11", "7,8", "7,9", "7,10", "7,11", "7,12", "8,7", "8,8", "8,9", "8,10", "8,11", "8,12", "8,13", "9,6", "9,7", "9,8", "9,9", "9,10", "9,11", "9,12", "9,13", "9,14", "10,6", "10,7", "10,8", "10,9", "10,10", "10,11", "10,12", "10,13", "10,14", "11,6", "11,7", "11,8", "11,9", "11,10", "11,11", "11,12", "11,13", "11,14", "12,7", "12,8", "12,9", "12,10", "12,11", "12,12", "12,13", "13,8", "13,9", "13,10", "13,11", "13,12", "14,9", "14,10", "14,11"];
-const spotRing2 = ["4,7", "4,8", "4,9", "4,10", "4,11", "4,12", "4,13", "5,6", "5,7", "5,8", "5,9", "5,10", "5,11", "5,12", "5,13", "5,14", "6,5", "6,6", "6,7", "6,13", "6,14", "6,15", "7,4", "7,5", "7,6", "7,14", "7,15", "7,16", "8,4", "8,5", "8,15", "8,16", "9,4", "9,5", "9,15", "9,16", "10,4", "10,5", "10,15", "10,16", "11,4", "11,5", "11,15", "11,16", "12,4", "12,5", "12,15", "12,16", "13,4", "13,5", "13,6", "13,14", "13,15", "13,16", "14,5", "14,6", "14,7", "14,13", "14,14", "14,15", "15,6", "15,7", "15,8", "15,9", "15,10", "15,11", "15,12", "15,13", "15,14", "16,7", "16,8", "16,9", "16,10", "16,11", "16,12", "16,13"];
 
 
 ///////////////////////////////////////////////////////////
@@ -512,6 +513,7 @@ const WEAPON_COUNT_MAX = 10;
 const WEAPON_RANGE_MAX =  4;
 const ENEMY_COUNT_MAX  =  5;
 const ENEMY_RANGE_MAX  =  4;
+const DARKNESS_RADIUS  = 10;
 
 class GameEngine {
   constructor() {
@@ -523,6 +525,7 @@ class GameEngine {
     this.enemies     = [];
     this.boss        = {};
     this.you         = {};
+    this.light       = 0;
   }
 
   ////////////////////////////////////////////////////////
@@ -545,6 +548,12 @@ class GameEngine {
   ////////////////////////////////////////////////////////
   setLevel(level) {
     this.level = level;
+  }
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  toggleLight() {
+    this.light = !this.light;
   }
 
   ////////////////////////////////////////////////////////
@@ -598,17 +607,38 @@ class GameEngine {
 
     this.you = this.findFloorLocations(1, newArr)[0];
     newArr[this.you.x][this.you.y].level = (100000);
+    
 
     return newArr;
   }
 
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
-  move(arr, direction, jump, light) {
+  move(arr, direction, jump) {
     var newArr = arr.slice();
     
     
-    
+    // add darkness
+     for (let row = 0; row < this.rows; row++) {
+       for (let col = 0; col < this.cols; col++) {
+         var cell = newArr[row][col];
+         cell.darkness = 0;
+         if (this.light == 0) {
+           cell.darkness = 1; // black
+           // determine if current location within RADIUS2
+           var deltaX = Math.abs(this.you.x - row);
+           var deltaY = Math.abs(this.you.y - col);
+           if (deltaX < DARKNESS_RADIUS && deltaY < DARKNESS_RADIUS) {
+             var radius = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+             if (radius < DARKNESS_RADIUS) {
+               cell.darkness = 0; // off
+            }
+           }
+         }
+
+       }
+     }
+   
     return newArr;
   }
 
@@ -634,10 +664,19 @@ class App extends React.Component {
     this.state  = { arr: arr, details: details };
 
     this.lightClick   = this.lightClick.bind(this);
+    
+    document.onkeydown = this.keys;
   }
 
   lightClick() {
-    console.log("light click");
+    this.gameEngine.toggleLight();
+    var arr = this.gameEngine.move(this.state.arr, 0, 0);
+    this.setState( { arr: arr });
+  }
+
+  keys(e) {
+    console.log("keys");
+    console.log(e.key);
   }
 
   ////
