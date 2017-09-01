@@ -148,6 +148,11 @@ class Board extends React.Component {
 ///////////////////////////////////////////////////////////
 class Controls extends React.Component {
 	render() {
+    var details = "";
+    details += "Health: " + this.props.details.health;
+    details += " ..... Weapons: " + this.props.details.weapons;
+    details += " ..... Level: " + this.props.details.level;
+    details += " ..... Overall Score: " + this.props.details.score;
 		return (
         <div className="controls">
           <Button
@@ -155,7 +160,7 @@ class Controls extends React.Component {
             onClick={this.props.lightClick}>
             Light
           </Button>       
-          <ControlLabel>Details:</ControlLabel>
+          <ControlLabel>{details}</ControlLabel>
         </div>
     );
   }
@@ -164,32 +169,54 @@ class Controls extends React.Component {
 ///////////////////////////////////////////////////////////
 // MapKey
 ///////////////////////////////////////////////////////////
-/*
 class MapKey extends React.Component {
 	render() {
 		return (
         <div className="mapkey">
           <div>
-            <Cell cell={ {row:0, col:0, level: -1} } />
-            <ControlLabel>Cell just off {this.props.iterations}</ControlLabel>
-          </div>
-          <div>
             <Cell cell={ {row:0, col:0, level: 0} } />
-            <ControlLabel>Cell Off {this.props.iterations}</ControlLabel>
+            <ControlLabel>Wall</ControlLabel>
           </div>
           <div>
             <Cell cell={ {row:0, col:0, level: 1} } />
-            <ControlLabel>Cell just on {this.props.iterations}</ControlLabel>
+            <ControlLabel>Floor</ControlLabel>
           </div>
           <div>
             <Cell cell={ {row:0, col:0, level: 2} } />
-            <ControlLabel>Cell On {this.props.iterations}</ControlLabel>
+            <ControlLabel>Tunnel</ControlLabel>
+          </div>
+          <div>
+            <Cell cell={ {row:0, col:0, level: 10} } />
+            <ControlLabel>Health objects (variable points)</ControlLabel>
+          </div>
+          <div>
+            <Cell cell={ {row:0, col:0, level: 100} } />
+            <ControlLabel>Weapon objects (variable points)</ControlLabel>
+          </div>
+          <div>
+            <Cell cell={ {row:0, col:0, level: 1000} } />
+            <ControlLabel>Enemies/Boss (variable points)</ControlLabel>
+          </div>
+          <div>
+            <Cell cell={ {row:0, col:0, level: 100000} } />
+            <ControlLabel>You</ControlLabel>
+          </div>
+          <div>
+            <ControlLabel>Arrows to move up, down, left, right</ControlLabel>
+          </div>
+          <div>
+            <ControlLabel>J for jump on next move</ControlLabel>
+          </div>
+          <div>
+            <ControlLabel>10 Levels, find the Boss on each and WIN!!</ControlLabel>
+          </div>
+          <div>
+            <ControlLabel>*** Good Luck ***</ControlLabel>
           </div>
         </div>
     );
   }
 }  //// end MapKey
-*/
 
 //DEBUG: generated using cellClick and dumpClick
 const spotRing0 = ["10,10"];
@@ -396,42 +423,6 @@ class BoardEngine {
     }
     return tunnel; 
   }
-
-  /*
-  Partially working algorithm.  Going to add jump instead
-  validateTunnels() {
-    var result = false;
-    
-    // setup master array
-    var masterAccessed = [];
-    for (let i = 0; i< this.rooms.length; i++) {
-      masterAccessed.push(false);
-    }
-    
-    // for each room
-    //   find tunnel leading out
-    //   follow tunnel and count rooms
-    //   if any path touches all rooms, return true
-    
-    var found = false;
-    for (let i = 0; !found && i< this.rooms.length; i++) {
-      var room = this.rooms[i];
-      var tunnel = this.tunnelById1(room.id);
-      var accessed = masterAccessed.splice();
-      var count = 0;
-      var tries = 1000;
-      while (tries > 0 && !found && !accessed[tunnel.id1]) {
-        accessed[tunnel.id1] = true;
-        count += 1;
-        tries -= 1;
-        if (count == this.rooms.length) found = true;
-        tunnel = this.tunnelById1(tunnel.id2);  
-      }
-    }
-    return found;
-  }
-  */
-
   
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
@@ -439,19 +430,8 @@ class BoardEngine {
     // clone the arr
     var newArr = arr.slice();
     
-    // generate tunnels for each room
-    //   start top, check for clear path up to another room, stop at edge
-    //   start right, check for clear path right to another room, stop at edge
-    //   start bottom, check for clear path down to another room, stop at edge
-    //   start left, check for clear path left to another room, stop at edge
-    //   stop if a path found
-    // TODO: collect list of start points with direction and randomly pick
-    //       so tunnels are not all the same direction
-    // TODO: add path validation, can all rooms be accessed
-    
-    var tunnels = [];
-    
-    
+    // build tunnels
+    var tunnels = [];    
     for (let i=0; i<this.rooms.length; i++) {
       var room = this.rooms[i];
       
@@ -523,6 +503,52 @@ class BoardEngine {
 } //// end BuildEngine
 
 
+///////////////////////////////////////////////////////////
+// BoardEngine
+///////////////////////////////////////////////////////////
+class GameEngine {
+  constructor() {
+    this.rows    = 0;
+    this.cols    = 0;
+    this.level   = 1;
+  }
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  setLevel(level) {
+    this.level = level;
+  }
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  details() {
+    return {health: 100, weapons: 100, level: this.level, score: 0 };
+  }
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  buildObjects(arr) {
+    var newArr = arr.slice();
+    return newArr;
+  }
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  buildPlayers(arr) {
+    var newArr = arr.slice();
+    return newArr;
+  }
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  move(arr, direction, jump, light) {
+    var newArr = arr.slice();
+    return newArr;
+  }
+
+} //// end GameEngine
+
+
 //////////////////////////////////////////////////////////
 class App extends React.Component {
 	constructor() {
@@ -534,14 +560,13 @@ class App extends React.Component {
     arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
     arr = this.boardEngine.buildTunnels(arr);
 
-    //this.gameEngine = new GameEngine();
-    //this.gameEngine.setLevel(1);
-    //arr = this.gameEngine.objects(arr); // (health, weapons)
-    //arr = this.gameEngine.players(arr); // (enemies, boss, you)
-    //arr = this.gameEngine.move(dir, jmp, light);
-    
-    
-    this.state       = { arr: arr };
+    this.gameEngine = new GameEngine();
+    this.gameEngine.setLevel(1);
+    arr = this.gameEngine.buildObjects(arr); // (health, weapons)
+    arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
+    arr = this.gameEngine.move(arr, 0, 0, 0);
+    var details = this.gameEngine.details();
+    this.state  = { arr: arr, details: details };
 
     this.lightClick   = this.lightClick.bind(this);
   }
@@ -558,9 +583,11 @@ class App extends React.Component {
       <div>
         <h1 className="app-header">freeCodeCamp DV - Roguelike Game</h1>
         <Controls 
+          details={this.state.details}
           lightClick={this.lightClick}
         />
-       <Board arr={this.state.arr} />
+        <Board arr={this.state.arr} />
+        <MapKey />
         <Footer />
       </div>
 		);
