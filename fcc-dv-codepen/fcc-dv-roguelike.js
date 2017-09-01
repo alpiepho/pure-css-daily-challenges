@@ -37,11 +37,11 @@ User Story:
 TODO:
         - comment old code
         - more cells, 100x100?
-- labels for score parameter levels
-   health skill game-level game-score overall-score
+        - labels for score parameter levels
+          health skill game-level game-score overall-score
 - buttons for:
    darkness reset-game reset-overall
-- mapkey for:
+       - mapkey for:
    symbols
    game rules (I really need this...don't get these type of games)
 - darkness overlay (can this be a css layer?)
@@ -96,7 +96,7 @@ class Cell extends React.Component {
   }
 
 	render() {
-    var classStr = "cell cell-level" + this.props.cell.level;
+    var classStr = "cell cell-level" + this.props.cell.level + " darkness"  + this.props.cell.darkness;
 		return (
         <div className={classStr}></div>
     );
@@ -271,7 +271,7 @@ class BoardEngine {
     for (let row=0; row < this.rows; row++) {
       var cols = [];
       for (let col=0; col < this.cols; col++) {
-        var cell = {row: row, col: col, level: 0}; // level = 0 : wall
+        var cell = {row: row, col: col, level: 0, darkness: 0}; // level = 0 : wall
         cols.push(cell);
       }
       arr.push(cols);
@@ -506,13 +506,41 @@ class BoardEngine {
 ///////////////////////////////////////////////////////////
 // BoardEngine
 ///////////////////////////////////////////////////////////
+const HEALTH_COUNT_MAX = 20;
+const HEALTH_RANGE_MAX =  4;
+const WEAPON_COUNT_MAX = 10;
+const WEAPON_RANGE_MAX =  4;
+const ENEMY_COUNT_MAX  =  5;
+const ENEMY_RANGE_MAX  =  4;
+
 class GameEngine {
   constructor() {
-    this.rows    = 0;
-    this.cols    = 0;
-    this.level   = 1;
+    this.rows        = 0;
+    this.cols        = 0;
+    this.level       = 0;
+    this.healthItems = [];
+    this.weaponItems = [];
+    this.enemies     = [];
+    this.boss        = {};
+    this.you         = {};
   }
 
+  ////////////////////////////////////////////////////////
+  findFloorLocations(total, arr) {
+    var locations = [];
+    var count = 0;
+    
+    while (count < total) {
+      var x = Math.floor(Math.random() * (this.cols));
+      var y = Math.floor(Math.random() * (this.rows));
+      if (arr[x][y].level == 1) { // floor
+        locations.push({x: x, y: y});
+        count += 1;
+      }
+    }
+    return locations;
+  }
+  
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   setLevel(level) {
@@ -528,14 +556,49 @@ class GameEngine {
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   buildObjects(arr) {
+    this.rows = arr.length;
+    this.cols = arr[0].length;
+    
     var newArr = arr.slice();
+    
+    this.healthItems = this.findFloorLocations((HEALTH_COUNT_MAX - this.level), newArr);
+    for (let i = 0; i < this.healthItems.length; i++) {
+      var item = this.healthItems[i];
+      item["level"] = 1 + Math.floor(Math.random() * (HEALTH_RANGE_MAX));
+      newArr[item.x][item.y].level = (10 * item.level);
+    }
+    
+    this.weaponItems = this.findFloorLocations((WEAPON_COUNT_MAX - this.level), newArr);
+    for (let i = 0; i < this.weaponItems.length; i++) {
+      var item = this.weaponItems[i];
+      item["level"] = 1 + Math.floor(Math.random() * (WEAPON_RANGE_MAX));
+      newArr[item.x][item.y].level = (100 * item.level);
+    }
+    
     return newArr;
   }
 
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   buildPlayers(arr) {
+     this.rows = arr.length;
+    this.cols = arr[0].length;
+    
     var newArr = arr.slice();
+    
+    this.enemies = this.findFloorLocations((ENEMY_COUNT_MAX + this.level), newArr);
+    for (let i = 0; i < this.enemies.length; i++) {
+      var item = this.enemies[i];
+      item["level"] = 1 + Math.floor(Math.random() * (ENEMY_RANGE_MAX));
+      newArr[item.x][item.y].level = (1000 * item.level);
+    }
+ 
+    this.boss = this.findFloorLocations(1, newArr)[0];
+    newArr[this.boss.x][this.boss.y].level = (10000);
+
+    this.you = this.findFloorLocations(1, newArr)[0];
+    newArr[this.you.x][this.you.y].level = (100000);
+
     return newArr;
   }
 
@@ -543,6 +606,9 @@ class GameEngine {
   ////////////////////////////////////////////////////////
   move(arr, direction, jump, light) {
     var newArr = arr.slice();
+    
+    
+    
     return newArr;
   }
 
@@ -561,7 +627,6 @@ class App extends React.Component {
     arr = this.boardEngine.buildTunnels(arr);
 
     this.gameEngine = new GameEngine();
-    this.gameEngine.setLevel(1);
     arr = this.gameEngine.buildObjects(arr); // (health, weapons)
     arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
     arr = this.gameEngine.move(arr, 0, 0, 0);

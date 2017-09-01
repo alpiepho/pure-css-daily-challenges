@@ -26,8 +26,6 @@ body
   background-color: lighten($background-color, 10%)
   //border:           solid 1px black
  
-.cell-level-1
-  background-color: black
 
 // wall
 .cell-level0
@@ -69,6 +67,16 @@ body
 // you
 .cell-level100000
   background-color: blue
+
+// intentionally commented out so no style applied
+//.darkness0
+  background-color: inherit
+
+.darkness1
+  background-color: inherit
+
+.darkness2
+  background-color: black
 
 .board
   display:    table
