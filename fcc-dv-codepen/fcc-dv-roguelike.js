@@ -497,7 +497,7 @@ class BoardEngine {
       for (let X=tunnel.x; X < (tunnel.x+tunnel.w); X++) {
         for (let Y=tunnel.y; Y < (tunnel.y+tunnel.h); Y++) {
           if (X < this.cols && Y < this.rows) {
-            newArr[Y][X].level = 2; // tunnel             
+            newArr[Y][X].level = 1; // TODO: do we need to show tunnel differently?? 2; // tunnel             
           }
         }  
       }
@@ -622,7 +622,7 @@ class GameEngine {
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   buildPlayers(arr) {
-     this.rows = arr.length;
+    this.rows = arr.length;
     this.cols = arr[0].length;
     
     var newArr = arr.slice();
@@ -648,40 +648,35 @@ class GameEngine {
   }
   
   ////////////////////////////////////////////////////////
-  // Can only jump to open floor, can't jump in tunnels
-  doJump(arr, direction) {
+  moveJump(arr, direction) {
     var X = this.you.x;
     var Y = this.you.y;
     var found = false;
-    var tries = 100;
+    // Can only jump to open floor, can't jump in tunnels
 
     if (direction == "up") {
-      while (!found && tries > 0) {
-        tries -= 1;
+      while (!found) {
         Y -= 1;
         if (Y < 0) Y = this.rows - 1;           // wrap
         if (arr[Y][X].level == 1) found = true; // open floor
       }
     }
     if (direction == "down") {
-      while (!found && tries > 0) {
-        tries -= 1;
-        Y += 1;
+      while (!found) {
+         Y += 1;
         if (Y >= this.rows) Y = 0;              // wrap
         if (arr[Y][X].level == 1) found = true; // open floor
       }
     }
-    if (direction == "left" && tries > 0) {
+    if (direction == "left") {
       while (!found) {
-        tries -= 1;
         X -= 1;
         if (X < 0) X = this.cols - 1;           // wrap
         if (arr[Y][X].level == 1) found = true; // open floor
       }
     }
-    if (direction == "right" && tries > 0) {
+    if (direction == "right") {
       while (!found) {
-        tries -= 1;
         X += 1;
         if (X >= this.cols) X = 0;              // wrap
         if (arr[Y][X].level == 1) found = true; // open floor
@@ -692,7 +687,67 @@ class GameEngine {
     this.jump = 0;
     arr[this.you.y][this.you.x].level = 1;
     arr[Y][X].level = 100000;
-    this.you = { x:X, y:Y };   
+    this.you = { x:X, y:Y };
+    return found;
+  }
+
+  ////////////////////////////////////////////////////////
+  isFloorOrTunnel(level) {
+    return (level == 1 || level == 2);
+  }
+  
+  ////////////////////////////////////////////////////////
+  moveFloor(arr, direction) {
+    var X = this.you.x;
+    var Y = this.you.y;
+    var found = false;
+
+   if (direction == "up") {
+      Y -= 1;
+      if (Y >= 0 && this.isFloorOrTunnel(arr[Y][X].level)) found = true;
+    }
+    if (direction == "down") {
+      Y += 1;
+      if (Y < this.rows && this.isFloorOrTunnel(arr[Y][X].level)) found = true;
+    }
+    if (direction == "left") {
+      X -= 1;
+      if (X >= 0 && this.isFloorOrTunnel(arr[Y][X].level)) found = true;
+    }
+    if (direction == "right") {
+      X += 1;
+      if (X < this.cols && this.isFloorOrTunnel(arr[Y][X].level)) found = true;
+    }
+   
+    // update
+    this.jump = 0;
+    if (found) {
+      arr[this.you.y][this.you.x].level = 1;
+      arr[Y][X].level = 100000;
+      this.you = { x:X, y:Y };  
+    }
+
+    return found;
+  }
+
+  ////////////////////////////////////////////////////////
+  moveHealth(arr, direction) {
+    return false;
+  }
+
+  ////////////////////////////////////////////////////////
+  moveWeapon(arr, direction) {
+    return false;
+  }
+
+  ////////////////////////////////////////////////////////
+  moveEnemy(arr, direction) {
+    return false;
+  }
+
+  ////////////////////////////////////////////////////////
+  moveBoss(arr, direction) {
+    return false;
   }
 
   ////////////////////////////////////////////////////////
@@ -700,11 +755,15 @@ class GameEngine {
   move(arr, direction) {
     var newArr = arr.slice();
     
-    console.log(this.you);
     if (direction.length > 0) {
-      if (this.jump) this.doJump(newArr, direction);
+      if (this.jump) this.moveJump(newArr, direction);
       else {
-        
+        var done= false;
+        if (!done) done = this.moveFloor(newArr, direction);
+        if (!done) done = this.moveHealth(newArr, direction);
+        if (!done) done = this.moveWeapon(newArr, direction);
+        if (!done) done = this.moveEnemy(newArr, direction);
+        if (!done) done = this.moveBoss(newArr, direction);
       }
       // TODO:
       // what will we move into?
@@ -815,12 +874,12 @@ class App extends React.Component {
   }
 
   keys(e) {
-    console.log(typeof(e.key));
     if (e.key === "j")  this.gameEngine.setJump();
     if (e.key.includes("Arrow")) {
       var code = e.key.replace("Arrow", "").toLowerCase();
       var arr = this.gameEngine.move(this.state.arr, code);
       this.setState( { arr: arr });
+      return false; // don't want whole window to move
     }
   }
 
