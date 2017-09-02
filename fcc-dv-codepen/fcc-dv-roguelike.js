@@ -35,30 +35,15 @@ User Story:
   
   
 TODO:
-        - comment old code
-        - more cells, 100x100?
-        - labels for score parameter levels
-          health skill game-level game-score overall-score
-- buttons for:
-   darkness reset-game reset-overall
-       - mapkey for:
-   symbols
-   game rules (I really need this...don't get these type of games)
-- darkness overlay (can this be a css layer?)
-- Cell type with level
-   wall, health, skill, enemy, boss, dude
-   0-1   1-n,    1-n,   1-n
-- track keys for navigation
-- BoardEngine
-        - generate (given) number of random size (range) rooms
-   - generate tunnels between rooms
 - GameEngine
-   - update health
-   - update skills
-   - update enemy etc.
-- cleanup and remove commented-out code
-
-
+   handle navigation (see notes in that section)
+   handle multiple levels
+     - more rooms
+     - more enemies
+     - less health
+     - less weapons
+- Game state
+    save/restore from Local storage
 FUTURE:
 - fix row collaspe when window is too narrow (should go to scrollbar)
 */
@@ -160,7 +145,17 @@ class Controls extends React.Component {
             onClick={this.props.lightClick}>
             Light
           </Button>       
-          <ControlLabel>{details}</ControlLabel>
+          <ControlLabel className="details">{details}</ControlLabel>
+          <Button
+            bsStyle="warning"
+            onClick={this.props.restartClick}>
+            Restart
+          </Button>       
+          <Button
+            bsStyle="danger"
+            onClick={this.props.resetClick}>
+            RESET!!!
+          </Button>       
         </div>
     );
   }
@@ -200,6 +195,18 @@ class MapKey extends React.Component {
           <div>
             <Cell cell={ {row:0, col:0, level: 100000} } />
             <ControlLabel>You</ControlLabel>
+          </div>
+          <div>
+            <ControlLabel>"Light" button to show whole board</ControlLabel>
+          </div>
+          <div>
+            <ControlLabel>"Restart" button start over on this level</ControlLabel>
+          </div>
+          <div>
+            <ControlLabel>"RESET!!!" button to clear whole game</ControlLabel>
+          </div>
+          <div>
+            <ControlLabel>=== careful, this is your only warning ===</ControlLabel>
           </div>
           <div>
             <ControlLabel>Mouse click anywehere in board to start</ControlLabel>
@@ -526,6 +533,8 @@ class GameEngine {
     this.boss        = {};
     this.you         = {};
     this.light       = 0;
+    this.jump        = 0;
+    this.levelSettings = [];
   }
 
   ////////////////////////////////////////////////////////
@@ -552,10 +561,29 @@ class GameEngine {
 
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
+  setJump() {
+    this.jump = 1;
+  }
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
   toggleLight() {
     this.light = !this.light;
   }
 
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  restartLevel() {
+    this.light = 0;
+    this.jump  = 0;
+    
+    this.healthItems = this.levelSettings.healthItems.slice();
+    this.weaponItems = this.levelSettings.weaponItems.slice();
+    this.enemies     = this.levelSettings.enemies.slice();
+    this.boss        = this.levelSettings.boss;
+    this.you         = this.levelSettings.you;
+  }
+  
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   details() {
@@ -583,7 +611,10 @@ class GameEngine {
       item["level"] = 1 + Math.floor(Math.random() * (WEAPON_RANGE_MAX));
       newArr[item.x][item.y].level = (100 * item.level);
     }
-    
+
+    this.levelSettings["healthItems"] = this.healthItems.slice();
+    this.levelSettings["weaponItems"] = this.weaponItems.slice();
+
     return newArr;
   }
 
@@ -608,15 +639,29 @@ class GameEngine {
     this.you = this.findFloorLocations(1, newArr)[0];
     newArr[this.you.x][this.you.y].level = (100000);
     
-
+    this.levelSettings["enemies"] = this.enemies.slice();
+    this.levelSettings["boss"]    = this.boss;
+    this.levelSettings["you"]     = this.you;
+    
     return newArr;
   }
 
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
-  move(arr, direction, jump) {
+  move(arr, direction) {
     var newArr = arr.slice();
     
+    if (direction.length > 0) {
+      // TODO:
+      // what will we move into?
+      // if jump, move to next floor in that direction
+      // wall     nope
+      // floor    ok
+      // health   ok, add points
+      // weapon   ok, swap points
+      // enemy    ok if attempts === enemy points, sub points on attempt
+      // boss     ok if attempts === enemy points, sub points on attempt, next level if ok
+    }
     
     // add darkness
      for (let row = 0; row < this.rows; row++) {
@@ -649,7 +694,9 @@ class GameEngine {
 class App extends React.Component {
 	constructor() {
     super();    
-  
+
+    
+    // TODO move this to a common function for resetClick
     this.boardEngine = new BoardEngine();
     var arr;
     arr = this.boardEngine.buildWalls();
@@ -659,24 +706,67 @@ class App extends React.Component {
     this.gameEngine = new GameEngine();
     arr = this.gameEngine.buildObjects(arr); // (health, weapons)
     arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
-    arr = this.gameEngine.move(arr, 0, 0, 0);
+    arr = this.gameEngine.move(arr, "");
     var details = this.gameEngine.details();
     this.state  = { arr: arr, details: details };
 
-    this.lightClick   = this.lightClick.bind(this);
     
+    this.lightClick    = this.lightClick.bind(this);
+    this.restartClick  = this.restartClick.bind(this);
+    this.resetClick    = this.resetClick.bind(this);
     document.onkeydown = this.keys;
+  }
+  
+  defaultSetup() {
+    this.boardEngine = new BoardEngine();
+    var arr;
+    arr = this.boardEngine.buildWalls();
+    arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
+    arr = this.boardEngine.buildTunnels(arr);
+
+    this.gameEngine = new GameEngine();
+    arr = this.gameEngine.buildObjects(arr); // (health, weapons)
+    arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
+    arr = this.gameEngine.move(arr, "");
+    var details = this.gameEngine.details();
+    this.state  = { arr: arr, details: details };    
   }
 
   lightClick() {
     this.gameEngine.toggleLight();
-    var arr = this.gameEngine.move(this.state.arr, 0, 0);
+    var arr = this.gameEngine.move(this.state.arr, "");
     this.setState( { arr: arr });
+  }
+
+  restartClick() {
+    this.gameEngine.restartLevel();
+    var arr = this.gameEngine.move(this.state.arr, "");
+    this.setState( { arr: arr });
+  }
+
+  resetClick() {
+    this.boardEngine = new BoardEngine();
+    var arr;
+    arr = this.boardEngine.buildWalls();
+    arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
+    arr = this.boardEngine.buildTunnels(arr);
+
+    this.gameEngine = new GameEngine();
+    arr = this.gameEngine.buildObjects(arr); // (health, weapons)
+    arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
+    arr = this.gameEngine.move(arr, "");
+    var details = this.gameEngine.details();
+    this.setState( { arr: arr, details: details });
   }
 
   keys(e) {
     console.log("keys");
-    console.log(e.key);
+    if (e.keys === "j")  this.setJump();
+    if (e.keys.include("Arrow")) {
+      var code = e.keys.replace("Arrow", "").toLowerCase();
+      var arr = this.gameEngine.move(this.state.arr, code);
+      this.setState( { arr: arr });
+    }
   }
 
   ////
@@ -689,6 +779,8 @@ class App extends React.Component {
         <Controls 
           details={this.state.details}
           lightClick={this.lightClick}
+          restartClick={this.restartClick}
+          resetClick={this.resetClick}
         />
         <Board arr={this.state.arr} />
         <MapKey />

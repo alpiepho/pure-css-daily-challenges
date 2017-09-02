@@ -68,14 +68,10 @@ body
 .cell-level100000
   background-color: blue
 
-// intentionally commented out so no style applied
 //.darkness0
-  background-color: inherit
+  opacity: 1.0
 
 .darkness1
-  background-color: inherit
-
-.darkness2
   background-color: black
 
 .board
@@ -92,6 +88,10 @@ body
 
 .control-label
   margin-left: 5px
+  
+.control-label.details
+  margin-left:  40px
+  margin-right: 40px
   
 .mapkey
   display:    table
