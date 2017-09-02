@@ -512,7 +512,7 @@ class BoardEngine {
 
 
 ///////////////////////////////////////////////////////////
-// BoardEngine
+// GameEngine
 ///////////////////////////////////////////////////////////
 const HEALTH_COUNT_MAX = 20;
 const HEALTH_RANGE_MAX =  4;
@@ -545,7 +545,7 @@ class GameEngine {
     while (count < total) {
       var x = Math.floor(Math.random() * (this.cols));
       var y = Math.floor(Math.random() * (this.rows));
-      if (arr[x][y].level == 1) { // floor
+      if (arr[y][x].level == 1) { // floor
         locations.push({x: x, y: y});
         count += 1;
       }
@@ -569,6 +569,7 @@ class GameEngine {
   ////////////////////////////////////////////////////////
   toggleLight() {
     this.light = !this.light;
+    console.log(this.you);
   }
 
   ////////////////////////////////////////////////////////
@@ -602,14 +603,14 @@ class GameEngine {
     for (let i = 0; i < this.healthItems.length; i++) {
       var item = this.healthItems[i];
       item["level"] = 1 + Math.floor(Math.random() * (HEALTH_RANGE_MAX));
-      newArr[item.x][item.y].level = (10 * item.level);
+      newArr[item.y][item.x].level = (10 * item.level);
     }
     
     this.weaponItems = this.findFloorLocations((WEAPON_COUNT_MAX - this.level), newArr);
     for (let i = 0; i < this.weaponItems.length; i++) {
       var item = this.weaponItems[i];
       item["level"] = 1 + Math.floor(Math.random() * (WEAPON_RANGE_MAX));
-      newArr[item.x][item.y].level = (100 * item.level);
+      newArr[item.y][item.x].level = (100 * item.level);
     }
 
     this.levelSettings["healthItems"] = this.healthItems.slice();
@@ -630,14 +631,14 @@ class GameEngine {
     for (let i = 0; i < this.enemies.length; i++) {
       var item = this.enemies[i];
       item["level"] = 1 + Math.floor(Math.random() * (ENEMY_RANGE_MAX));
-      newArr[item.x][item.y].level = (1000 * item.level);
+      newArr[item.y][item.x].level = (1000 * item.level);
     }
  
     this.boss = this.findFloorLocations(1, newArr)[0];
-    newArr[this.boss.x][this.boss.y].level = (10000);
+    newArr[this.boss.y][this.boss.x].level = (10000);
 
     this.you = this.findFloorLocations(1, newArr)[0];
-    newArr[this.you.x][this.you.y].level = (100000);
+    newArr[this.you.y][this.you.x].level = (100000);
     
     this.levelSettings["enemies"] = this.enemies.slice();
     this.levelSettings["boss"]    = this.boss;
@@ -645,13 +646,66 @@ class GameEngine {
     
     return newArr;
   }
+  
+  ////////////////////////////////////////////////////////
+  // Can only jump to open floor, can't jump in tunnels
+  doJump(arr, direction) {
+    var X = this.you.x;
+    var Y = this.you.y;
+    var found = false;
+    var tries = 100;
+
+    if (direction == "up") {
+      while (!found && tries > 0) {
+        tries -= 1;
+        Y -= 1;
+        if (Y < 0) Y = this.rows - 1;           // wrap
+        if (arr[Y][X].level == 1) found = true; // open floor
+      }
+    }
+    if (direction == "down") {
+      while (!found && tries > 0) {
+        tries -= 1;
+        Y += 1;
+        if (Y >= this.rows) Y = 0;              // wrap
+        if (arr[Y][X].level == 1) found = true; // open floor
+      }
+    }
+    if (direction == "left" && tries > 0) {
+      while (!found) {
+        tries -= 1;
+        X -= 1;
+        if (X < 0) X = this.cols - 1;           // wrap
+        if (arr[Y][X].level == 1) found = true; // open floor
+      }
+    }
+    if (direction == "right" && tries > 0) {
+      while (!found) {
+        tries -= 1;
+        X += 1;
+        if (X >= this.cols) X = 0;              // wrap
+        if (arr[Y][X].level == 1) found = true; // open floor
+      }
+    }
+   
+    // update
+    this.jump = 0;
+    arr[this.you.y][this.you.x].level = 1;
+    arr[Y][X].level = 100000;
+    this.you = { x:X, y:Y };   
+  }
 
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   move(arr, direction) {
     var newArr = arr.slice();
     
+    console.log(this.you);
     if (direction.length > 0) {
+      if (this.jump) this.doJump(newArr, direction);
+      else {
+        
+      }
       // TODO:
       // what will we move into?
       // if jump, move to next floor in that direction
@@ -671,8 +725,8 @@ class GameEngine {
          if (this.light == 0) {
            cell.darkness = 1; // black
            // determine if current location within RADIUS2
-           var deltaX = Math.abs(this.you.x - row);
-           var deltaY = Math.abs(this.you.y - col);
+           var deltaX = Math.abs(this.you.x - col);
+           var deltaY = Math.abs(this.you.y - row);
            if (deltaX < DARKNESS_RADIUS && deltaY < DARKNESS_RADIUS) {
              var radius = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
              if (radius < DARKNESS_RADIUS) {
@@ -714,6 +768,7 @@ class App extends React.Component {
     this.lightClick    = this.lightClick.bind(this);
     this.restartClick  = this.restartClick.bind(this);
     this.resetClick    = this.resetClick.bind(this);
+    this.keys          = this.keys.bind(this);
     document.onkeydown = this.keys;
   }
   
@@ -760,10 +815,10 @@ class App extends React.Component {
   }
 
   keys(e) {
-    console.log("keys");
-    if (e.keys === "j")  this.setJump();
-    if (e.keys.include("Arrow")) {
-      var code = e.keys.replace("Arrow", "").toLowerCase();
+    console.log(typeof(e.key));
+    if (e.key === "j")  this.gameEngine.setJump();
+    if (e.key.includes("Arrow")) {
+      var code = e.key.replace("Arrow", "").toLowerCase();
       var arr = this.gameEngine.move(this.state.arr, code);
       this.setState( { arr: arr });
     }
