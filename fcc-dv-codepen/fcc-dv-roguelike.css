@@ -58,17 +58,18 @@ body
 .cell-level2000,
 .cell-level3000,
 .cell-level4000
-  background-color: red
+  background-color: darkred
 
 // boss
 .cell-level10000
-  background-color: red
+  background-color: darkred
 
 // you
 .cell-level100000
   background-color: blue
 
-//.darkness0
+
+.darkness0
   opacity: 1.0
 
 .darkness1
@@ -97,3 +98,39 @@ body
   display:    table
   margin:     0px auto
 
+.game-message-level0
+  position:    absolute
+  top:         400px
+  left:        25%
+  font-size:   6em
+  opacity:     0
+
+.game-message-level1,
+.game-message-level2,
+.game-message-level3,
+.game-message-level4,
+.game-message-level5,
+.game-message-level6,
+.game-message-level7,
+.game-message-level8,
+.game-message-level9,
+.game-message-level10
+  position:    absolute
+  top:         50px
+  left:        35%
+  font-size:   6em
+  color:       blue
+
+.game-message-lost
+  position:    absolute
+  top:         50px
+  left:        35%
+  font-size:   6em
+  color:       red
+
+.game-message-win
+  position:    absolute
+  top:         50px
+  left:        35%
+  font-size:   6em
+  color:       green
