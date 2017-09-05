@@ -1009,12 +1009,12 @@ class App extends React.Component {
     arr = this.boardEngine.buildWalls();
     arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
     arr = this.boardEngine.buildTunnels(arr);
-    this.boardArr = arr.slice();
 
     this.gameEngine = new GameEngine();
     arr = this.gameEngine.buildObjects(arr); // (health, weapons)
     arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
     arr = this.gameEngine.move(arr, "");
+    this.levelArr = JSON.stringify(arr);     // deep copy for restart
     var details = this.gameEngine.details();
     var message = this.gameEngine.message();
     this.state  = { arr: arr, details: details, message: message };
@@ -1027,22 +1027,6 @@ class App extends React.Component {
     document.onkeydown = this.keys;
   }
   
-  defaultSetup() {
-    this.boardEngine = new BoardEngine();
-    var arr;
-    arr = this.boardEngine.buildWalls();
-    arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
-    arr = this.boardEngine.buildTunnels(arr);
-
-    this.gameEngine = new GameEngine();
-    arr = this.gameEngine.buildObjects(arr); // (health, weapons)
-    arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
-    arr = this.gameEngine.move(arr, "");
-    var details = this.gameEngine.details();
-    var message = this.gameEngine.message();
-    this.state  = { arr: arr, details: details, message: message };    
-  }
-
   lightClick() {
     this.gameEngine.toggleLight();
     var arr = this.gameEngine.move(this.state.arr, "");
@@ -1051,9 +1035,7 @@ class App extends React.Component {
 
   restartClick() {
     this.gameEngine.restartLevel();
-    var arr = this.boardArr.slice();
-    arr = this.gameEngine.buildObjects(arr); // (health, weapons)
-    arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
+    var arr = JSON.parse(this.levelArr);
     var arr = this.gameEngine.move(arr, "");
     var details = this.gameEngine.details();
     var message = this.gameEngine.message();
@@ -1066,12 +1048,12 @@ class App extends React.Component {
     arr = this.boardEngine.buildWalls();
     arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
     arr = this.boardEngine.buildTunnels(arr);
-    this.boardArr = arr.slice();
 
     this.gameEngine = new GameEngine();
     arr = this.gameEngine.buildObjects(arr); // (health, weapons)
     arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
     arr = this.gameEngine.move(arr, "");
+    this.levelArr = JSON.stringify(arr);
     var details = this.gameEngine.details();
     var message = this.gameEngine.message();
     this.setState( { arr: arr, details: details, message: message });
