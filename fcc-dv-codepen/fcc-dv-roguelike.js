@@ -604,13 +604,15 @@ class GameEngine {
     var locations = [];
     var count = 0;
     
-    while (count < total) {
+    var retries = 1000;
+    while (count < total && retries > 0) {
       var x = Math.floor(Math.random() * (this.cols));
       var y = Math.floor(Math.random() * (this.rows));
       if (arr[y][x].level == 1) { // floor
         locations.push({x: x, y: y});
         count += 1;
       }
+      retries -= 1;
     }
     return locations;
   }
