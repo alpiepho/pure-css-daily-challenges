@@ -35,16 +35,14 @@ User Story:
   
   
 TODO:
-- GameEngine
-   handle navigation (see notes in that section)
-   handle multiple levels
-     - more rooms
-     - more enemies
-     - less health
-     - less weapons
-- Game state
-    save/restore from Local storage
+- finish move boss
+- hoist const to top for easier tuning
+- review for re-factor
+- set boss back to darkred
+- more const for levels etc
+
 FUTURE:
+- save/restore state to local storage
 - fix row collaspe when window is too narrow (should go to scrollbar)
 */
 
@@ -53,8 +51,27 @@ var Button       = ReactBootstrap.Button;
 var ControlLabel = ReactBootstrap.ControlLabel;
 
 
-const CELL_SIZE=(5+1+1); // TODO match CSS?
-const BOARD_SIZE=400;
+const CELL_SIZE           =(5+1+1); // TODO match CSS?
+const BOARD_SIZE          =400;
+
+const MIN_W               =  5;
+const MAX_W               = 20;
+const MIN_H               =  5;
+const MAX_H               = 20;
+const ROOMS_MAX           = 20;
+const ROOM_RETRIES        = 10;
+
+const HEALTH_COUNT_MAX    = 20;
+const HEALTH_RANGE_MAX    =  4;
+const WEAPON_COUNT_MAX    = 10;
+const WEAPON_RANGE_MAX    =  4;
+const ENEMY_COUNT_MAX     =  5;
+const ENEMY_RANGE_MAX     =  4;
+const DARKNESS_RADIUS     = 10;
+const ENEMY_HEALTH_COST   = 10;
+const ENEMY_WEAPON_FACTOR = 10;
+const BOSS_HEALTH_COST    = 20;
+const BOSS_WEAPON_FACTOR  = 100;
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -139,6 +156,14 @@ class Controls extends React.Component {
     details += " ..... Weapon: " + this.props.details.weapon;
     details += " ..... Level: " + this.props.details.level;
     details += " ..... Overall Score: " + this.props.details.score;
+    /*
+          <Button
+            bsStyle="warning"
+            onClick={this.props.restartClick}>
+            Restart
+          </Button>    
+    */
+
 		return (
         <div className="controls">
           <Button
@@ -148,12 +173,8 @@ class Controls extends React.Component {
           </Button>       
           <ControlLabel className="details">{details}</ControlLabel>
           <Button
-            bsStyle="warning"
-            onClick={this.props.restartClick}>
-            Restart
-          </Button>       
-          <Button
             bsStyle="danger"
+            className="reset-button"
             onClick={this.props.resetClick}>
             RESET!!!
           </Button>       
@@ -203,6 +224,11 @@ class GameMessage extends React.Component {
 ///////////////////////////////////////////////////////////
 class MapKey extends React.Component {
 	render() {
+    /*
+          <div>
+            <ControlLabel>"Restart" button start over on this level</ControlLabel>
+          </div>
+    */
 		return (
         <div className="mapkey">
           <div>
@@ -219,15 +245,19 @@ class MapKey extends React.Component {
           </div>
           <div>
             <Cell cell={ {row:0, col:0, level: 10} } />
-            <ControlLabel>Health objects (variable points)</ControlLabel>
+            <ControlLabel>Health objects</ControlLabel>
           </div>
           <div>
             <Cell cell={ {row:0, col:0, level: 100} } />
-            <ControlLabel>Weapon objects (variable points)</ControlLabel>
+            <ControlLabel>Weapon objects</ControlLabel>
           </div>
           <div>
             <Cell cell={ {row:0, col:0, level: 1000} } />
-            <ControlLabel>Enemies/Boss (variable points)</ControlLabel>
+            <ControlLabel>Enemies</ControlLabel>
+          </div>
+          <div>
+            <Cell cell={ {row:0, col:0, level: 10000} } />
+            <ControlLabel>Boss</ControlLabel>
           </div>
           <div>
             <Cell cell={ {row:0, col:0, level: 100000} } />
@@ -235,9 +265,6 @@ class MapKey extends React.Component {
           </div>
           <div>
             <ControlLabel>"Light" button to show whole board</ControlLabel>
-          </div>
-          <div>
-            <ControlLabel>"Restart" button start over on this level</ControlLabel>
           </div>
           <div>
             <ControlLabel>"RESET!!!" button to clear whole game</ControlLabel>
@@ -278,13 +305,6 @@ class MapKey extends React.Component {
 ///////////////////////////////////////////////////////////
 // BoardEngine
 ///////////////////////////////////////////////////////////
-const MIN_W        =  5;
-const MAX_W        = 20;
-const MIN_H        =  5;
-const MAX_H        = 20;
-const ROOMS_MAX    = 20;
-const ROOM_RETRIES = 10;
-
 class BoardEngine {
   constructor() {
     this.rows    = 0;
@@ -557,14 +577,6 @@ class BoardEngine {
 ///////////////////////////////////////////////////////////
 // GameEngine
 ///////////////////////////////////////////////////////////
-const HEALTH_COUNT_MAX = 20;
-const HEALTH_RANGE_MAX =  4;
-const WEAPON_COUNT_MAX = 10;
-const WEAPON_RANGE_MAX =  4;
-const ENEMY_COUNT_MAX  =  5;
-const ENEMY_RANGE_MAX  =  4;
-const DARKNESS_RADIUS  = 10;
-
 class GameEngine {
   constructor() {
     this.rows        = 0;
@@ -584,6 +596,8 @@ class GameEngine {
     this.light       = 0;
     this.jump        = 0;
     this.levelSettings = [];
+    
+    this.nextLevelFlag = false;
   }
 
   ////////////////////////////////////////////////////////
@@ -600,6 +614,12 @@ class GameEngine {
       }
     }
     return locations;
+  }
+  
+  nextLevel() {
+    var result = this.nextLevelFlag;
+    this.nextLevelFlag = false;
+    return result;
   }
   
   ////////////////////////////////////////////////////////
@@ -694,7 +714,7 @@ class GameEngine {
     }
  
     this.boss = this.findFloorLocations(1, newArr)[0];
-    newArr[this.boss.y][this.boss.x].level = (10000);
+    newArr[this.boss.y][this.boss.x].level = (40000);
 
     this.you = this.findFloorLocations(1, newArr)[0];
     newArr[this.you.y][this.you.x].level = (100000);
@@ -733,7 +753,7 @@ class GameEngine {
 
   ////////////////////////////////////////////////////////
   isBoss(level) {
-    return (level == 10000);
+    return (level >= 10000 && level <= 40000);
   }
 
   ////////////////////////////////////////////////////////
@@ -887,7 +907,7 @@ class GameEngine {
 
   ////////////////////////////////////////////////////////
   moveEnemy(arr, direction) {
-     var X = this.you.x;
+    var X = this.you.x;
     var Y = this.you.y;
     var found = false;
 
@@ -910,8 +930,6 @@ class GameEngine {
    
     // update
     this.jump = 0;
-    const ENEMY_HEALTH_COST   = 10;
-    const ENEMY_WEAPON_FACTOR = 10;
     if (found) {
       var yourHealth  = this.health;
       var enemyPoints = (arr[Y][X].level);
@@ -928,7 +946,8 @@ class GameEngine {
         this.health     = yourHealth;
         arr[Y][X].level = enemyPoints;
         if (enemyPoints <= 0) {
-          // move to enemy cell
+         this.health += 100;
+         // move to enemy cell
           arr[this.you.y][this.you.x].level = 1;
           arr[Y][X].level = 100000;
          this.you = { x:X, y:Y };  
@@ -946,7 +965,66 @@ class GameEngine {
   moveBoss(arr, direction) {
       // TODO:
       // boss     ok if attempts === enemy points, sub points on attempt, next level if ok
-    return false;
+    var X = this.you.x;
+    var Y = this.you.y;
+    var found = false;
+
+    if (direction == "up") {
+      Y -= 1;
+      if (Y >= 0 && this.isBoss(arr[Y][X].level)) found = true;
+    }
+    if (direction == "down") {
+      Y += 1;
+      if (Y < this.rows && this.isBoss(arr[Y][X].level)) found = true;
+    }
+    if (direction == "left") {
+      X -= 1;
+      if (X >= 0 && this.isBoss(arr[Y][X].level)) found = true;
+    }
+    if (direction == "right") {
+      X += 1;
+      if (X < this.cols && this.isBoss(arr[Y][X].level)) found = true;
+    }
+   
+    // update
+    this.jump = 0;
+    if (found) {
+      var yourHealth  = this.health;
+      var bossPoints = (arr[Y][X].level);
+      
+      yourHealth -= BOSS_HEALTH_COST;
+      bossPoints -= (this.weapon * BOSS_WEAPON_FACTOR);
+     
+      if (yourHealth < 0) {
+        // you lose
+        this.msgLevel = -1;
+        return true;
+      } else {
+        // adjust health and enemy points
+        this.health     = yourHealth;
+        arr[Y][X].level = bossPoints;
+        if (bossPoints <= 0) {
+          
+          if (this.level == 10) {
+            // you win
+            this.msgLevel = 11;
+            return true;
+          } else {
+            this.level += 1;
+            this.score += (this.health + this.weapon); // arbitrarty?
+            if (!this.light) this.score += (this.health + this.weapon); // arbitrarty?
+            this.msgLevel = this.level;
+            this.nextLevelFlag = true;
+            return true; 
+          }
+        } else {
+          // boss still alive, no move
+          return true;
+        }
+      }
+    }
+
+    return found;
   }
 
   ////////////////////////////////////////////////////////
@@ -1046,7 +1124,7 @@ class App extends React.Component {
     this.boardEngine = new BoardEngine();
     var arr;
     arr = this.boardEngine.buildWalls();
-    arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
+    arr = this.boardEngine.buildRooms(arr, ROOMS_MAX); // TODO base on level
     arr = this.boardEngine.buildTunnels(arr);
 
     this.gameEngine = new GameEngine();
@@ -1066,6 +1144,21 @@ class App extends React.Component {
       var arr = this.gameEngine.move(this.state.arr, code);
       var details = this.gameEngine.details();
       var message = this.gameEngine.message();
+      
+      // TODO look for level change, message in [1,10], rebuild board etc>
+      if (this.gameEngine.nextLevel()) {
+        this.boardEngine = new BoardEngine();
+        arr = this.boardEngine.buildWalls();
+        arr = this.boardEngine.buildRooms(arr, ROOMS_MAX); // TODO base on level
+        arr = this.boardEngine.buildTunnels(arr);
+
+        arr = this.gameEngine.buildObjects(arr); // (health, weapons)
+        arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
+        details = this.gameEngine.details();
+        message = this.gameEngine.message();
+      }
+      
+      
       this.setState( { arr: arr, details: details, message: message });
       return false; // don't want whole window to move
     }

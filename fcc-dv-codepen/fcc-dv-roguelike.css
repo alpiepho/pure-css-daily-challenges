@@ -61,7 +61,10 @@ body
   background-color: darkred
 
 // boss
-.cell-level10000
+.cell-level10000,
+.cell-level20000,
+.cell-level30000,
+.cell-level40000
   background-color: red
 
 // you
@@ -87,6 +90,9 @@ body
 .btn
   margin:     10px
 
+.btn.reset-button
+  margin-left: 200px
+ 
 .control-label
   margin-left: 5px
   
