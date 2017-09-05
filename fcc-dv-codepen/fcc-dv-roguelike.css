@@ -62,7 +62,7 @@ body
 
 // boss
 .cell-level10000
-  background-color: darkred
+  background-color: red
 
 // you
 .cell-level100000
@@ -124,7 +124,7 @@ body
 .game-message-lost
   position:    absolute
   top:         50px
-  left:        35%
+  left:        25%
   font-size:   6em
   color:       red
 

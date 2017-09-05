@@ -136,7 +136,7 @@ class Controls extends React.Component {
 	render() {
     var details = "";
     details += "Health: " + this.props.details.health;
-    details += " ..... Weapons: " + this.props.details.weapons;
+    details += " ..... Weapon: " + this.props.details.weapon;
     details += " ..... Level: " + this.props.details.level;
     details += " ..... Overall Score: " + this.props.details.score;
 		return (
@@ -171,7 +171,7 @@ class GameMessage extends React.Component {
     if (this.props.message == -1) {
       messages.push(
         <div className="game-message-lost" key={1}>
-          <ControlLabel>Sorry, you lost!</ControlLabel>
+          <ControlLabel>Game Over</ControlLabel>
         </div>
       );
     } else if (this.props.message <= 10) {
@@ -571,7 +571,7 @@ class GameEngine {
     this.cols        = 0;
     
     this.health      = 100;
-    this.weapons     = 100;
+    this.weapon      = 100;
     this.level       = 1;
     this.score       = 0;
     this.msgLevel    = 1;  // show Level 1
@@ -633,7 +633,7 @@ class GameEngine {
     this.boss        = this.levelSettings.boss;
     this.you         = this.levelSettings.you;
     this.health      = this.levelSettings.health;
-    this.weapons     = this.levelSettings.weapons;
+    this.weapon      = this.levelSettings.weapon ;
     this.level       = this.levelSettings.level;
     this.score       = this.levelSettings.score;
   }
@@ -641,7 +641,7 @@ class GameEngine {
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   details() {
-    return {health: this.health, weapons: this.weapons, level: this.level, score: this.score };
+    return {health: this.health, weapon: this.weapon, level: this.level, score: this.score };
   }
 
   ////////////////////////////////////////////////////////
@@ -704,7 +704,7 @@ class GameEngine {
     this.levelSettings["you"]     = this.you;
 
     this.levelSettings["health"]  = this.health;
-    this.levelSettings["weapons"] = this.weapons;
+    this.levelSettings["weapon"]  = this.weapon;
     this.levelSettings["level"]   = this.level;
     this.levelSettings["score"]   = this.score;
 
@@ -887,9 +887,59 @@ class GameEngine {
 
   ////////////////////////////////////////////////////////
   moveEnemy(arr, direction) {
-      // TODO:
-      // enemy    ok if attempts === enemy points, sub points on attempt
-    return false;
+     var X = this.you.x;
+    var Y = this.you.y;
+    var found = false;
+
+    if (direction == "up") {
+      Y -= 1;
+      if (Y >= 0 && this.isEnemy(arr[Y][X].level)) found = true;
+    }
+    if (direction == "down") {
+      Y += 1;
+      if (Y < this.rows && this.isEnemy(arr[Y][X].level)) found = true;
+    }
+    if (direction == "left") {
+      X -= 1;
+      if (X >= 0 && this.isEnemy(arr[Y][X].level)) found = true;
+    }
+    if (direction == "right") {
+      X += 1;
+      if (X < this.cols && this.isEnemy(arr[Y][X].level)) found = true;
+    }
+   
+    // update
+    this.jump = 0;
+    const ENEMY_HEALTH_COST   = 10;
+    const ENEMY_WEAPON_FACTOR = 10;
+    if (found) {
+      var yourHealth  = this.health;
+      var enemyPoints = (arr[Y][X].level);
+      
+      yourHealth  -= ENEMY_HEALTH_COST;
+      enemyPoints -= (this.weapon * ENEMY_WEAPON_FACTOR);
+     
+      if (yourHealth < 0) {
+        // you lose
+        this.msgLevel = -1;
+        return true;
+      } else {
+        // adjust health and enemy points
+        this.health     = yourHealth;
+        arr[Y][X].level = enemyPoints;
+        if (enemyPoints <= 0) {
+          // move to enemy cell
+          arr[this.you.y][this.you.x].level = 1;
+          arr[Y][X].level = 100000;
+         this.you = { x:X, y:Y };  
+        } else {
+          // enemy still alive, no move
+          return true;
+        }
+      }
+    }
+
+    return found;
   }
 
   ////////////////////////////////////////////////////////
@@ -905,6 +955,9 @@ class GameEngine {
     var newArr = arr.slice();
     
     if (direction.length > 0) {
+      if (this.msgLevel == -1 || this.msgLevel == 11)
+        return arr;
+      
       this.msgLevel = 0;  // clear msg
       if (this.jump) this.moveJump(newArr, direction);
       else {
@@ -956,6 +1009,7 @@ class App extends React.Component {
     arr = this.boardEngine.buildWalls();
     arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
     arr = this.boardEngine.buildTunnels(arr);
+    this.boardArr = arr.slice();
 
     this.gameEngine = new GameEngine();
     arr = this.gameEngine.buildObjects(arr); // (health, weapons)
@@ -997,8 +1051,13 @@ class App extends React.Component {
 
   restartClick() {
     this.gameEngine.restartLevel();
-    var arr = this.gameEngine.move(this.state.arr, "");
-    this.setState( { arr: arr });
+    var arr = this.boardArr.slice();
+    arr = this.gameEngine.buildObjects(arr); // (health, weapons)
+    arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
+    var arr = this.gameEngine.move(arr, "");
+    var details = this.gameEngine.details();
+    var message = this.gameEngine.message();
+    this.setState( { arr: arr, details: details, message: message });
   }
 
   resetClick() {
@@ -1007,13 +1066,14 @@ class App extends React.Component {
     arr = this.boardEngine.buildWalls();
     arr = this.boardEngine.buildRooms(arr, ROOMS_MAX);
     arr = this.boardEngine.buildTunnels(arr);
+    this.boardArr = arr.slice();
 
     this.gameEngine = new GameEngine();
     arr = this.gameEngine.buildObjects(arr); // (health, weapons)
     arr = this.gameEngine.buildPlayers(arr); // (enemies, boss, you)
     arr = this.gameEngine.move(arr, "");
     var details = this.gameEngine.details();
-    var message = this.gameEngine.getLevel();
+    var message = this.gameEngine.message();
     this.setState( { arr: arr, details: details, message: message });
   }
 
