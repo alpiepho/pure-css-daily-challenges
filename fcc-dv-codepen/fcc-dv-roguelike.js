@@ -36,8 +36,6 @@ User Story:
   
 TODO:
 - review for re-factor
-- more const for cell levels etc
-
 FUTURE:
 - save/restore state to local storage
 - fix row collaspe when window is too narrow (should go to scrollbar)
@@ -72,9 +70,23 @@ const BOSS_HEALTH_COST    = 20;
 const BOSS_WEAPON_FACTOR  = 100;
 
 const GAME_LEVEL_LOST     = -1;
+const GAME_LEVEL_0        = 0;
 const GAME_LEVEL_1        = 1;
 const GAME_LEVEL_MAX      = 10;
 const GAME_LEVEL_WIN      = (GAME_LEVEL_MAX+1);
+
+const CELL_LEVEL_WALL       =      0;
+const CELL_LEVEL_FLOOR      =      1;
+const CELL_LEVEL_TUNNEL     =      2;
+const CELL_LEVEL_HEALTH_MIN =     10;
+const CELL_LEVEL_HEALTH_MAX =     40;
+const CELL_LEVEL_WEAPON_MIN =    100;
+const CELL_LEVEL_WEAPON_MAX =    400;
+const CELL_LEVEL_ENEMY_MIN  =   1000;
+const CELL_LEVEL_ENEMY_MAX  =   4000;
+const CELL_LEVEL_BOSS_MIN   =  10000;
+const CELL_LEVEL_BOSS_MAX   =  40000;
+const CELL_LEVEL_YOU        = 100000;
 
 //////////////////////////////////////////////////////////////////////////////////
 // Footer - my standard footer with link to LinkedIn
@@ -225,35 +237,35 @@ class MapKey extends React.Component {
 		return (
         <div className="mapkey">
           <div>
-            <Cell cell={ {row:0, col:0, level: 0} } />
+            <Cell cell={ {row:0, col:0, level: CELL_LEVEL_WALL} } />
             <ControlLabel>Wall</ControlLabel>
           </div>
           <div>
-            <Cell cell={ {row:0, col:0, level: 1} } />
+            <Cell cell={ {row:0, col:0, level: CELL_LEVEL_FLOOR} } />
             <ControlLabel>Floor</ControlLabel>
           </div>
           <div>
-            <Cell cell={ {row:0, col:0, level: 2} } />
+            <Cell cell={ {row:0, col:0, level: CELL_LEVEL_TUNNEL} } />
             <ControlLabel>Tunnel</ControlLabel>
           </div>
           <div>
-            <Cell cell={ {row:0, col:0, level: 10} } />
+            <Cell cell={ {row:0, col:0, level: CELL_LEVEL_HEALTH_MIN} } />
             <ControlLabel>Health objects</ControlLabel>
           </div>
           <div>
-            <Cell cell={ {row:0, col:0, level: 100} } />
+            <Cell cell={ {row:0, col:0, level: CELL_LEVEL_WEAPON_MIN} } />
             <ControlLabel>Weapon objects</ControlLabel>
           </div>
           <div>
-            <Cell cell={ {row:0, col:0, level: 1000} } />
+            <Cell cell={ {row:0, col:0, level: CELL_LEVEL_ENEMY_MIN} } />
             <ControlLabel>Enemies</ControlLabel>
           </div>
           <div>
-            <Cell cell={ {row:0, col:0, level: 10000} } />
+            <Cell cell={ {row:0, col:0, level: CELL_LEVEL_BOSS_MIN} } />
             <ControlLabel>Boss</ControlLabel>
           </div>
           <div>
-            <Cell cell={ {row:0, col:0, level: 100000} } />
+            <Cell cell={ {row:0, col:0, level: CELL_LEVEL_YOU} } />
             <ControlLabel>You</ControlLabel>
           </div>
           <div>
@@ -335,7 +347,7 @@ class BoardEngine {
     for (let row=0; row < this.rows; row++) {
       var cols = [];
       for (let col=0; col < this.cols; col++) {
-        var cell = {row: row, col: col, level: 0, darkness: 0}; // level = 0 : wall
+        var cell = {row: row, col: col, level: CELL_LEVEL_WALL, darkness: 0};
         cols.push(cell);
       }
       arr.push(cols);
@@ -379,7 +391,7 @@ class BoardEngine {
         for (let X=room.x; X < (room.x+room.w); X++) {
           for (let Y=room.y; Y < (room.y+room.h); Y++) {
             if (X < this.cols && Y < this.rows) {
-             newArr[Y][X].level = 1; // floor             
+             newArr[Y][X].level = CELL_LEVEL_FLOOR;         
             }
           }  
         }
@@ -553,13 +565,12 @@ class BoardEngine {
       for (let X=tunnel.x; X < (tunnel.x+tunnel.w); X++) {
         for (let Y=tunnel.y; Y < (tunnel.y+tunnel.h); Y++) {
           if (X < this.cols && Y < this.rows) {
-            newArr[Y][X].level = 2;             
+            newArr[Y][X].level = CELL_LEVEL_TUNNEL;             
           }
         }  
       }
     }
       
-
     return newArr;
   }
   
@@ -577,9 +588,9 @@ class GameEngine {
     
     this.health      = 100;
     this.weapon      = 100;
-    this.level       = 1;
+    this.level       = GAME_LEVEL_1;
     this.score       = 0;
-    this.msgLevel    = 1;  // show Level 1
+    this.msgLevel    = GAME_LEVEL_1;
     
     this.you         = {};
     this.light       = 0;
@@ -697,33 +708,32 @@ class GameEngine {
  
   ////////////////////////////////////////////////////////
   isFloorOrTunnel(level) {
-    return (level == 1 || level == 2);
+    return (level == CELL_LEVEL_FLOOR || level == CELL_LEVEL_TUNNEL);
   }
 
   ////////////////////////////////////////////////////////
   isHealth(level) {
-    return (level >= 10 && level <= 40);
+    return (level >= CELL_LEVEL_HEALTH_MIN && level <= CELL_LEVEL_HEALTH_MAX);
   }
 
   ////////////////////////////////////////////////////////
   isWeapon(level) {
-    return (level >= 100 && level <= 400);
+    return (level >= CELL_LEVEL_WEAPON_MIN && level <= CELL_LEVEL_WEAPON_MAX);
   }
 
   ////////////////////////////////////////////////////////
   isEnemy(level) {
-    return (level >= 1000 && level <= 4000);
+    return (level >= CELL_LEVEL_ENEMY_MIN && level <= CELL_LEVEL_ENEMY_MAX);
   }
 
   ////////////////////////////////////////////////////////
   isBoss(level) {
-    return (level >= 10000 && level <= 40000);
+    return (level >= CELL_LEVEL_BOSS_MIN && level <= CELL_LEVEL_BOSS_MAX);
   }
 
   ////////////////////////////////////////////////////////
   moveJump(arr, direction) {
-    this.msgLevel = 0;  // clear msg
-    var X = this.you.x;
+     var X = this.you.x;
     var Y = this.you.y;
     var found = false;
     // Can only jump to open floor, can't jump in tunnels
@@ -759,8 +769,8 @@ class GameEngine {
    
     // update
     this.jump = 0;
-    arr[this.you.y][this.you.x].level = 1;
-    arr[Y][X].level = 100000;
+    arr[this.you.y][this.you.x].level = CELL_LEVEL_FLOOR;
+    arr[Y][X].level = CELL_LEVEL_YOU;
     this.you = { x:X, y:Y };
     return found;
   }
@@ -790,8 +800,8 @@ class GameEngine {
    
     // update
     if (found) {
-      arr[this.you.y][this.you.x].level = 1;
-      arr[Y][X].level = 100000;
+      arr[this.you.y][this.you.x].level = CELL_LEVEL_FLOOR;
+      arr[Y][X].level = CELL_LEVEL_YOU;
       this.you = { x:X, y:Y };  
     }
 
@@ -824,8 +834,8 @@ class GameEngine {
     // update
     if (found) {
       this.health += (arr[Y][X].level) / 10;
-      arr[this.you.y][this.you.x].level = 1;
-      arr[Y][X].level = 100000;
+      arr[this.you.y][this.you.x].level = CELL_LEVEL_FLOOR;
+      arr[Y][X].level = CELL_LEVEL_YOU;
       this.you = { x:X, y:Y };  
     }
 
@@ -858,8 +868,8 @@ class GameEngine {
     // update
     if (found) {
       this.weapon = (arr[Y][X].level);
-      arr[this.you.y][this.you.x].level = 1;
-      arr[Y][X].level = 100000;
+      arr[this.you.y][this.you.x].level = CELL_LEVEL_FLOOR;
+      arr[Y][X].level = CELL_LEVEL_YOU;
       this.you = { x:X, y:Y };  
     }
 
@@ -899,7 +909,7 @@ class GameEngine {
      
       if (yourHealth < 0) {
         // you lose
-        this.msgLevel = -1;
+        this.msgLevel = GAME_LEVEL_LOST;
         return true;
       } else {
         // adjust health and enemy points
@@ -908,8 +918,8 @@ class GameEngine {
         if (enemyPoints <= 0) {
          this.health += 100;
          // move to enemy cell
-          arr[this.you.y][this.you.x].level = 1;
-          arr[Y][X].level = 100000;
+          arr[this.you.y][this.you.x].level = CELL_LEVEL_FLOOR;
+          arr[Y][X].level = CELL_LEVEL_YOU;
          this.you = { x:X, y:Y };  
         } else {
           // enemy still alive, no move
@@ -954,7 +964,7 @@ class GameEngine {
      
       if (yourHealth < 0) {
         // you lose
-        this.msgLevel = -1;
+        this.msgLevel = GAME_LEVEL_LOST;
         return true;
       } else {
         // adjust health and enemy points
@@ -962,9 +972,9 @@ class GameEngine {
         arr[Y][X].level = bossPoints;
         if (bossPoints <= 0) {
           
-          if (this.level == 10) {
+          if (this.level == GAME_LEVEL_MAX) {
             // you win
-            this.msgLevel = 11;
+            this.msgLevel = GAME_LEVEL_WIN;
             return true;
           } else {
             this.level += 1;
@@ -991,10 +1001,10 @@ class GameEngine {
     var newArr = arr.slice();
     
     if (direction.length > 0) {
-      if (this.msgLevel == -1 || this.msgLevel == 11)
+      if (this.msgLevel == GAME_LEVEL_LOST || this.msgLevel == GAME_LEVEL_WIN)
         return arr;
       
-      this.msgLevel = 0;  // clear msg
+      this.msgLevel = GAME_LEVEL_0;  // clear msg
       if (this.jump) this.moveJump(newArr, direction);
       else {
         this.jump = 0;
