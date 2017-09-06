@@ -1,0 +1,4 @@
+FCC-DV-BarChart
+
+Solution to freeCodeCamp Data Visualization project: "Bar Chart".
+

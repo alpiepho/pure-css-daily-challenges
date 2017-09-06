@@ -1,0 +1,49 @@
+body {
+  padding:          20px;
+  background-color: offwhite;
+}
+
+.app-header {
+  color:            darken(white, 10%);
+  text-align:       center;
+}
+
+.footer {
+  color:            black;
+  p a:active,
+  p a:focus,
+  p a:hover,
+  p a:visited
+    color:          black;
+  text-align:       center;
+}
+
+
+/* from https://bl.ocks.org/mbostock/3885304 */
+.first .bar {
+  fill: steelblue;
+}
+
+.first .bar:hover {
+  fill: brown;
+}
+
+.first .axis--x path {
+  display: none;
+}
+
+
+
+.second .bar {
+  fill: steelblue;
+}
+
+.second .bar:hover {
+  fill: brown;
+}
+
+.second .axis--x path {
+  display: none;
+}
+
+
