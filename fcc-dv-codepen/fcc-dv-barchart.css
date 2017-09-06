@@ -8,6 +8,12 @@ body {
   text-align:       center;
 }
 
+.box {
+  width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .footer {
   color:            black;
   p a:active,
