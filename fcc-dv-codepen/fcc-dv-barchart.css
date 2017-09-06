@@ -18,17 +18,3 @@ body {
   text-align:       center;
 }
 
-
-
-.second .bar {
-  fill: steelblue;
-}
-
-.second .bar:hover {
-  fill: brown;
-}
-
-.second .axis--x path {
-  display: none;
-}
-
