@@ -19,20 +19,6 @@ body {
 }
 
 
-/* from https://bl.ocks.org/mbostock/3885304 */
-.first .bar {
-  fill: steelblue;
-}
-
-.first .bar:hover {
-  fill: brown;
-}
-
-.first .axis--x path {
-  display: none;
-}
-
-
 
 .second .bar {
   fill: steelblue;
@@ -45,5 +31,4 @@ body {
 .second .axis--x path {
   display: none;
 }
-
 
