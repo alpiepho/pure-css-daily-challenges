@@ -127,14 +127,14 @@ d3.json(url, function(jsonData) {
     })
 
  
-  //Add the SVG Text Element to the svgContainer
-  var text = svgContainer.selectAll("text")
+  // add the circleText elements to the svgContainer
+  var circleText = svgContainer.selectAll("text")
                        .data(points)
                        .enter()
                        .append("text");
 
-  //Add SVG Text Element Attributes
-  var textLabels = text
+  // add circleText Attributes
+  var circleLabels = circleText
   .attr("x", function(d) { return (width - xScale(d.Seconds)) + 10; })
   .attr("y", function(d) { return (yScale(d.Place)) + 4; })
   .html( function (d) { 
@@ -189,13 +189,23 @@ d3.json(url, function(jsonData) {
 
 
   // add Notes below (using separate html div)
+  // TODO: should this be completely in HTML/CSS??
   d3.select('#notes')
     .style('margin-top', '20px')
     .style('margin-bottom', '50px')
     .style('text-align', 'center')
     .style('font-size', '0.8em')
+    .style('text-align', 'left')
+    .style('position', 'absolute')
+    .style('left', '60%')
+    .style('top',  (height - 10) + 'px')
     .append("text")
-      .text("some notes");
+      .html(
+        '<div>' +
+        '<div><div class="withoutDoping"></div> without allagations</div>' +
+        '<div><div class="withDoping"></div> with allagations (name links to details)</div>' + 
+        '</div>'
+      );
 
 });
 
