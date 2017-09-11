@@ -1,0 +1,3 @@
+FCC-DV-Heatmap
+
+Solution to freeCodeCamp Data Visualization project: "Heat Map".
