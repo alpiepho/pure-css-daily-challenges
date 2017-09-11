@@ -40,12 +40,6 @@ d3.json(url, function(jsonData) {
   var yAxisTicks = d3.axisLeft(yAxisValues)
   .ticks(10)
 
-//  // map x domain to x range and set bar padding
-// var xScale = d3.scaleBand()
-//    .domain([0, maxXData])
-//    .paddingInner(.1)
-//    .paddingOuter(.1)
-//    .range([0, width])
   // map x domain to x range
   var xScale = d3.scaleLinear()
     .domain([minXData, maxXData])
@@ -60,7 +54,6 @@ d3.json(url, function(jsonData) {
   var xAxisTicks = d3.axisBottom(xAxisValues)
     .ticks(10)
 
-  /*
   // build tool tip
   var tooltip = d3.select('body')
     .append('div')
@@ -69,7 +62,6 @@ d3.json(url, function(jsonData) {
     .style('background', 'white')
     .style('opacity', 0)
     .style('pointer-events', 'none');
-   */
  
   // build the svgContainer/chart
   var svgContainer = d3.select('#chart')
@@ -96,14 +88,6 @@ d3.json(url, function(jsonData) {
       if (d.Doping.length > 0) return "#E4545A";
       else                     return "#555555";
     })
-  /*
-      .attr('width', function(d) {
-        return xScale.bandwidth();
-      })
-      .attr('height', function(d) {
-        return yScale(d.value);
-      })
-*/
     .attr('cx', function(d) {
         // NOTE: want this reversed, or longest time to shortest
         // TODO: neet to scale based on shortest time
@@ -117,28 +101,31 @@ d3.json(url, function(jsonData) {
         //return height - yScale(d.Place);
       return yScale(d.Place);
     })
-      /*
-      // add the tooltip ON
-      .on('mouseover', function(d) {
-        tooltip.transition().duration(200)
-          .style('opacity', .9)
-        tooltip.html(
-          '<div style="font-size: 1rem; font-weight: bold">' +
-            d.value + ' $B</div><div>' + d.date + '</div>'
-        )
-          .style('left', (d3.event.pageX -35) + 'px')
-          .style('top', (d3.event.pageY -30) + 'px')
-        tempColor = this.style.fill;
-        d3.select(this)
-          .style('fill', 'yellow')
-      })
-      // add the tool tip OFF
-      .on('mouseout', function(d) {
-        tooltip.html('')
-        d3.select(this)
-          .style('fill', tempColor)
-      })
-      */
+    // add the tooltip ON
+    .on('mouseover', function(d) {
+      tooltip.transition().duration(200)
+        .style('opacity', .9)
+      tooltip.html(
+        '<div style="font-size: 1rem; font-weight: bold">' +
+                  d.Name + '</div>' + 
+        '<div>Country: ' + d.Nationality + '</div>' +
+        '<div>Year: ' + d.Year + '</div>' +
+        '<div>Time: ' + d.Time + '</div>' +
+        '<br><div style="width: 150px">' + d.Doping + '</div>'
+      )
+      .style('left', '20%')
+      .style('top',  '200px')
+      tempColor = this.style.stroke;
+      d3.select(this)
+        .style('stroke', 'black')
+    })
+    // add the tool tip OFF
+    .on('mouseout', function(d) {
+      tooltip.html('')
+      d3.select(this)
+        .style('stroke', tempColor)
+    })
+
  
   //Add the SVG Text Element to the svgContainer
   var text = svgContainer.selectAll("text")
@@ -150,7 +137,12 @@ d3.json(url, function(jsonData) {
   var textLabels = text
   .attr("x", function(d) { return (width - xScale(d.Seconds)) + 10; })
   .attr("y", function(d) { return (yScale(d.Place)) + 4; })
-  .text( function (d) { return d.Name })
+  .html( function (d) { 
+    var str = d.Name;
+    if (d.URL.length > 0)
+      str = '<a rel="nofollow" href="' + d.URL + '" target="_blank">' + d.Name + '</a>';
+    return(str);
+  })
   .attr("font-family", "sans-serif")
   .attr("font-size", "10px")
   .attr("fill", "black");
@@ -166,8 +158,6 @@ d3.json(url, function(jsonData) {
             .attr('transform', 'translate(0, '+ (height+10) + ')')
             .call(xAxisTicks);
 
-  /*
-
   // add Title
   var chartTitle = svgContainer.append("text")
     .attr('x', width / 2 )
@@ -175,8 +165,8 @@ d3.json(url, function(jsonData) {
     .style('text-anchor', 'middle')
     .style('font-weight', 'bold')
     .style('text-decoration', 'underline')
-    .text("Gross Domestic Product");
-    */
+    .attr("font-family", "sans-serif")
+    .text("Allegations in Professional Cycling");
 
   // add y-axis text label
   var yLabel = svgContainer.append("text")
@@ -205,7 +195,7 @@ d3.json(url, function(jsonData) {
     .style('text-align', 'center')
     .style('font-size', '0.8em')
     .append("text")
-    .text("some notes");
+      .text("some notes");
 
 });
 
