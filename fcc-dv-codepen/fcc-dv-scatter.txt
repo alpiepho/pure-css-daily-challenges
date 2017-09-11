@@ -1,0 +1,4 @@
+FCC-DV-ScatterPlot
+
+Solution to freeCodeCamp Data Visualization project: "Scatter Plot".
+
