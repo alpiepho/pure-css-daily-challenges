@@ -8,6 +8,12 @@ body {
   text-align:       center;
 }
 
+.box {
+  width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .footer {
   color:            black;
   p a:active,
@@ -16,19 +22,5 @@ body {
   p a:visited
     color:          black;
   text-align:       center;
-}
-
-
-
-.second .bar {
-  fill: steelblue;
-}
-
-.second .bar:hover {
-  fill: brown;
-}
-
-.second .axis--x path {
-  display: none;
 }
 
