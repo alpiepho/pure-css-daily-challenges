@@ -10,6 +10,17 @@ var url = "https://raw.githubusercontent.com/DealPete/forceDirected/master/count
 //       want to do this with scraped data from LinkedIn
 // https://naustud.io/tech-stack/
 
+// build tool tip
+var tooltip = d3.select('body')
+    .append('div')
+    .style('position', 'absolute')
+    .style('padding', '0 10px')
+    .style('color', 'black')
+    .style('background', 'white')
+    .style('border-radius', '1rem')
+    .style('opacity', 0)
+    .style('pointer-events', 'none');
+
 
 var svg    = d3.select("svg");                                       // get the svg DOM element
 var width  = +svg.attr("width");
@@ -54,9 +65,24 @@ d3.json(url, function(graph) {                                       // read fro
       // add class names for flags.css sprites
       .attr("class",  function(d) { return ("flag flag-" + d.code); })
       .style("position", "absolute")
-      .style("transform", "scale(2,2)")
-      .attr("width", 24)
-      .attr("height", 16)
+      .attr("width", 24)                                            // size based on sprite
+      .attr("height", 16)                                           // size based on sprite
+      .style("transform", "scale(1.5, 1.5)")                        // scale so we can see them
+      .on('mouseover', function(d) {
+        tooltip.transition().duration(200)
+          .style('opacity', .9)
+        tooltip.html(
+          '<div>' +
+            d.country +
+          '</div>'
+        )
+        .style('left', (d3.event.pageX -35) + 'px')
+        .style('top', (d3.event.pageY -30) + 'px')
+      })
+      // add the tool tip OFF
+      .on('mouseout', function(d) {
+        tooltip.html('')
+      })
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
@@ -90,17 +116,20 @@ d3.json(url, function(graph) {                                       // read fro
 
 
 function dragstarted(d) {
+  tooltip.html('')
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
   d.fx = d.x;
   d.fy = d.y;
 }
 
 function dragged(d) {
+  tooltip.html('')
   d.fx = d3.event.x;
   d.fy = d3.event.y;
 }
 
 function dragended(d) {
+  tooltip.html('')
   if (!d3.event.active) simulation.alphaTarget(0);
   d.fx = null;
   d.fy = null;
