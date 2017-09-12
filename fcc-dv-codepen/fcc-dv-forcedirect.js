@@ -27,8 +27,8 @@ var width  = +svg.attr("width");
 var height = +svg.attr("height");
 var radius = 20;  // used to keep nodes within a bounds, not a circle
 
-var positionOffsetX = 45;                                            // offset to match svg node
-var positionOffsetY = 105;                                           // offset to match svg node
+// HACK to get position of box, and offset for absolute flag img elements
+var box             = d3.select(".box");
 
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
@@ -114,7 +114,6 @@ d3.json(url, function(graph) {                                       // read fro
   }
 });
 
-
 function dragstarted(d) {
   tooltip.html('')
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -144,9 +143,13 @@ function limitY(d) {
 }
 
 function styleX(d) {
-  return (d.x + positionOffsetX) +"px";
+  // HACK to get position of box, and offset for absolute flag img elements
+  var boxOffsetLeft = box._groups[0][0].offsetLeft;
+  return (d.x + boxOffsetLeft - 5) +"px";
 }
 
 function styleY(d) {
-  return  (d.y + positionOffsetY) +"px";
+  // HACK to get position of box, and offset for absolute flag img elements
+  var boxOffsetTop = box._groups[0][0].offsetTop;
+  return  (d.y + boxOffsetTop - 5) +"px";
 }
