@@ -1,0 +1,39 @@
+body {
+    padding: 20px;
+    color: black;
+  }
+  
+  .background-layer {
+    background: rgba(200, 200, 200, 0.8);
+    border-radius: 1em;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    
+  }
+  
+  .app-header {
+    color:            darken(white, 10%);
+    text-align:       center;
+  }
+  
+  .box {
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: offwhite;
+  }
+  
+  .footer {
+    color:            black;
+    p a:active,
+    p a:focus,
+    p a:hover,
+    p a:visited
+      color:          black;
+    text-align:       center;
+  }
+  
+  
